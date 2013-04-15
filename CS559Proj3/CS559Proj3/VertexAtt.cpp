@@ -5,7 +5,7 @@ VertexAttPCN::VertexAttPCN(void)
 {
 	this->pos = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->norm = glm::vec3(0.0f, 0.0f, 0.0f);
-	this->pos = glm::vec3(0.0f, 0.0f, 0.0f);
+	this->color = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 VertexAttPCN::VertexAttPCN(glm::vec3 pos, glm::vec3 col, glm::vec3 norm)
@@ -30,7 +30,7 @@ VertexAttPCNT::VertexAttPCNT(void)
 {
 	this->pos = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->norm = glm::vec3(0.0f, 0.0f, 0.0f);
-	this->pos = glm::vec3(0.0f, 0.0f, 0.0f);
+	this->color = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->tex_coord = glm::vec2(0.0f, 0.0f);
 }
 
