@@ -18,5 +18,70 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DrawObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexAtt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ADSShader.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ADSShader.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="debug_pos_shader.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="debug_pos_shader.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="FlatShader.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="FlatShader.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="no_shader.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="no_shader.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="norm_shader.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="norm_shader.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Phong_shader.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Phong_shader.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DrawObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="glutInclude.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAtt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

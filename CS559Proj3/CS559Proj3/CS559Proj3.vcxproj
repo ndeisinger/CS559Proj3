@@ -50,13 +50,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Box2D_v2.2.1;C:\Program Files %28x86%29\freeglut\include;C:\Program Files %28x86%29\glm-0.9.3.4\;C:\Program Files %28x86%29\glew-1.9.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\DevIL-1.7.8\include;C:\Program Files %28x86%29\Box2D_v2.2.1;C:\Program Files %28x86%29\freeglut\include;C:\Program Files %28x86%29\glm-0.9.3.4\;C:\Program Files %28x86%29\glew-1.9.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Box2D.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Box2D_v2.2.1\Build\vs2010\bin\Release;C:\Program Files %28x86%29\freeglut\lib;C:\Program Files %28x86%29\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\DevIL-1.7.8\lib;C:\Program Files %28x86%29\Box2D_v2.2.1\Build\vs2010\bin\Debug;C:\Program Files %28x86%29\freeglut\lib;C:\Program Files %28x86%29\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -68,19 +68,44 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Box2D_v2.2.1;C:\Program Files %28x86%29\freeglut\include;C:\Program Files %28x86%29\glm-0.9.3.4\;C:\Program Files %28x86%29\glew-1.9.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\DevIL-1.7.8\include;C:\Program Files %28x86%29\Box2D_v2.2.1;C:\Program Files %28x86%29\freeglut\include;C:\Program Files %28x86%29\glm-0.9.3.4\;C:\Program Files %28x86%29\glew-1.9.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Box2D.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Box2D_v2.2.1\Build\vs2010\bin\Release;C:\Program Files %28x86%29\freeglut\lib;C:\Program Files %28x86%29\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\DevIL-1.7.8\lib;C:\Program Files %28x86%29\Box2D_v2.2.1\Build\vs2010\bin\Release;C:\Program Files %28x86%29\freeglut\lib;C:\Program Files %28x86%29\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="VertexAtt.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ADSShader.frag" />
+    <None Include="ADSShader.vert" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="debug_pos_shader.frag" />
+    <None Include="debug_pos_shader.vert" />
+    <None Include="FlatShader.frag" />
+    <None Include="FlatShader.vert" />
+    <None Include="norm_shader.frag" />
+    <None Include="norm_shader.vert" />
+    <None Include="no_shader.frag" />
+    <None Include="no_shader.vert" />
+    <None Include="Phong_shader.frag" />
+    <None Include="Phong_shader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DrawObject.h" />
+    <ClInclude Include="glutInclude.h" />
+    <ClInclude Include="MaterialInfo.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="VertexAtt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
