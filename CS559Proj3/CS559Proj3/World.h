@@ -8,8 +8,8 @@
 class World
 {
 public:
-	World();
-	~World();
+	World(void);
+	~World(void);
 	bool init(int spheres); //Should we specify stacks/slices?
 	//void draw(glm::mat4 mv, glm::mat4 perspective); //Actually, this should be void - we handle mv/persp inside
 	void draw(void);
@@ -24,4 +24,4 @@ private:
 	lightInfo l; //Light for our world
 	materialInfo m;
 	// The camera for the player is in the Player class
-}
+};

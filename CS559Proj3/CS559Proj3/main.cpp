@@ -180,7 +180,7 @@ int main (int argc, char * argv[])
 	window.height = 600;
 	window.aspect = (float) 800/ (float)600;
 	window.handle = glutCreateWindow("A Treatise on why These Projects Need to be Started Sooner, or: Stools 102");
-	window.cam.loc = glm::vec3(-4.0, 1.0, 0.0);
+//	window.cam.loc = glm::vec3(-4.0, 1.0, 0.0);
 	/*
 	glutDisplayFunc(drawFunc);
 	glutSpecialFunc(specialFunc);

@@ -1,5 +1,5 @@
 #include "glutInclude.h"
-
+#pragma once
 class Camera
 {
 public:
