@@ -63,6 +63,7 @@ bool DrawObject::initialize(void)
 	this->norms_init = false;
 	this->customShader = false;
 	color = glm::vec3(0.0f, 0.0f, 0.0f);
+	position = glm::vec3(0.0f, 0.0f, 0.0f);
 	if (GLReturnedError("DrawObject initialize - on exit\n")) return false;
 	return true;
 }
@@ -86,12 +87,13 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	//printf("Drawing an object!\n");
 #endif
 	glEnable(GL_DEPTH_TEST);
-	mat4 mvp = proj * mv;
-	mat3 nm = inverse(transpose(mat3(mv))); //TODO: dat math X
+	mat4 trans_mv = translate(mv, position);
+	mat4 mvp = proj * trans_mv;
+	mat3 nm = inverse(transpose(mat3(trans_mv))); //TODO: dat math X
 	if (customShader)
 	{
 		this->shader.use();
-		this->shader.setup(time, value_ptr(size), value_ptr(proj), value_ptr(mv), value_ptr(mvp), value_ptr(nm));
+		this->shader.setup(time, value_ptr(size), value_ptr(proj), value_ptr(trans_mv), value_ptr(mvp), value_ptr(nm));
 		if (l != NULL)
 		{
 			shader.lightSetup(*l); //TODO: Is this safe? X
@@ -104,7 +106,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	else
 	{
 		common_shader.use();
-		common_shader.setup(time, value_ptr(size), value_ptr(proj), value_ptr(mv), value_ptr(mvp), value_ptr(nm));
+		common_shader.setup(time, value_ptr(size), value_ptr(proj), value_ptr(trans_mv), value_ptr(mvp), value_ptr(nm));
 		if (l != NULL)
 		{
 			common_shader.lightSetup(*l); //TODO: Is this safe? X
@@ -132,7 +134,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 			return false;
 		}
 		norm_shader.use();
-		norm_shader.setup(time, value_ptr(size), value_ptr(proj), value_ptr(mv), value_ptr(mvp), value_ptr(nm)); //TODO: I get the feeling this is going to get screwy since it's static. X: Nope.
+		norm_shader.setup(time, value_ptr(size), value_ptr(proj), value_ptr(trans_mv), value_ptr(mvp), value_ptr(nm)); //TODO: I get the feeling this is going to get screwy since it's static. X: Nope.
 		glBindVertexArray(this->normal_arr_handle);
 		glDrawElements(GL_LINES, this->norm_indices.size(), GL_UNSIGNED_INT, &this->norm_indices[0]);
 		glBindVertexArray(0);
@@ -142,7 +144,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	if (DrawObject::draw_axes && (this != DrawObject::a))
 	{
 		if(DrawObject::axes_init == false) return false;
-		DrawObject::a->s_draw(proj, mv, size, time, l, m); //TODO: Will this work? X: Yup.
+		DrawObject::a->s_draw(proj, trans_mv, size, time, l, m); //TODO: Will this work? X: Yup.
 	}
 
 	return true;

@@ -37,6 +37,8 @@ protected:
 	int draw_type; //eg. GL_TRIANGLES, GL_LINES
 	bool s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2 & size, const float & time, lightInfo * & l, materialInfo * & m); //Does the actual heavy lifting for draw
 
+	glm::vec3 position; //Overall position in the world
+
 	GLuint vertex_arr_handle;
 	GLuint vertex_coor_handle;
 	GLuint normal_arr_handle;

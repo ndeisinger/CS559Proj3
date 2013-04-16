@@ -23,6 +23,9 @@ static bool GLEW_IS_INIT = false;
 inline double degToRad(double degree) { return (degree/360) * PI_D; }
 inline float degToRad(float degree) { return (degree/360) * PI_F; }
 
+inline float feetToMeters(float feet) { return (feet * 0.3048); }
+inline float metersToFeet(float meters) { return (meters * 3.28084); }
+
 static bool GLReturnedError(char * s) 
 {
 	if (!GLEW_IS_INIT) return false;

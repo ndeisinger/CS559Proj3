@@ -4,6 +4,8 @@
 #include "glutInclude.h"
 #include <math.h>
 #include "DrawObject.h"
+#include "World.h"
+#include "Camera.h"
 
 #ifdef _DEBUG
 	#define CRTDBG_MAP_ALLOC //Used to help find leaks.
@@ -36,21 +38,7 @@ GLuint Shader::light_handle = GLuint(-1); // Used in our lighting calcs
 
 GLuint tex; //Used for texturing
 
-class Camera
-{
-public:
-	Camera()
-	{
-		vert_angle = 0.0;
-		horiz_angle = 0.0;
-	}
-	glm::mat4 proj;
-	glm::mat4 modelview;
-	double vert_angle;
-	double horiz_angle;
-	glm::vec3 loc;
-	glm::vec3 point; //Where we're looking at in our eyeLoc.
-};
+World draw_world;
 
 class Window
 {
@@ -84,6 +72,27 @@ void getDevILErr()
 	while ((Error = ilGetError()) != IL_NO_ERROR) {
 		printf("%d: %s/n", Error, iluErrorString(Error));
 	} 
+}
+
+void DisplayFunc()
+{
+	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
+	//printf("In drawFunc\n");
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
+	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, window.width, window.height);
+	if (wireframe) 
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	draw_world.draw();
+	glFlush();
 }
 
 
