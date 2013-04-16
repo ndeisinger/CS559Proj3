@@ -56,7 +56,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\DevIL-1.7.8\lib\;C:\Program Files %28x86%29\freeglut\lib;$(ProjectDir)\Box2D_v2.2.1\bin\Debug;C:\Program Files %28x86%29\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\DevIL-1.7.8\lib\;C:\Program Files %28x86%29\freeglut\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Debug;C:\Program Files %28x86%29\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,7 +76,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\DevIL-1.7.8\lib\;C:\Program Files %28x86%29\freeglut\lib;$(ProjectDir)\Box2D_v2.2.1\bin\Release;C:\Program Files %28x86%29\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\DevIL-1.7.8\lib\;C:\Program Files %28x86%29\freeglut\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Release;C:\Program Files %28x86%29\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
