@@ -222,6 +222,28 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 	return true;
 }
 
+void Sphere::updatePos(void)
+{
+	b2Vec2 pos = circleBody->GetPosition();
+	this->position = glm::vec3(pos.x, 0.0f, pos.y); //TODO: Conflict with GLM
+	printf("sphere pos: %f, %f, %f\n", this->position.x, this->position.y, this->position.z);
+}
+
+//NOTE: WE NEED TO CONVERT BOX2D UNITS TO FEET AND VICE-VERSA
+void Sphere::initPhysics(b2World * world)
+{
+	circleDef.type = b2_dynamicBody;
+	circleDef.position.Set(this->position.x, this->position.z);
+	circleBody = world->CreateBody(&circleDef);
+	circleShape.m_p.Set(this->position.x, this->position.z);
+	circleShape.m_radius = 50.0f;
+	circleFixtureDef.shape = &circleShape;
+	circleFixtureDef.density = 1.0f;
+	circleFixtureDef.friction = 0.9001f;
+
+	circleBody->CreateFixture(&circleFixtureDef);
+}
+
 //void Sphere::Draw(const mat4 & projection, mat4 modelview, const ivec2 & size)
 //{
 //	if (this->GLReturnedError("Sphere::Draw - on entry"))
