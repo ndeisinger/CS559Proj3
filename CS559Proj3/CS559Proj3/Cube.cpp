@@ -87,11 +87,13 @@ bool Cube::init(float w, float h, float d)
 //NOTE: WE NEED TO CONVERT BOX2D UNITS TO FEET AND VICE-VERSA
 void Cube::initPhysics(float size, glm::vec2 center, float angle, b2World * world)
 {
+	//In 'center' here, y is z
 	boxDef.type = b2_staticBody;
 	boxDef.position.Set(center.x, center.y);
 	boxBody = world->CreateBody(&boxDef);
-	boxShape.SetAsBox(size, 1.0f, b2Vec2(center.x, center.y), 45.0f); //TODO: Adjust angle
+	boxShape.SetAsBox(size, 1.0f, b2Vec2(center.x, center.y), angle); //TODO: Adjust angle
 	boxBody->CreateFixture(&boxShape, 0.0f);
+	b2Contact wat;
 }
 
 

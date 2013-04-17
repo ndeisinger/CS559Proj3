@@ -238,7 +238,7 @@ void Sphere::initPhysics(b2World * world)
 	circleShape.m_p.Set(this->position.x, this->position.z);
 	circleShape.m_radius = 50.0f;
 	circleFixtureDef.shape = &circleShape;
-	circleFixtureDef.density = 1.0f;
+	circleFixtureDef.density = rand();
 	circleFixtureDef.friction = 0.9001f;
 
 	circleBody->CreateFixture(&circleFixtureDef);

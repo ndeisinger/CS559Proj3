@@ -23,10 +23,10 @@ void Stadium::init(void)
 
 void Stadium::initPhysics(b2World * world) //Set up our Box2D object
 {
-	wall_one.initPhysics(5280.0f, glm::vec2(2640.0f, 0.0f), 0.0f, world);
-	wall_two.initPhysics(5280.0f, glm::vec2(-2640.0f, 0.0f), 0.0f, world);
-	wall_three.initPhysics(5280.0f, glm::vec2(0.0f, 2640.0f), 0.0f, world);
-	wall_four.initPhysics(5280.0f, glm::vec2(0.0f, -2640.0f), 0.0f, world);
+	wall_one.initPhysics(2640.0f, glm::vec2(2640.0f, 0.0f), degToRad(90.0f), world);
+	wall_two.initPhysics(2640.0f, glm::vec2(-2640.0f, 0.0f), degToRad(90.0f), world);
+	wall_three.initPhysics(2640.0f, glm::vec2(0.0f, 2640.0f), 0.0f, world);
+	wall_four.initPhysics(2640.0f, glm::vec2(0.0f, -2640.0f), 0.0f, world);
 }
 
 Stadium::~Stadium(void)

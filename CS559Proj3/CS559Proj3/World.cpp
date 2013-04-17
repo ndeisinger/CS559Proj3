@@ -17,9 +17,9 @@ World::~World(void)
 
 bool World::init(int spheres)
 {
-	this->world = new b2World(b2Vec2(0.0, 1445.9f));
+	this->world = new b2World(b2Vec2(000.0f, 1445.9f));
 	birdsEye.proj = glm::perspective(birdsEye.fov, (float) 800/600, 1.0f, 50000.0f); //TODO: Need to move data from window to world
-	birdsEye.modelview = glm::lookAt(glm::vec3(-1000.0f, 2000.0f, -1000.0f), glm::vec3(0.01f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	birdsEye.modelview = glm::lookAt(glm::vec3(1000.0f, 2000.0f, 1000.0f), glm::vec3(2000.01f, 0.0f, 2000.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	/*
 	for (int i = 0; i < spheres; i++)
 	{
@@ -37,7 +37,7 @@ bool World::init(int spheres)
 	{
 		Sphere new_s;
 		new_s.initialize(50, 10, 10);
-		new_s.setPos(glm::vec3(110.0f * j, 0.0f, 110.0f * j));
+		new_s.setPos(glm::vec3(2000 + 110.0f * j, 0.0f, 2000 + 110.0f * j));
 		new_s.initPhysics(world); //Since this uses the inital position, must call after setPos
 		this->spheres.push_back(new_s);
 //		this->spheres.push_back(new DrawObject()); //TODO: But for serious need to get a good distribution

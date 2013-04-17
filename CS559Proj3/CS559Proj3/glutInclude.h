@@ -20,8 +20,8 @@
 #define PI_F 3.14159265f
 static bool GLEW_IS_INIT = false;
 
-inline double degToRad(double degree) { return (degree/360) * PI_D; }
-inline float degToRad(float degree) { return (degree/360) * PI_F; }
+inline double degToRad(double degree) { return (degree/180) * PI_D; }
+inline float degToRad(float degree) { return (degree/180) * PI_F; }
 
 inline float feetToMeters(float feet) { return (feet * 0.3048f); }
 inline float metersToFeet(float meters) { return (meters * 3.28084f); }
