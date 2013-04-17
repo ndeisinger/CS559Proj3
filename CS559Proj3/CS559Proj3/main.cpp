@@ -6,6 +6,7 @@
 #include "DrawObject.h"
 #include "World.h"
 #include "Camera.h"
+#include "Cube.h"
 
 #ifdef _DEBUG
 	#define CRTDBG_MAP_ALLOC //Used to help find leaks.
@@ -59,7 +60,6 @@ public:
 	GLfloat aspect;
 	int handle;
 	int interval;
-	Camera cam;
 	//vector<string> textbuf;
 } window; //TODO: Make this class a little cleaner for possibility of multiple windows.
 
@@ -240,6 +240,16 @@ int main (int argc, char * argv[])
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	window.width = 800;
+	window.height = 600;
+
+	draw_world.init(40);
+
+	glutDisplayFunc(DisplayFunc);
+	glutMainLoop();
+
+	wireframe = true;
 
 	return 0;
 }

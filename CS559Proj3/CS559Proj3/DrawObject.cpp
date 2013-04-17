@@ -25,6 +25,11 @@ void DrawObject::switchShader(SHADER_TYPE t)
 	else DrawObject::common_shader.reload(t);
 }
 
+void DrawObject::setPos(glm::vec3 pos)
+{
+	this->position = pos;
+}
+
 void DrawObject::TakeDown(void)
 {
 	if (GLReturnedError("DrawObject TakeDown - on entry\n")) return;
@@ -179,14 +184,14 @@ bool DrawObject::initNorms()
 		for (int i = 0; i < (int) this->atts_pcn.size(); i++)
 		{
 			VertexAttPCN temp = this->atts_pcn.at(i);
-			this->norm_vertices.push_back(VertexAttPCN(temp.pos, vec3(0.0, 0.0, 0.0), vec3(0.0, 0.0, 0.0))); //TODO: Optimization: only store P. X.  Nevermind - we could get away without color though.
-			this->norm_vertices.push_back(VertexAttPCN(temp.pos + temp.norm, vec3(0.0, 0.0, 0.0), vec3(0.0, 0.0, 0.0)));
+			this->norm_vertices.push_back(VertexAttP(temp.pos));
+			this->norm_vertices.push_back(VertexAttP(temp.pos + temp.norm));
 			this->norm_indices.push_back(this->norm_vertices.size() - 2);
 			this->norm_indices.push_back(this->norm_vertices.size() - 1);
 		}
 		if (!this->bindArray(&this->normal_arr_handle, &this->normal_coor_handle, this->norm_vertices.size() * sizeof(VertexAttPCN), &this->norm_vertices[0])) return false;
 	}
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCN), 0); //position
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttP), 0); //position
 	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

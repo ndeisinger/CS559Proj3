@@ -1,8 +1,10 @@
 #include "glutInclude.h"
 #include <vector>
+#include <random>
 #include "DrawObject.h"
 #include "Camera.h"
 #include "Player.h"
+#include "Sphere.h"
 #include "MaterialInfo.h"
 
 class World
@@ -16,8 +18,8 @@ public:
 	void switchCam(void); //Switch from overhead view to first-person view
 
 private:
-	vector<DrawObject> spheres; // Keeps track of all our spheres in the world
-	std::vector<DrawObject>::iterator sphereIt; //Lets us move through the spheres and draw them
+	vector<Sphere> spheres; // Keeps track of all our spheres in the world
+	std::vector<Sphere>::iterator sphereIt; //Lets us move through the spheres and draw them
 	Camera * currCam; // Points to the camera we're using
 	Camera birdsEye; // Camera situated above the world
 	glm::mat4 baseMv; // Base modelview for our world

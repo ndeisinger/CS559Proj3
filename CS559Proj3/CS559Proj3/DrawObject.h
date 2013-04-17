@@ -16,6 +16,7 @@ public:
 	void recolor(glm::vec3 color);
 	void switchShader(SHADER_TYPE t);
 	void TakeDown(void);
+	void setPos(glm::vec3 pos);
 	
 	static Shader norm_shader; // All objects will use the same norm shader.  Hopefully this doesn't catastrophically break anything.  If it does we can bump it down to the protected/non-static.
 							   // Nope, all good.  But this begs the question: could we make the actual shader static as well?
@@ -31,7 +32,7 @@ protected:
 	bool initNorms();
 	void drawNorms();
 	bool norms_init;
-	glm::vec3 color;
+	glm::vec3 color; //color of the object
 	bool useTex;
 	bool customShader;
 	int draw_type; //eg. GL_TRIANGLES, GL_LINES
@@ -50,9 +51,11 @@ protected:
 	vector<GLuint> vertex_indices;
 	vector<VertexAttPCN> atts_pcn;
 	vector<VertexAttPCNT> atts_pcnt;
-	vector<VertexAttPCN> norm_vertices;
+	vector<VertexAttP> norm_vertices;
 	vector<GLuint> norm_indices;
 
 	Shader shader;
+
+	inline glm::vec4 MakeColor(int r, int g, int b, float gain = 1.0f) {	return glm::vec4(float(r) * gain / 255.0f, float(g) * gain / 255.0f, float(b) * gain / 255.0f, 1.0f); }
 };
 

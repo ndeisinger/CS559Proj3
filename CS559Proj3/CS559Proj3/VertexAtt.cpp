@@ -1,5 +1,19 @@
 #include "VertexAtt.h"
 
+VertexAttP::VertexAttP(void)
+{
+	this->pos = glm::vec3(0.0f, 0.0f, 0.0f);
+}
+
+VertexAttP::VertexAttP(glm::vec3 pos)
+{
+	this->pos = pos;
+}
+
+VertexAttP::~VertexAttP(void)
+{
+	//TODO: Do we need to do any special cleanup? X Nope, not really.
+}
 
 VertexAttPCN::VertexAttPCN(void)
 {

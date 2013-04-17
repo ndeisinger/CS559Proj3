@@ -1,6 +1,17 @@
 #pragma once
 #include "glutInclude.h"
 
+class VertexAttP
+{
+public:
+	VertexAttP(void);
+	VertexAttP::VertexAttP(glm::vec3 pos);
+	~VertexAttP(void);
+	void print(void);
+	glm::vec3 pos;
+};
+
+
 //For now, we assume we're going to keep the normal for our vertices no matter what.
 //A possible future optimization would be to only calculate/store normals if we're viewing them.
 class VertexAttPCN

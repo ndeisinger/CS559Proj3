@@ -86,6 +86,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Stadium.cpp" />
     <ClCompile Include="VertexAtt.cpp" />
     <ClCompile Include="World.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="MaterialInfo.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Stadium.h" />
     <ClInclude Include="VertexAtt.h" />
     <ClInclude Include="World.h" />
