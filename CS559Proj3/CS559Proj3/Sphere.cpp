@@ -225,7 +225,7 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 void Sphere::updatePos(void)
 {
 	b2Vec2 pos = circleBody->GetPosition();
-	this->position = glm::vec3(pos.x, 0.0f, pos.y); //TODO: Conflict with GLM
+	this->position = glm::vec3(pos.x, 0.0f, pos.y);
 	printf("sphere pos: %f, %f, %f\n", this->position.x, this->position.y, this->position.z);
 }
 
@@ -234,12 +234,13 @@ void Sphere::initPhysics(b2World * world)
 {
 	circleDef.type = b2_dynamicBody;
 	circleDef.position.Set(this->position.x, this->position.z);
+	//circleDef.bullet = true;
 	circleBody = world->CreateBody(&circleDef);
 	circleShape.m_p.Set(this->position.x, this->position.z);
 	circleShape.m_radius = 50.0f;
 	circleFixtureDef.shape = &circleShape;
-	circleFixtureDef.density = rand();
-	circleFixtureDef.friction = 0.9001f;
+	circleFixtureDef.density = 1.0f;
+	circleFixtureDef.friction = 0.1001f;
 
 	circleBody->CreateFixture(&circleFixtureDef);
 }

@@ -82,6 +82,7 @@ void DisplayFunc()
 	glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	wireframe = true;
 	glViewport(0, 0, window.width, window.height);
 	if (wireframe) 
 	{
@@ -147,7 +148,7 @@ int main (int argc, char * argv[])
 	}
 
 	GLEW_IS_INIT = true;
-
+	
 	ilInit();
 	iluInit();
 	ilutRenderer(ILUT_OPENGL);
@@ -186,7 +187,7 @@ int main (int argc, char * argv[])
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
+	
 	window.width = 800;
 	window.height = 600;
 

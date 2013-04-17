@@ -17,9 +17,10 @@ World::~World(void)
 
 bool World::init(int spheres)
 {
-	this->world = new b2World(b2Vec2(000.0f, 1445.9f));
+	if (GLReturnedError("World init - on entry")) return true;
+	this->world = new b2World(b2Vec2(000.0f, -5000.0f));
 	birdsEye.proj = glm::perspective(birdsEye.fov, (float) 800/600, 1.0f, 50000.0f); //TODO: Need to move data from window to world
-	birdsEye.modelview = glm::lookAt(glm::vec3(1000.0f, 2000.0f, 1000.0f), glm::vec3(2000.01f, 0.0f, 2000.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	birdsEye.modelview = glm::lookAt(glm::vec3(0000.0f, 500.0f, -1000.0f), glm::vec3(-000.01f, 0.0f, -1000.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	/*
 	for (int i = 0; i < spheres; i++)
 	{
@@ -33,11 +34,11 @@ bool World::init(int spheres)
 	}*/
 	//DEBUG
 
-	for (int j = 0; j < 5; j++)
+	for (int j = -50; j < 50; j++)
 	{
 		Sphere new_s;
 		new_s.initialize(50, 10, 10);
-		new_s.setPos(glm::vec3(2000 + 110.0f * j, 0.0f, 2000 + 110.0f * j));
+		new_s.setPos(glm::vec3(0.0f * j, 0.0f, 110.0f * j));
 		new_s.initPhysics(world); //Since this uses the inital position, must call after setPos
 		this->spheres.push_back(new_s);
 //		this->spheres.push_back(new DrawObject()); //TODO: But for serious need to get a good distribution
@@ -57,18 +58,21 @@ bool World::init(int spheres)
 	stadium.initPhysics(world);
 
 	DrawObject::common_shader.init(PHONG);
+	if (GLReturnedError("World init - on exit")) return false;
 	return true;
 }
 
 void World::draw()
 {
+	if (GLReturnedError("World draw - on entry")) return;
 	lightInfo * new_l = &l;
 	materialInfo * new_m = &m;
-	world->Step(0.01667f, 500, 500); //TODO: Match this w/ draw rate
+	world->Step(0.01667f, 10, 10); //TODO: Match this w/ draw rate
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
 	{
 		sphereIt->updatePos(); //Update sphere's location with physics-based one
 		sphereIt->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	}
 	stadium.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
+	if (GLReturnedError("World draw - on exit")) return;
 }

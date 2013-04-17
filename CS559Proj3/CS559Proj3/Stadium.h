@@ -17,7 +17,7 @@ public:
 	Stadium(void);
 	~Stadium(void);
 	void init();
-	void draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m);
+	bool draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m);
 	void initPhysics(b2World * world); //Set up our Box2D object
 protected:
 	Cube wall_one;
@@ -25,6 +25,6 @@ protected:
 	Cube wall_three;
 	Cube wall_four; //NOTE: We must be able to simulate bumping against these.
 	Cube floor;
-
+	b2Body* ground;
 };
 
