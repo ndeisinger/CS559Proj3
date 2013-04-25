@@ -1,7 +1,7 @@
 #pragma once
+#include "Box2D\Box2D.h"
 #include "DrawObject.h"
 #include "glutInclude.h"
-#include "Box2D\Box2D.h"
 typedef DrawObject super;
 class Sphere :
 	public DrawObject

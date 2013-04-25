@@ -1,3 +1,5 @@
+#pragma once
+#include "Box2D\Box2D.h"
 #include "glutInclude.h"
 #include <vector>
 #include <random>
@@ -7,7 +9,7 @@
 #include "Sphere.h"
 #include "Stadium.h"
 #include "MaterialInfo.h"
-#include "Box2D\Box2D.h"
+//#define BOX2D_DEBUG
 
 class World
 {
@@ -20,8 +22,8 @@ public:
 	void switchCam(void); //Switch from overhead view to first-person view
 
 private:
-	vector<Sphere> spheres; // Keeps track of all our spheres in the world
-	std::vector<Sphere>::iterator sphereIt; //Lets us move through the spheres and draw them
+	vector<Sphere *> spheres; // Keeps track of all our spheres in the world
+	std::vector<Sphere *>::iterator sphereIt; //Lets us move through the spheres and draw them
 	Camera * currCam; // Points to the camera we're using
 	Camera birdsEye; // Camera situated above the world
 	Stadium stadium; // Our playing field
@@ -32,4 +34,16 @@ private:
 
 	//BOX2D INFO
 	b2World * world; //Our world; have as pointer because there's no default constructor
+
+#ifdef BOX2D_DEBUG
+	b2BodyDef circleDef;
+	b2Body * circleBody;
+	b2CircleShape circleShape;
+	b2FixtureDef circleFixtureDef;
+
+	b2BodyDef circleDef2;
+	b2Body * circleBody2;
+	b2CircleShape circleShape2;
+	b2FixtureDef circleFixtureDef2;
+#endif
 };

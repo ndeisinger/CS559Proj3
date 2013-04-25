@@ -225,8 +225,10 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 void Sphere::updatePos(void)
 {
 	b2Vec2 pos = circleBody->GetPosition();
-	this->position = glm::vec3(pos.x, 0.0f, pos.y);
-	printf("sphere pos: %f, %f, %f\n", this->position.x, this->position.y, this->position.z);
+	this->position = glm::vec3(pos.x, 0.0, pos.y);
+	//printf("x: %f, y: %f, q: %f\n", circleBody->GetPosition().x, circleBody->GetPosition().y, circleBody->GetAngle());
+	//printf("sphere pos: %f, %f, %f\n", this->position.x, this->position.y, this->position.z);
+	//printf("body pos: %f, %f\n", pos.x, pos.y);
 }
 
 //NOTE: WE NEED TO CONVERT BOX2D UNITS TO FEET AND VICE-VERSA
@@ -234,9 +236,9 @@ void Sphere::initPhysics(b2World * world)
 {
 	circleDef.type = b2_dynamicBody;
 	circleDef.position.Set(this->position.x, this->position.z);
-	//circleDef.bullet = true;
+	circleDef.bullet = true;
 	circleBody = world->CreateBody(&circleDef);
-	circleShape.m_p.Set(this->position.x, this->position.z);
+	circleShape.m_p.SetZero();
 	circleShape.m_radius = 50.0f;
 	circleFixtureDef.shape = &circleShape;
 	circleFixtureDef.density = 1.0f;

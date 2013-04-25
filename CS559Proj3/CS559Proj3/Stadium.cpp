@@ -35,6 +35,32 @@ void Stadium::initPhysics(b2World * world) //Set up our Box2D object
 	//Let's try an edge chain instead.
 	//FROM THE BOX2D PINBALL TEST
 	
+	/*
+		Sphere bl;
+	bl.initialize(50, 10, 10);
+	bl.setPos(glm::vec3(-2640.0f, 0.0f, -2640.0f));
+	bl.initPhysics(world); //Since this uses the inital position, must call after setPos
+	spheres.push_back(bl);
+
+	Sphere ul;
+	ul.initialize(50, 10, 10);
+	ul.setPos(glm::vec3(2640.0f, 0.0f, -2640.0f));
+	ul.initPhysics(world); //Since this uses the inital position, must call after setPos
+	spheres.push_back(ul);
+	
+	Sphere ur;
+	ur.initialize(50, 10, 10);
+	ur.setPos(glm::vec3(2640.0f, 0.0f, 2640.0f));
+	ur.initPhysics(world); //Since this uses the inital position, must call after setPos
+	spheres.push_back(ur);
+	
+	Sphere br;
+	br.initialize(50, 10, 10);
+	br.setPos(glm::vec3(-2640.0f, 0.0f, 2640.0f));
+	br.initPhysics(world); //Since this uses the inital position, must call after setPos
+	spheres.push_back(br);*/
+
+	
 	ground = NULL;
 	{
 		b2BodyDef bd;
@@ -53,6 +79,7 @@ void Stadium::initPhysics(b2World * world) //Set up our Box2D object
 		fd.density = 0.0f;
 		ground->CreateFixture(&fd);
 	}
+	
 }
 
 Stadium::~Stadium(void)

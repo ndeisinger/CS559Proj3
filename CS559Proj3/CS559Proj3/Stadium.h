@@ -9,6 +9,8 @@
 //The danger here is ensuring hitboxes are translated and scaled properly as well.
 #include "glutInclude.h"
 #include "Cube.h"
+#include <vector>
+#include "Sphere.h"
 
 #pragma once
 class Stadium
