@@ -24,10 +24,11 @@ private:
 	bool solidColor;
 	void BuildNormalVisualizationGeometry();
 
-	bool custom_colors;
+	bool custom_colors; //Are we using unusal colors?
 	b2BodyDef circleDef; // Stores position for hitbox; THIS SHOULD BE IN SYNC WITH DRAWOBJECT'S POS VALUE
 	b2Body* circleBody;  // Body for the circle that represents the sphere for collision detection
 	b2CircleShape circleShape; //Represent the circle's hitbox
 	b2FixtureDef circleFixtureDef; //Fixture definition for the circle
+	//struct sphere_data data; //Stores timer/activated bool
 };
 

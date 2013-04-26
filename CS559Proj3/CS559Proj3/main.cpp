@@ -125,6 +125,30 @@ int main (int argc, char * argv[])
 
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
+
+	int num_spheres;
+	int rand_seed;
+
+	if (argc <= 1)
+	{
+		num_spheres = 30;
+		rand_seed = 0;
+	}
+	else if (argc == 2)
+	{
+		num_spheres = atoi(argv[1]);
+		rand_seed = 0;
+	}
+	else if (argc == 3)
+	{
+		num_spheres = atoi(argv[1]);
+		rand_seed = atoi(argv[2]);
+	}
+	else
+	{
+		fprintf(stderr, "Usage: 559Proj3 numspheres randseed\n");
+		exit(1);
+	}
 	
 	glutInit(&argc, argv);
 	glutInitWindowPosition(0, 0);
@@ -199,7 +223,7 @@ int main (int argc, char * argv[])
 	window.width = 800;
 	window.height = 600;
 
-	draw_world.init(50);
+	draw_world.init(num_spheres);
 
 	glutDisplayFunc(DisplayFunc);
 	glutTimerFunc(window.interval, timerFunc, 0);

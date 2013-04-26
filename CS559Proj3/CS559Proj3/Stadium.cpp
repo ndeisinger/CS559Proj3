@@ -10,13 +10,13 @@ Stadium::Stadium(void)
 void Stadium::init(void)
 {
 	if (GLReturnedError("Stadium init - on entry")) return;
-	wall_one.init(1.0f, WALL_HEIGHT, 2 * WALL_LENGTH);
+	wall_one.init(0.1f, WALL_HEIGHT, 2 * WALL_LENGTH);
 	wall_one.setPos(glm::vec3(WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
-	wall_two.init(1.0f, WALL_HEIGHT, 2 * WALL_LENGTH);
+	wall_two.init(0.1f, WALL_HEIGHT, 2 * WALL_LENGTH);
 	wall_two.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
-	wall_three.init(2 * WALL_LENGTH, WALL_HEIGHT, 1.0f);
+	wall_three.init(2 * WALL_LENGTH, WALL_HEIGHT, 0.1f);
 	wall_three.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, WALL_LENGTH));
-	wall_four.init(2 * WALL_LENGTH, WALL_HEIGHT, 1.0f);
+	wall_four.init(2 * WALL_LENGTH, WALL_HEIGHT, 0.1f);
 	wall_four.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
 	floor.init(2 * WALL_LENGTH, 1.0f, 2 * WALL_LENGTH);
 	floor.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));

@@ -44,3 +44,9 @@ static bool GLReturnedError(char * s)
 
 	return hitErr;
 }
+
+struct _sphere_data
+{
+	float time_left;
+	bool active;
+};

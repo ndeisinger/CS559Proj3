@@ -242,7 +242,9 @@ void Sphere::initPhysics(b2World * world)
 	circleShape.m_radius = own_radius;
 	circleFixtureDef.shape = &circleShape;
 	circleFixtureDef.density = 1.0f;
-	circleFixtureDef.friction = 0.1001f;
+	circleFixtureDef.friction = 0.200f;
+	circleFixtureDef.restitution = 0.5f;
+	this->physicsBody = circleBody;
 
 	circleBody->CreateFixture(&circleFixtureDef);
 }

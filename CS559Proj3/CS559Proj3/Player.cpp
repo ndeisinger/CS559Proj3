@@ -28,7 +28,7 @@ void Player::update(void)
 	float x = center.x + (sphere.getRadius() * sin(rot_angle));
 	float z = center.z + (sphere.getRadius() * cos(rot_angle));
 	printf("Angle: %f, x: %f, z: %f, radius: %f, rot_angle: %f\n", rot_angle, x, z, sphere.getRadius(), rot_angle);
-	playCam.modelview = glm::lookAt(glm::vec3(x, 0.0, z), glm::vec3(x + 0.001f, 0.0, z + 0.001), glm::vec3(0.0f, 1.0f, 0.0f));
+	playCam.modelview = glm::lookAt(glm::vec3(x, 0.0, z), glm::vec3(2 * x, 0.0, 2 * z), glm::vec3(0.0f, 1.0f, 0.0f));
 	playCam.proj = glm::perspective(playCam.fov, (float) 800/600, 1.0f, 2000.0f);
 }
 
