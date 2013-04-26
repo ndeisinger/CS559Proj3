@@ -14,8 +14,9 @@ public:
 	Player(void);
 	~Player(void);
 	Camera * getCam(void);
-	bool init(void);
-	void orientCamera(void);
+	bool init(float radius, int slices, int stacks, float x, float z);
+	void initPhysics(b2World * world);
+	void update(void);
 	bool draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m);
 private:
 	Camera playCam;

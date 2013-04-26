@@ -16,6 +16,18 @@ World::~World(void)
 	return;
 }
 
+void World::switchCam(void)
+{
+	if (this->currCam == &this->birdsEye)
+	{
+		this->currCam = this->player.getCam();
+	}
+	else
+	{
+		this->currCam = &this->birdsEye;
+	}
+}
+
 bool World::init(int sphere_count)
 {
 	if (GLReturnedError("World init - on entry")) return true;
@@ -53,6 +65,10 @@ bool World::init(int sphere_count)
 //		this->spheres.push_back(new DrawObject()); //TODO: But for serious need to get a good distribution
 	}*/
 	this->currCam = &birdsEye;
+
+	player.init(SPHERE_RADIUS, 10, 10, 0.0f, 0.0f);
+	player.initPhysics(world);
+	player.update();
 
 	l.amb = glm::vec3(0.5, 0.5, 0.5);
 	l.diff = glm::vec3(0.5, 0.5, 0.5);
@@ -110,6 +126,12 @@ void World::draw()
 	{
 		(*sphereIt)->updatePos(); //Update sphere's location with physics-based one
 		(*sphereIt)->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
+	}
+	player.update();
+	if (this->currCam == &this->birdsEye)
+	{
+		//Drawing from above, need to show player
+		player.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	}
 #ifdef BOX2D_DEBUG
 		printf("x: %f, y: %f, q: %f\n", circleBody->GetPosition().x, circleBody->GetPosition().y, circleBody->GetAngle());

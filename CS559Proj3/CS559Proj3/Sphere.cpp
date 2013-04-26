@@ -19,7 +19,7 @@ Sphere::Sphere()
 	this->colors[0] = darker_color;
 	this->colors[1] = lighter_color;
 	color = vec3(colors[0]);
-	solidColor = true;
+	solidColor = false;
 }
 
 Sphere::~Sphere()

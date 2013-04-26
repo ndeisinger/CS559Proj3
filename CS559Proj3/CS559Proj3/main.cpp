@@ -96,6 +96,14 @@ void DisplayFunc()
 	glFlush();
 }
 
+void KeyboardFunc(unsigned char c, int x, int y)
+{
+	if (c == 'c')
+	{
+		draw_world.switchCam();
+	}
+}
+
 void timerFunc(int value)
 {
 	if (window.handle!= -1)
@@ -195,6 +203,7 @@ int main (int argc, char * argv[])
 
 	glutDisplayFunc(DisplayFunc);
 	glutTimerFunc(window.interval, timerFunc, 0);
+	glutKeyboardFunc(KeyboardFunc);
 	glutMainLoop();
 
 	wireframe = true;
