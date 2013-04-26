@@ -3,6 +3,7 @@
 #include "DrawObject.h"
 #include "glutInclude.h"
 typedef DrawObject super;
+
 class Sphere :
 	public DrawObject
 {
@@ -13,8 +14,10 @@ public:
 	bool initialize(float radius, int slices, int stacks);
 	void initPhysics(b2World * world); //Set up our Box2D object
 	void updatePos();
+	inline b2Body * getBody() { return circleBody; }
 
 private:
+	float own_radius; //Allow this to be variable in case we want to adjust spheres
 	glm::vec4 colors[2];
 	bool solidColor;
 	void BuildNormalVisualizationGeometry();

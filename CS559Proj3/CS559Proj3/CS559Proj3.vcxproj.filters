@@ -84,6 +84,12 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="ClassDiagram1.cd" />
+    <None Include="tex_shader.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="tex_shader.vert">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawObject.h">

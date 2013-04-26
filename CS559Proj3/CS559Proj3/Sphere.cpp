@@ -64,7 +64,7 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 		slices = 1;
 
 	slices *= 4;
-
+	own_radius = radius;
 
 	float theta = 360.0f/slices;
 	float delta = 180.0f/stacks;
@@ -239,7 +239,7 @@ void Sphere::initPhysics(b2World * world)
 	circleDef.bullet = true;
 	circleBody = world->CreateBody(&circleDef);
 	circleShape.m_p.SetZero();
-	circleShape.m_radius = 50.0f;
+	circleShape.m_radius = own_radius;
 	circleFixtureDef.shape = &circleShape;
 	circleFixtureDef.density = 1.0f;
 	circleFixtureDef.friction = 0.1001f;

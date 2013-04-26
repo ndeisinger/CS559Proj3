@@ -105,6 +105,8 @@
     <None Include="no_shader.vert" />
     <None Include="Phong_shader.frag" />
     <None Include="Phong_shader.vert" />
+    <None Include="tex_shader.frag" />
+    <None Include="tex_shader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />

@@ -14,6 +14,13 @@ bool Player::init(void)
 	return false;
 }
 
+void Player::orientCamera(void)
+{
+	//could be void
+	glm::vec3 center = this->sphere.getPos();
+	b2Body * body = this->sphere.getBody();
+}
+
 bool Player::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m)
 {
 	return this->sphere.draw(proj, mv, size, time, l, m);

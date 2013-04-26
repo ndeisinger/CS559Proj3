@@ -17,6 +17,7 @@ public:
 	void switchShader(SHADER_TYPE t);
 	void TakeDown(void);
 	void setPos(glm::vec3 pos);
+	inline glm::vec3 getPos() { return position; };
 	
 	static Shader norm_shader; // All objects will use the same norm shader.  Hopefully this doesn't catastrophically break anything.  If it does we can bump it down to the protected/non-static.
 							   // Nope, all good.  But this begs the question: could we make the actual shader static as well?

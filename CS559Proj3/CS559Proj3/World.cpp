@@ -26,14 +26,14 @@ bool World::init(int sphere_count)
 	world->SetAllowSleeping(doSleep);
 	//world->SetContinuousPhysics(true); //For testing only
 	birdsEye.proj = glm::perspective(birdsEye.fov, (float) 800/600, 1.0f, 50000.0f); //TODO: Need to move data from window to world
-	birdsEye.modelview = glm::lookAt(glm::vec3(0000.0f, 5000.0f, -1000.0f), glm::vec3(-000.01f, 0.0f, -1000.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	birdsEye.modelview = glm::lookAt(glm::vec3(0.0f, 2000.0f, 0.0f), glm::vec3(-000.01f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	
 	for (int i = 0; i < sphere_count; i++)
 	{
 #ifndef BOX2D_DEBUG
 		Sphere * new_s = new Sphere();
-		new_s->initialize(50, 10, 10);
-		new_s->setPos(glm::vec3(-4000 + rand() % 4000, 0.0f, -4000 + rand() % 4000));
+		new_s->initialize(SPHERE_RADIUS, 10, 10);
+		new_s->setPos(glm::vec3(-WALL_LENGTH + rand() % (int) (2 * WALL_LENGTH), 0.0f, -WALL_LENGTH + rand() % (int) (2 * WALL_LENGTH)));
 		new_s->initPhysics(world); //Since this uses the inital position, must call after setPos
 		this->spheres.push_back(new_s);
 #endif
