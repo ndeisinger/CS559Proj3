@@ -32,13 +32,13 @@ bool World::init(int sphere_count)
 {
 	if (GLReturnedError("World init - on entry")) return true;
 	b2Vec2 gravity;
-	gravity.Set(1.0f, 0.0f);
+	gravity.Set(0.0f, 0.0f);
 	bool doSleep = true;
 	this->world = new b2World(gravity);
 	world->SetAllowSleeping(doSleep);
 	//world->SetContinuousPhysics(true); //For testing only
 	birdsEye.proj = glm::perspective(birdsEye.fov, (float) 800/600, 1.0f, 50000.0f); //TODO: Need to move data from window to world
-	birdsEye.modelview = glm::lookAt(glm::vec3(0.0f, 2000.0f, 0.0f), glm::vec3(-000.01f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	birdsEye.modelview = glm::lookAt(glm::vec3(0.0f, 1000.0f, 0.0f), glm::vec3(-000.01f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	
 	for (int i = 0; i < sphere_count; i++)
 	{

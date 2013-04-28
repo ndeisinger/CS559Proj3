@@ -20,6 +20,7 @@ public:
 	//void draw(glm::mat4 mv, glm::mat4 perspective); //Actually, this should be void - we handle mv/persp inside
 	void draw(void);
 	void switchCam(void); //Switch from overhead view to first-person view
+	inline Player * getPlayer(void) { return &this->player; }
 
 private:
 	vector<Sphere *> spheres; // Keeps track of all our spheres in the world

@@ -39,7 +39,8 @@ GLuint Shader::light_handle = GLuint(-1); // Used in our lighting calcs
 
 GLuint tex; //Used for texturing
 
-World draw_world;
+World draw_world; //Where we actually draw/simulate everything
+Player * game_player; //Our player in the world
 
 class Window
 {
@@ -73,6 +74,59 @@ void getDevILErr()
 		printf("%d: %s/n", Error, iluErrorString(Error));
 	} 
 }
+
+void PassiveMotionFunc(int x, int y)
+{
+	if (mouseX == -1)
+	{
+		mouseX = x;
+		mouseY = y;
+		return;
+	}
+	else
+	{
+		float ratio = (x - (float)window.width/2)/((float)window.width/2);
+		game_player->rotate(-30000.0f * ratio);
+		printf("ratio: %f\n", ratio);
+		/*
+		if (x < window.width/2)
+		{
+			game_player->rotate(10000.0f * ratio);
+		}
+		else if (x > window.width/2)
+		{
+			//turn to the right
+			game_player->rotate(-10000.0f);
+		}*/
+		//printf("%i %i %i\n", y, mouseY, window.cam.vert_angle);
+		//TODO: Use y position as velocity?
+		/*
+		if (y > mouseY)
+		{
+			//look down
+			if (!(window.cam.vert_angle < -89))
+			{
+			window.cam.vert_angle -= 1.5;
+			moveCam();
+			//window.cam.modelview = glm::lookAt(eyeLoc(window.cam.horiz_angle, window.cam.vert_angle), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			}
+		}
+		else if (y < mouseY)
+		{
+			//look up
+			if (!(window.cam.vert_angle > 89))
+			{
+			window.cam.vert_angle += 1.5;
+			moveCam();
+			//window.cam.modelview = glm::rotate(window.cam.modelview, 1.0f, glm::mat3(window.cam.modelview) * glm::vec3(1.0f, 0.0f, 0.0f));
+			//window.cam.modelview = glm::lookAt(eyeLoc(window.cam.horiz_angle, window.cam.vert_angle), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			}
+		}*/
+		mouseX = x;
+		mouseY = y;
+	}
+}
+
 
 void DisplayFunc()
 {
@@ -149,6 +203,7 @@ int main (int argc, char * argv[])
 		fprintf(stderr, "Usage: 559Proj3 numspheres randseed\n");
 		exit(1);
 	}
+	srand(rand_seed);
 	
 	glutInit(&argc, argv);
 	glutInitWindowPosition(0, 0);
@@ -224,10 +279,12 @@ int main (int argc, char * argv[])
 	window.height = 600;
 
 	draw_world.init(num_spheres);
+	game_player = draw_world.getPlayer();
 
 	glutDisplayFunc(DisplayFunc);
 	glutTimerFunc(window.interval, timerFunc, 0);
 	glutKeyboardFunc(KeyboardFunc);
+	glutPassiveMotionFunc(PassiveMotionFunc);
 	glutMainLoop();
 
 	wireframe = true;
