@@ -1,14 +1,15 @@
 #pragma once
-#include "Box2D\Box2D.h"
-#include "glutInclude.h"
 #include <vector>
 #include <random>
+#include "PhysicsInclude.h"
+#include "glutInclude.h"
+#include "Stadium.h"
 #include "DrawObject.h"
 #include "Camera.h"
 #include "Player.h"
 #include "Sphere.h"
-#include "Stadium.h"
 #include "MaterialInfo.h"
+#include "ContactListener.h"
 //#define BOX2D_DEBUG
 
 class World
@@ -31,7 +32,8 @@ private:
 	Stadium stadium; // Our playing field
 	glm::mat4 baseMv; // Base modelview for our world
 	lightInfo l; //Light for our world
-	materialInfo m;
+	materialInfo m; //Material for our world
+	ContactListener contactListener;
 	// The camera for the player is in the Player class
 
 	//BOX2D INFO

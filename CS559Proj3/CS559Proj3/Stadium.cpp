@@ -95,4 +95,5 @@ bool Stadium::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size
 	wall_four.draw(proj, mv, size, time, l, m);
 	floor.draw(proj, mv, size, time, l, m);
 	if (GLReturnedError("Stadium draw - on exit")) return false;
+	return true;
 }

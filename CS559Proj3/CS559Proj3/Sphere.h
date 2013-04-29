@@ -1,7 +1,7 @@
 #pragma once
-#include "Box2D\Box2D.h"
 #include "DrawObject.h"
 #include "glutInclude.h"
+#include "PhysicsInclude.h"
 typedef DrawObject super;
 
 class Sphere :
@@ -14,6 +14,9 @@ public:
 	bool initialize(float radius, int slices, int stacks);
 	void initPhysics(b2World * world); //Set up our Box2D object
 	void updatePos();
+	void preSolve(b2Contact* contact, const b2Manifold* oldManifold);
+
+	//getters/setters
 	inline b2Body * getBody() { return circleBody; }
 	inline float getRadius() { return own_radius; }
 	inline void setColor(glm::vec4 new_colors[2]) { colors[0] = new_colors[0]; colors[1] = new_colors[1]; custom_colors = true; }
@@ -29,6 +32,6 @@ private:
 	b2Body* circleBody;  // Body for the circle that represents the sphere for collision detection
 	b2CircleShape circleShape; //Represent the circle's hitbox
 	b2FixtureDef circleFixtureDef; //Fixture definition for the circle
-	//struct sphere_data data; //Stores timer/activated bool
+	sphere_data data; // Stores timer, 'isActive', etc.
 };
 

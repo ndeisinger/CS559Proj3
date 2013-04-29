@@ -4,6 +4,7 @@
 // NOT the center.
 
 #include "glutInclude.h"
+#include "PhysicsInclude.h"
 #include "Camera.h"
 #include "Sphere.h"
 

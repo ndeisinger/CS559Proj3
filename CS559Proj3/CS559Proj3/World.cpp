@@ -36,6 +36,7 @@ bool World::init(int sphere_count)
 	bool doSleep = true;
 	this->world = new b2World(gravity);
 	world->SetAllowSleeping(doSleep);
+	world->SetContactListener(&contactListener);
 	//world->SetContinuousPhysics(true); //For testing only
 	birdsEye.proj = glm::perspective(birdsEye.fov, (float) 800/600, 1.0f, 50000.0f); //TODO: Need to move data from window to world
 	birdsEye.modelview = glm::lookAt(glm::vec3(0.0f, 1000.0f, 0.0f), glm::vec3(-000.01f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));

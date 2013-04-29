@@ -35,7 +35,7 @@ void Player::update(void)
 	glm::vec3 center = this->sphere.getPos();
 	b2Body * body = this->sphere.getBody();
 	body->SetAngularVelocity(0);
-	
+
 	//Calculate GLM look_at as radius away from center at the angle pointed to
 	float rot_angle = body->GetAngle(); //Radians
 	float x = center.x + (sphere.getRadius() * sin(rot_angle));
@@ -47,6 +47,9 @@ void Player::update(void)
 	playCam.proj = glm::perspective(playCam.fov, (float) 800/600, 1.0f, 2000.0f);
 	this->sphere.getBody()->ApplyAngularImpulse(ang_force);
 	body->ApplyLinearImpulse(b2Vec2(x_force, z_force), body->GetWorldCenter());
+
+	//Note: at present we don't get proper behavior.  The direction in which we move and the angle we're looking in don't sync up.
+
 }
 
 void Player::initPhysics(b2World * world)

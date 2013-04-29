@@ -81,6 +81,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="main.cpp" />
@@ -110,10 +111,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DrawObject.h" />
     <ClInclude Include="glutInclude.h" />
     <ClInclude Include="MaterialInfo.h" />
+    <ClInclude Include="PhysicsInclude.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sphere.h" />

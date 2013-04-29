@@ -210,6 +210,14 @@ void Sphere::Draw(const ivec2 & size)
 bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m)
 {
 	if (GLReturnedError("Sphere draw - on entry\n")) return false;
+	//Draw text above sphere
+	unsigned char watString [4] = "wat";
+	const unsigned char * str = &watString[0];
+	glRasterPos3f(0, 0, 0);
+	glPushMatrix();
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, str);
+	glPopMatrix();
+
 	super::s_draw(proj, mv, size, time, l, m);
 #ifdef _DEBUG
 	//Axes a;
@@ -226,12 +234,15 @@ void Sphere::updatePos(void)
 {
 	b2Vec2 pos = circleBody->GetPosition();
 	this->position = glm::vec3(pos.x, 0.0, pos.y);
+
+	//Need some way to quickly change color if the ball is struck...
+	//Maybe add an extra uniform to pass down into the shader?
+
 	//printf("x: %f, y: %f, q: %f\n", circleBody->GetPosition().x, circleBody->GetPosition().y, circleBody->GetAngle());
 	//printf("sphere pos: %f, %f, %f\n", this->position.x, this->position.y, this->position.z);
 	//printf("body pos: %f, %f\n", pos.x, pos.y);
 }
 
-//NOTE: WE NEED TO CONVERT BOX2D UNITS TO FEET AND VICE-VERSA
 void Sphere::initPhysics(b2World * world)
 {
 	circleDef.type = b2_dynamicBody;
@@ -244,9 +255,14 @@ void Sphere::initPhysics(b2World * world)
 	circleFixtureDef.density = 1.0f;
 	circleFixtureDef.friction = 0.200f;
 	circleFixtureDef.restitution = 0.5f;
+	circleFixtureDef.userData = &data;
 	this->physicsBody = circleBody;
 
 	circleBody->CreateFixture(&circleFixtureDef);
+}
+
+void Sphere::preSolve(b2Contact* contact, const b2Manifold* oldManifold)
+{
 }
 
 //void Sphere::Draw(const mat4 & projection, mat4 modelview, const ivec2 & size)

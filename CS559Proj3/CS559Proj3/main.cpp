@@ -179,8 +179,7 @@ int main (int argc, char * argv[])
 
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
-
-	int num_spheres;
+	
 	int rand_seed;
 
 	if (argc <= 1)
@@ -204,6 +203,7 @@ int main (int argc, char * argv[])
 		exit(1);
 	}
 	srand(rand_seed);
+	max_time = (float)(30 + num_spheres * 2);
 	
 	glutInit(&argc, argv);
 	glutInitWindowPosition(0, 0);
