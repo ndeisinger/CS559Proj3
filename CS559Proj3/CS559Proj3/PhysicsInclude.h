@@ -3,6 +3,9 @@
 
 static float max_time;
 static int num_spheres;
+static float elapsed_time = 0.0f;
+static float prev_time = 0.0f;
+static bool is_paused = false;
 
 inline float feetToMeters(float feet) { return (feet * 0.3048f); }
 inline float metersToFeet(float meters) { return (meters * 3.28084f); }
@@ -10,7 +13,6 @@ inline float metersToFeet(float meters) { return (meters * 3.28084f); }
 static const float SPHERE_RADIUS = feetToMeters(50.0f);
 static const float WALL_HEIGHT = 2 * SPHERE_RADIUS;
 static const float WALL_LENGTH = feetToMeters(2640.0f);
-
 typedef struct _sphere_data
 {
 	float time_left;

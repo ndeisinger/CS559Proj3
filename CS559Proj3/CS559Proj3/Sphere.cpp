@@ -213,10 +213,6 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 	//Draw text above sphere
 	unsigned char watString [4] = "wat";
 	const unsigned char * str = &watString[0];
-	glRasterPos3f(0, 0, 0);
-	glPushMatrix();
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, str);
-	glPopMatrix();
 
 	super::s_draw(proj, mv, size, time, l, m);
 #ifdef _DEBUG

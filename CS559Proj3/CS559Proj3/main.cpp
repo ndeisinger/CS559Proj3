@@ -1,6 +1,8 @@
 //Oh god what is this I don't even
 
-#include <Box2D/Box2D.h>
+#include "physicsInclude.h"
+#include <sstream>
+#include <string>
 #include "glutInclude.h"
 #include <math.h>
 #include "DrawObject.h"
@@ -77,12 +79,7 @@ void getDevILErr()
 
 void PassiveMotionFunc(int x, int y)
 {
-	if (mouseX == -1)
-	{
-		mouseX = x;
-		mouseY = y;
-		return;
-	}
+	if (is_paused) return;
 	else
 	{
 		float ratio = (x - (float)window.width/2)/((float)window.width/2);
@@ -130,6 +127,10 @@ void PassiveMotionFunc(int x, int y)
 
 void DisplayFunc()
 {
+	if (is_paused) return;
+	char stringbuf[80];
+	sprintf_s(stringbuf, "Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
+	
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
 	//printf("In drawFunc\n");
 	glEnable(GL_DEPTH_TEST);
@@ -147,6 +148,10 @@ void DisplayFunc()
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 	draw_world.draw();
+	glRasterPos2i(0, 0);
+	glPushMatrix();
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
+	glPopMatrix();
 	glFlush();
 }
 
@@ -155,6 +160,20 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	if (c == 'c')
 	{
 		draw_world.switchCam();
+	}
+	if (c == 'p')
+	{
+		//Need to pause/unpause
+		if (is_paused)
+		{
+			is_paused = false;
+			glutPassiveMotionFunc(PassiveMotionFunc);
+		}
+		else
+		{
+			is_paused = true;
+			glutPassiveMotionFunc(NULL);
+		}
 	}
 }
 
@@ -165,7 +184,11 @@ void timerFunc(int value)
 		animFrame++;
 		if (animFrame > 200) animFrame = 0;
 		glutTimerFunc(window.interval, timerFunc, value);
-		glutPostRedisplay();
+		if (!is_paused)
+		{
+			elapsed_time += window.interval;
+			glutPostRedisplay();
+		}
 	}
 }
 
