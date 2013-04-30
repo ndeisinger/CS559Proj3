@@ -29,6 +29,17 @@ void Shader::inval()
 	this->light_index = BAD_GL_VALUE;
 	this->material_handle = BAD_GL_VALUE;
 	this->material_index = BAD_GL_VALUE;
+
+	this->position_handle = BAD_GL_VALUE;
+	this->color_handle = BAD_GL_VALUE;
+	this->amb_handle = BAD_GL_VALUE;
+	this->diff_handle = BAD_GL_VALUE;
+	this->spec_handle = BAD_GL_VALUE;
+
+	this->ka_handle = BAD_GL_VALUE;
+	this->kd_handle = BAD_GL_VALUE;
+	this->ks_handle = BAD_GL_VALUE;
+
 	this->lightBuffer = NULL;
 	this->matBuffer = NULL;
 }
@@ -116,6 +127,15 @@ void Shader::setup(const float time, const GLint * size, const GLfloat * proj, c
 
 void Shader::lightSetup(lightInfo & l)
 {
+	glUniform4fv(this->position_handle, 1, glm::value_ptr(l.position));
+	glUniform3fv(this->color_handle, 1, glm::value_ptr(l.color));
+	glUniform3fv(this->amb_handle, 1, glm::value_ptr(l.amb));
+	glUniform3fv(this->diff_handle, 1, glm::value_ptr(l.diff));
+	glUniform3fv(this->spec_handle, 1, glm::value_ptr(l.spec));
+}
+/*
+void Shader::lightSetup(lightInfo & l)
+{
 	//Code adapted from the GLSL cookbook.
 	//TODO: No need to change light if already present. X
 	//TODO: Pass by reference? X
@@ -154,7 +174,17 @@ void Shader::lightSetup(lightInfo & l)
 	}
 		GLReturnedError("Shader - lightSetup on exit\n");
 }
+*/
 
+void Shader::materialSetup(materialInfo & m)
+{
+	glUniform3fv(this->ka_handle, 1, glm::value_ptr(m.kA));
+	glUniform3fv(this->kd_handle, 1, glm::value_ptr(m.kD));
+	glUniform3fv(this->ks_handle, 1, glm::value_ptr(m.kS));
+	glUniform1f(this->shininess_handle, m.shininess);
+}
+
+/*
 void Shader::materialSetup(materialInfo & m)
 {	
 	GLReturnedError("Shader - materialSetup on entry\n");
@@ -191,7 +221,7 @@ void Shader::materialSetup(materialInfo & m)
 		Shader::bind_point++;
 	}
 		GLReturnedError("Shader - materialSetup on exit\n");
-}
+}*/
 
 void Shader::texSetup()
 {
@@ -312,6 +342,18 @@ bool Shader::init(SHADER_TYPE t)
 	this->p_mat_handle = glGetUniformLocation(this->program_id, "proj_matrix");
 	this->size_handle = glGetUniformLocation(this->program_id, "size");
 	this->time_handle = glGetUniformLocation(this->program_id, "time");
+	
+	this->position_handle = glGetUniformLocation(this->program_id, "position");
+	this->color_handle = glGetUniformLocation(this->program_id, "color");
+	this->amb_handle = glGetUniformLocation(this->program_id, "amb");
+	this->diff_handle = glGetUniformLocation(this->program_id, "diff");
+	this->spec_handle = glGetUniformLocation(this->program_id, "spec");
+
+	this->ka_handle = glGetUniformLocation(this->program_id, "kA");
+	this->kd_handle = glGetUniformLocation(this->program_id, "kD");
+	this->ks_handle = glGetUniformLocation(this->program_id, "kS");
+
+	/*
 	if (this->light_index == BAD_GL_VALUE)//(t == GOURAUD || t == PHONG || t == FLAT) && this->light_index == BAD_GL_VALUE)
 	{
 		this->light_index = glGetUniformBlockIndex(this->program_id, "lightInfo");
@@ -319,7 +361,7 @@ bool Shader::init(SHADER_TYPE t)
 	if (this->material_index == BAD_GL_VALUE)
 	{
 		this->material_index = glGetUniformBlockIndex(this->program_id, "materialInfo");
-	}
+	}*/
 	if (t == TEX)
 	{
 		this->tex_handle = glGetUniformLocation(this->program_id, "Tex1");

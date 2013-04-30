@@ -51,6 +51,17 @@ protected:
 	GLuint vertex_s_id; // Vertex shader handle.
 	GLuint frag_s_id; // Fragment shader handle.
 
+	GLint position_handle; // Light position
+	GLint color_handle; // Light color modifier
+	GLint amb_handle; // Light ambient component
+	GLint diff_handle; // Light diffuse component
+	GLint spec_handle; // Light specular component
+	
+	GLint ka_handle; // Material ambient component
+	GLint kd_handle; // Material diffuse component
+	GLint ks_handle; // Material specular component
+	GLint shininess_handle; // Material specular exponent
+
 	GLubyte * lightBuffer; // Space for lighting info.
 	GLubyte * matBuffer; // Space for material info.
 
