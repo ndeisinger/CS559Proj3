@@ -96,7 +96,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	mat4 trans_mv = translate(mv, position);
 	if (physicsBody != NULL)
 	{
-		trans_mv = glm::rotate(trans_mv, physicsBody->GetAngle(), glm::vec3(0.0f, 1.0f, 0.0f));
+		trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 	mat4 mvp = proj * trans_mv;
 	mat3 nm = inverse(transpose(mat3(trans_mv))); //TODO: dat math X

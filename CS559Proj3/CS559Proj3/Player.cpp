@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "glm\gtx\rotate_vector.hpp"
 
 Player::Player(void)
 {
@@ -34,18 +35,32 @@ void Player::update(void)
 	sphere.updatePos();
 	glm::vec3 center = this->sphere.getPos();
 	b2Body * body = this->sphere.getBody();
-	body->SetAngularVelocity(0);
 
 	//Calculate GLM look_at as radius away from center at the angle pointed to
 	float rot_angle = body->GetAngle(); //Radians
-	float x = center.x + (sphere.getRadius() * sin(rot_angle));
-	float z = center.z + (sphere.getRadius() * cos(rot_angle));
-	float x_force = 20.0f * sin(rot_angle);
-	float z_force = 20.0f * cos(rot_angle);
-	printf("Angle: %f, x: %f, z: %f, radius: %f, rot_angle: %f, x_force: %f, z_force: %f\n", rot_angle, x, z, sphere.getRadius(), rot_angle, x_force, z_force);
-	playCam.modelview = glm::lookAt(glm::vec3(x, 0.0, z), glm::vec3(x + (sphere.getRadius() * sin(rot_angle)), 0.0, z + (sphere.getRadius() * cos(rot_angle))), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::vec2 travel_force = boxToGlm(body->GetLinearVelocity());
+	travel_force = glm::normalize(travel_force);
+	//glm::vec2 rotate_force = travel_force;
+	glm::vec2 rotate_force = glm::rotate(travel_force, ang_force);
+	float x = center.x + (sphere.getRadius() * travel_force.x);
+	float z = center.z + (sphere.getRadius() * travel_force.y);
+	float x_force = 50.0f * rotate_force.x;
+	float z_force = 50.0f * rotate_force.y;
+	printf("Angle: %f, x: %f, z: %f, radius: %f, rot_angle: %f, travel_angle: %f,\nx_force: %f, z_force: %f\n", rot_angle, x, z, sphere.getRadius(), rot_angle, x_force, z_force);
+	playCam.modelview = glm::lookAt(glm::vec3(x, 0.0, z), glm::vec3(x + (sphere.getRadius() * travel_force.x), 0.0, z + (sphere.getRadius() * travel_force.y)), glm::vec3(0.0f, 1.0f, 0.0f));
 	playCam.proj = glm::perspective(playCam.fov, (float) 800/600, 1.0f, 2000.0f);
-	this->sphere.getBody()->ApplyAngularImpulse(ang_force);
+
+	//body->SetAngularVelocity(ang_force);
+
+	/*
+	if ((body->GetAngle() < PI_F/2) && (ang_force > 0))
+	{
+		this->sphere.getBody()->ApplyAngularImpulse(ang_force);
+	}
+	else if ((body->GetAngle() > -PI_F/2) && (ang_force < 0))
+	{
+		this->sphere.getBody()->ApplyAngularImpulse(ang_force);
+	}*/
 	body->ApplyLinearImpulse(b2Vec2(x_force, z_force), body->GetWorldCenter());
 
 	//Note: at present we don't get proper behavior.  The direction in which we move and the angle we're looking in don't sync up.
@@ -55,6 +70,7 @@ void Player::update(void)
 void Player::initPhysics(b2World * world)
 {
 	sphere.initPhysics(world);
+	sphere.getBody()->ApplyLinearImpulse(b2Vec2(0.1f, 0.1f), sphere.getBody()->GetWorldCenter());
 }
 
 bool Player::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m)

@@ -45,7 +45,7 @@ bool World::init(int sphere_count)
 	{
 #ifndef BOX2D_DEBUG
 		Sphere * new_s = new Sphere();
-		new_s->initialize(SPHERE_RADIUS, 10, 10);
+		new_s->initialize(SPHERE_RADIUS, 2, 2);
 		new_s->setPos(glm::vec3(-WALL_LENGTH + rand() % (int) (2 * WALL_LENGTH), 0.0f, -WALL_LENGTH + rand() % (int) (2 * WALL_LENGTH)));
 		new_s->initPhysics(world); //Since this uses the inital position, must call after setPos
 		this->spheres.push_back(new_s);

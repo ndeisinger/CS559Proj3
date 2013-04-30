@@ -231,6 +231,14 @@ void Sphere::updatePos(void)
 	b2Vec2 pos = circleBody->GetPosition();
 	this->position = glm::vec3(pos.x, 0.0, pos.y);
 
+	if (data.time_left < 0)
+	{
+		//reset the sphere
+		data.active = false;
+		data.time_left = 0;
+		num_spheres++;
+	}
+
 	//Need some way to quickly change color if the ball is struck...
 	//Maybe add an extra uniform to pass down into the shader?
 

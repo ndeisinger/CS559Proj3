@@ -1,5 +1,6 @@
 #include "ContactListener.h"
 #include "glutInclude.h"
+#include "PhysicsInclude.h"
 
 
 ContactListener::ContactListener(void)
@@ -21,6 +22,14 @@ void ContactListener::BeginContact(b2Contact* contact)
 	{
 		//Null implies we're hitting a wall,
 		//so don't do updates
+		if (!dataA->active)
+		{
+			num_spheres--;
+		}
+		if (!dataB->active)
+		{
+			num_spheres--;
+		}
 		dataA->active = true;
 		dataB->active = true;
 		dataA->time_left = max_time;

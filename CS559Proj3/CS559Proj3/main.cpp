@@ -83,7 +83,7 @@ void PassiveMotionFunc(int x, int y)
 	else
 	{
 		float ratio = (x - (float)window.width/2)/((float)window.width/2);
-		game_player->rotate(-30000.0f * ratio);
+		game_player->rotate(90.0f * ratio);
 		printf("ratio: %f\n", ratio);
 		/*
 		if (x < window.width/2)
@@ -155,6 +155,21 @@ void DisplayFunc()
 	glFlush();
 }
 
+void timerFunc(int value)
+{
+	if (window.handle!= -1)
+	{
+		glutTimerFunc(window.interval, timerFunc, value);
+		if (!is_paused)
+		{
+			animFrame++;
+			if (animFrame > 200) animFrame = 0;
+			elapsed_time += window.interval;
+			glutPostRedisplay();
+		}
+	}
+}
+
 void KeyboardFunc(unsigned char c, int x, int y)
 {
 	if (c == 'c')
@@ -176,22 +191,6 @@ void KeyboardFunc(unsigned char c, int x, int y)
 		}
 	}
 }
-
-void timerFunc(int value)
-{
-	if (window.handle!= -1)
-	{
-		animFrame++;
-		if (animFrame > 200) animFrame = 0;
-		glutTimerFunc(window.interval, timerFunc, value);
-		if (!is_paused)
-		{
-			elapsed_time += window.interval;
-			glutPostRedisplay();
-		}
-	}
-}
-
 
 int main (int argc, char * argv[])
 {

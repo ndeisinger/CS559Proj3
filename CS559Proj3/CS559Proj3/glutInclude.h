@@ -14,7 +14,7 @@
 #include <math.h>
 
 
-#pragma comment(lib, "glew32.lib") //wat
+//#pragma comment(lib, "glew32.lib") //wat
 
 #define PI_D 3.14159265
 #define PI_F 3.14159265f
@@ -23,6 +23,8 @@ static bool GLEW_IS_INIT = false;
 inline double degToRad(double degree) { return (degree/180) * PI_D; }
 inline float degToRad(float degree) { return (degree/180) * PI_F; }
 
+inline double radToDeg(double rad) { return (rad * 180) / PI_D; }
+inline float radToDeg(float rad) { return (rad * 180) / PI_F; }
 
 static bool GLReturnedError(char * s) 
 {
