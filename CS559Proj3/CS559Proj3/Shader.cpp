@@ -352,6 +352,7 @@ bool Shader::init(SHADER_TYPE t)
 	this->ka_handle = glGetUniformLocation(this->program_id, "kA");
 	this->kd_handle = glGetUniformLocation(this->program_id, "kD");
 	this->ks_handle = glGetUniformLocation(this->program_id, "kS");
+	this->shininess_handle = glGetUniformLocation(this->program_id, "shininess");
 
 	/*
 	if (this->light_index == BAD_GL_VALUE)//(t == GOURAUD || t == PHONG || t == FLAT) && this->light_index == BAD_GL_VALUE)
