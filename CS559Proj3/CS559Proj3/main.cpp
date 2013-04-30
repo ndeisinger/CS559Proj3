@@ -166,6 +166,7 @@ void KeyboardFunc(unsigned char c, int x, int y)
 
 void initTextures()
 {
+	GLuint tid[NUM_TEXTS];
 	for (int i = 0; i < NUM_TEXTS; i++)
 	{
 		ilGenImages(1, &tex[i]); // Set up texture handle.
@@ -191,10 +192,9 @@ void initTextures()
 		if (!ilLoadL(IL_JPG, Lump, Size)) { getDevILErr(); exit(1); }
 		free(Lump);
 
-		glActiveTexture(GL_TEXTURE0);
-		GLuint tid;
-		glGenTextures(1, &tid);
-		glBindTexture(GL_TEXTURE_2D, tid);
+		glActiveTexture((GL_TEXTURE0 + i));
+		glGenTextures(1, &tid[i]);
+		glBindTexture(GL_TEXTURE_2D, tid[i]);
 		int w = ilGetInteger(IL_IMAGE_WIDTH);
 		int h = ilGetInteger(IL_IMAGE_HEIGHT);
 		void * data = ilGetData();

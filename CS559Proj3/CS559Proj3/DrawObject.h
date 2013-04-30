@@ -12,11 +12,14 @@ public:
 	DrawObject(void);
 	~DrawObject(void);
 	bool initialize(void);
+	void TakeDown(void);
+
 	bool bindArray(GLuint * arr_handle, GLuint * coor_handle, GLsizeiptr size, const GLvoid * data);
-	void UseTexture();
+	void UseTexture(); //Deprecated?
 	void recolor(glm::vec3 color);
 	void switchShader(SHADER_TYPE t);
-	void TakeDown(void);
+	inline void setShader(Shader newShader) { shader = newShader; customShader = true; }
+
 	void setPos(glm::vec3 pos);
 	inline glm::vec3 getPos() { return position; };
 	
@@ -57,6 +60,7 @@ protected:
 	vector<GLuint> norm_indices;
 
 	Shader shader;
+	TEXTURE_TYPE texture;
 
 	b2Body * physicsBody; //This will be left unused if there are no associated phsyics
 

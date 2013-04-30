@@ -223,9 +223,9 @@ void Shader::materialSetup(materialInfo & m)
 		GLReturnedError("Shader - materialSetup on exit\n");
 }*/
 
-void Shader::texSetup()
+void Shader::texSetup(TEXTURE_TYPE type)
 {
-	glUniform1i(this->tex_handle, 0);
+	glUniform1i(this->tex_handle, int(type));
 	return;
 }
 

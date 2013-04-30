@@ -86,16 +86,27 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 			m2 = m2_nxt;
 			m2_nxt = rotate(m2, delta, z_axis);
 
+			//Code for generating texture coords on a sphere taken from http://www.mvps.org/directx/articles/spheremap.htm
 			VertexAttPCNT cur_vertex_top, cur_vertex_bottom , nxt_vertex_top,nxt_vertex_bottom;
 			cur_vertex_top.pos = vec3((m*m2)*r_vec);	
 			cur_vertex_top.norm = normalize(cur_vertex_top.pos);
+			cur_vertex_top.tex_coord.x = asin(cur_vertex_top.norm.x)/PI_F + 0.5;
+			cur_vertex_top.tex_coord.y = asin(cur_vertex_top.norm.y)/PI_F + 0.5;
+
 			nxt_vertex_top.pos = vec3((m_nxt*m2)*r_vec);	
 			nxt_vertex_top.norm = normalize(nxt_vertex_top.pos);
+			nxt_vertex_top.tex_coord.x = asin(nxt_vertex_top.norm.x)/PI_F + 0.5;
+			nxt_vertex_top.tex_coord.y = asin(nxt_vertex_top.norm.y)/PI_F + 0.5;
 
 			cur_vertex_bottom.pos = vec3((m*m2_nxt)*r_vec);	
 			cur_vertex_bottom.norm = normalize(cur_vertex_bottom.pos);
+			cur_vertex_bottom.tex_coord.x = asin(cur_vertex_bottom.norm.x)/PI_F + 0.5;
+			cur_vertex_bottom.tex_coord.y = asin(cur_vertex_bottom.norm.y)/PI_F + 0.5;
+
 			nxt_vertex_bottom.pos = vec3((m_nxt*m2_nxt)*r_vec);	
 			nxt_vertex_bottom.norm = normalize(nxt_vertex_bottom.pos);
+			nxt_vertex_bottom.tex_coord.x = asin(nxt_vertex_bottom.norm.x)/PI_F + 0.5;
+			nxt_vertex_bottom.tex_coord.y = asin(nxt_vertex_bottom.norm.y)/PI_F + 0.5;
 
 
 			if(solidColor)
@@ -237,12 +248,14 @@ void Sphere::updatePos(void)
 	{
 		//reset the sphere
 		data.active = false;
+		this->texture = DIRT;
 		data.time_left = max_time;
 		num_spheres++;
 	}
 	else if (data.active)
 	{
 		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this
+		this->texture = CONCRETE;
 	}
 
 	//Need some way to quickly change color if the ball is struck...

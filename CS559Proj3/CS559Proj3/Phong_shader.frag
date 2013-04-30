@@ -7,20 +7,18 @@ in vec3 vert_position;
 in vec3 normal;
 in vec3 vert_color;
 
-//uniform lightInfo {
+//Information on the light
 uniform	vec4 position;
 uniform	vec3 color;
 uniform	vec3 amb;
 uniform	vec3 diff;
 uniform	vec3 spec;
-//};
 
-//uniform materialInfo {
+//Information on the material
 uniform	vec3 kA;
 uniform	vec3 kD;
 uniform	vec3 kS;
 uniform	float shininess;
-//};
 
 //Once more, in the final we can stuff down this stuff via a material struct.
 void main()

@@ -70,6 +70,7 @@ bool DrawObject::initialize(void)
 	this->color = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->position = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->physicsBody = NULL;
+	this->texture = DIRT;
 	if (GLReturnedError("DrawObject initialize - on exit\n")) return false;
 	return true;
 }
@@ -112,6 +113,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		{
 			shader.materialSetup(*m);
 		}
+		shader.texSetup(texture);
 	}
 	else
 	{
@@ -125,6 +127,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		{
 			common_shader.materialSetup(*m);
 		}
+		common_shader.texSetup(texture);
 	}
 	glBindVertexArray(this->vertex_arr_handle);
 	glDrawElements(this->draw_type, this->vertex_indices.size(), GL_UNSIGNED_INT, &this->vertex_indices[0]);

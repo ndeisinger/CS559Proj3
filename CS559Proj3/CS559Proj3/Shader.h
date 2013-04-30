@@ -6,6 +6,7 @@
 
 //Class for our various shaders.
 enum SHADER_TYPE {NONE, FLAT, GOURAUD, PHONG, DEBUG_POS, MAX, NORM, DEBUG_NORM, TEX}; //max val used to help us cycle
+enum TEXTURE_TYPE {DIRT, CONCRETE, TEX_ERR};
 class Shader
 {
 public:
@@ -18,7 +19,7 @@ public:
 	void use(void);
 	void lightSetup(lightInfo & l);
 	void materialSetup(materialInfo & m);
-	void texSetup(void);
+	void texSetup(TEXTURE_TYPE type);
 	void TakeDown(void); //TODO: Different protection? X Nah, we want to be able to call it from main.
 	void reload(SHADER_TYPE t);
 	std::stringstream GetShaderLog(GLuint shader_id);

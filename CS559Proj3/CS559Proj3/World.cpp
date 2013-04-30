@@ -110,7 +110,7 @@ bool World::init(int sphere_count)
 
 #endif
 
-	DrawObject::common_shader.init(PHONG);
+	DrawObject::common_shader.init(TEX);
 	if (GLReturnedError("World init - on exit")) return false;
 	return true;
 }

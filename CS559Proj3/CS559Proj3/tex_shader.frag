@@ -7,24 +7,24 @@ in vec3 vert_position;
 in vec3 normal;
 in vec2 texCoord;
 
-uniform lightInfo {
-	vec4 position;
-	vec3 color;
-	vec3 amb;
-	vec3 diff;
-	vec3 spec;
-	int spec_exp; //TODO: Have this here or in other location?
-};
+//Information on the light
+uniform	vec4 position;
+uniform	vec3 color;
+uniform	vec3 amb;
+uniform	vec3 diff;
+uniform	vec3 spec;
+
+//Information on the material
+uniform	vec3 kA;
+uniform	vec3 kD;
+uniform	vec3 kS;
+uniform	float shininess;
 
 uniform sampler2D Tex1;
 
 // We opt for a set material, because we're only texturing the ground.
 void main()
 {
-	vec3 kA = vec3(1.0, 1.0, 1.0);
-	vec3 kD = vec3(0.9, 0.9, 0.9);
-	vec3 kS = vec3(0.1, 0.1, 0.1);
-
 	vec3 n = normalize(normal); 
 	vec3 s = normalize(vec3(position) - vert_position);
 	vec3 v = normalize(vec3(-position));
