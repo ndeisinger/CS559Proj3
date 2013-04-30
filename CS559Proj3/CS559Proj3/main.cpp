@@ -31,6 +31,7 @@ bool DrawObject::draw_axes; // Boolean to declare if we want to draw local axes.
 bool DrawObject::axes_init; // Boolean to determine if the shared Axes object is initialized.
 Shader DrawObject::common_shader;
 
+
 int Shader::bind_point = 2; // Bindings for our lighting/materials.
 
 int mouseX = -1; //Lets us smoothly adjust our view.
@@ -39,10 +40,16 @@ int mouseY = -1;
 GLint Shader::light_index = GLuint(-1);
 GLuint Shader::light_handle = GLuint(-1); // Used in our lighting calcs
 
-GLuint tex; //Used for texturing
+const int NUM_TEXTS = 2;
+//"dirt.jpg", "concrete.jpg" from http://seamless-pixels.blogspot.com/
+const char * texts[NUM_TEXTS] = {"dirt.jpg", "concrete.jpg"};
+GLuint tex[NUM_TEXTS]; //Used for texturing
 
 World draw_world; //Where we actually draw/simulate everything
 Player * game_player; //Our player in the world
+
+int num_spheres; //Number of spheres in the world
+float max_time; //Total time
 
 class Window
 {
@@ -85,42 +92,6 @@ void PassiveMotionFunc(int x, int y)
 		float ratio = (x - (float)window.width/2)/((float)window.width/2);
 		game_player->rotate(90.0f * ratio);
 		printf("ratio: %f\n", ratio);
-		/*
-		if (x < window.width/2)
-		{
-			game_player->rotate(10000.0f * ratio);
-		}
-		else if (x > window.width/2)
-		{
-			//turn to the right
-			game_player->rotate(-10000.0f);
-		}*/
-		//printf("%i %i %i\n", y, mouseY, window.cam.vert_angle);
-		//TODO: Use y position as velocity?
-		/*
-		if (y > mouseY)
-		{
-			//look down
-			if (!(window.cam.vert_angle < -89))
-			{
-			window.cam.vert_angle -= 1.5;
-			moveCam();
-			//window.cam.modelview = glm::lookAt(eyeLoc(window.cam.horiz_angle, window.cam.vert_angle), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			}
-		}
-		else if (y < mouseY)
-		{
-			//look up
-			if (!(window.cam.vert_angle > 89))
-			{
-			window.cam.vert_angle += 1.5;
-			moveCam();
-			//window.cam.modelview = glm::rotate(window.cam.modelview, 1.0f, glm::mat3(window.cam.modelview) * glm::vec3(1.0f, 0.0f, 0.0f));
-			//window.cam.modelview = glm::lookAt(eyeLoc(window.cam.horiz_angle, window.cam.vert_angle), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			}
-		}*/
-		mouseX = x;
-		mouseY = y;
 	}
 }
 
@@ -130,6 +101,7 @@ void DisplayFunc()
 	if (is_paused) return;
 	char stringbuf[80];
 	sprintf_s(stringbuf, "Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
+	printf("Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
 	
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
 	//printf("In drawFunc\n");
@@ -189,6 +161,47 @@ void KeyboardFunc(unsigned char c, int x, int y)
 			is_paused = true;
 			glutPassiveMotionFunc(NULL);
 		}
+	}
+}
+
+void initTextures()
+{
+	for (int i = 0; i < NUM_TEXTS; i++)
+	{
+		ilGenImages(1, &tex[i]); // Set up texture handle.
+		ilBindImage(tex[i]);
+	
+		//Below code is also taken from the DevIL documentation.
+		//I'd love to know why I had to jump through these hoops,
+		//But in any event the normal load function was failing.
+		//My guess? Wrong DLL (non-Unicode v. unicode).
+		ILubyte *Lump;
+		ILuint Size;
+		FILE *File;
+
+		fopen_s(&File, texts[i], "rb");
+		fseek(File, 0, SEEK_END);
+		Size = ftell(File);
+
+		Lump = (ILubyte*)malloc(Size);
+		fseek(File, 0, SEEK_SET);
+		fread(Lump, 1, Size, File);
+		fclose(File);
+
+		if (!ilLoadL(IL_JPG, Lump, Size)) { getDevILErr(); exit(1); }
+		free(Lump);
+
+		glActiveTexture(GL_TEXTURE0);
+		GLuint tid;
+		glGenTextures(1, &tid);
+		glBindTexture(GL_TEXTURE_2D, tid);
+		int w = ilGetInteger(IL_IMAGE_WIDTH);
+		int h = ilGetInteger(IL_IMAGE_HEIGHT);
+		void * data = ilGetData();
+		ilutGLBindTexImage();
+
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	}
 }
 
@@ -262,41 +275,8 @@ int main (int argc, char * argv[])
 	iluInit();
 	ilutRenderer(ILUT_OPENGL);
 
-	ilGenImages(1, &tex); // Set up texture handle.
-	ilBindImage(tex);
-	
-	//Below code is also taken from the DevIL documentation.
-	//I'd love to know why I had to jump through these hoops,
-	//But in any event the normal load function was failing.
-	//My guess? Wrong DLL (non-Unicode v. unicode).
-	ILubyte *Lump;
-	ILuint Size;
-	FILE *File;
+	initTextures();
 
-	fopen_s(&File, "dirt.jpg", "rb");
-	fseek(File, 0, SEEK_END);
-	Size = ftell(File);
-
-	Lump = (ILubyte*)malloc(Size);
-	fseek(File, 0, SEEK_SET);
-	fread(Lump, 1, Size, File);
-	fclose(File);
-
-	if (!ilLoadL(IL_JPG, Lump, Size)) { getDevILErr(); exit(1); }
-	free(Lump);
-
-	glActiveTexture(GL_TEXTURE0);
-	GLuint tid;
-	glGenTextures(1, &tid);
-	glBindTexture(GL_TEXTURE_2D, tid);
-	int w = ilGetInteger(IL_IMAGE_WIDTH);
-	int h = ilGetInteger(IL_IMAGE_HEIGHT);
-	void * data = ilGetData();
-	ilutGLBindTexImage();
-
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	
 	window.width = 800;
 	window.height = 600;
 

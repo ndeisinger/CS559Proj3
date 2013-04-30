@@ -71,6 +71,7 @@ void Player::initPhysics(b2World * world)
 {
 	sphere.initPhysics(world);
 	sphere.getBody()->ApplyLinearImpulse(b2Vec2(0.1f, 0.1f), sphere.getBody()->GetWorldCenter());
+	sphere.setPlayer(true);
 }
 
 bool Player::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m)

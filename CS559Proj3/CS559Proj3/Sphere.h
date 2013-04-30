@@ -20,6 +20,7 @@ public:
 	inline b2Body * getBody() { return circleBody; }
 	inline float getRadius() { return own_radius; }
 	inline void setColor(glm::vec4 new_colors[2]) { colors[0] = new_colors[0]; colors[1] = new_colors[1]; custom_colors = true; }
+	inline void setPlayer(bool val) { data.isPlayer = val; }
 
 private:
 	float own_radius; //Allow this to be variable in case we want to adjust spheres

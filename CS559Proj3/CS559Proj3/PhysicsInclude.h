@@ -2,8 +2,8 @@
 #include "Box2D\Box2D.h"
 #include "glm\glm.hpp"
 
-static float max_time;
-static int num_spheres;
+extern float max_time;
+extern int num_spheres;
 static float elapsed_time = 0.0f;
 static float prev_time = 0.0f;
 static bool is_paused = false;
@@ -19,4 +19,5 @@ typedef struct _sphere_data
 {
 	float time_left;
 	bool active;
+	bool isPlayer;
 } sphere_data;

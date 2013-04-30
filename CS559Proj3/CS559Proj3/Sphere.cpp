@@ -231,12 +231,16 @@ void Sphere::updatePos(void)
 	b2Vec2 pos = circleBody->GetPosition();
 	this->position = glm::vec3(pos.x, 0.0, pos.y);
 
-	if (data.time_left < 0)
+	if (data.time_left < 0 && !data.isPlayer)
 	{
 		//reset the sphere
 		data.active = false;
-		data.time_left = 0;
+		data.time_left = max_time;
 		num_spheres++;
+	}
+	else if (data.active)
+	{
+		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this
 	}
 
 	//Need some way to quickly change color if the ball is struck...
@@ -255,14 +259,19 @@ void Sphere::initPhysics(b2World * world)
 	circleBody = world->CreateBody(&circleDef);
 	circleShape.m_p.SetZero();
 	circleShape.m_radius = own_radius;
+
 	circleFixtureDef.shape = &circleShape;
 	circleFixtureDef.density = 1.0f;
 	circleFixtureDef.friction = 0.200f;
 	circleFixtureDef.restitution = 0.5f;
 	circleFixtureDef.userData = &data;
-	this->physicsBody = circleBody;
 
+	this->physicsBody = circleBody;
 	circleBody->CreateFixture(&circleFixtureDef);
+
+	this->data.active = false;
+	this->data.isPlayer = false;
+	this->data.time_left = max_time;
 }
 
 void Sphere::preSolve(b2Contact* contact, const b2Manifold* oldManifold)

@@ -22,11 +22,11 @@ void ContactListener::BeginContact(b2Contact* contact)
 	{
 		//Null implies we're hitting a wall,
 		//so don't do updates
-		if (!dataA->active)
+		if (!dataA->active && !dataA->isPlayer)
 		{
 			num_spheres--;
 		}
-		if (!dataB->active)
+		if (!dataB->active && !dataB->isPlayer)
 		{
 			num_spheres--;
 		}
