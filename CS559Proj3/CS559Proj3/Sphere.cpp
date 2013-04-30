@@ -86,7 +86,7 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 			m2 = m2_nxt;
 			m2_nxt = rotate(m2, delta, z_axis);
 
-			VertexAttPCN cur_vertex_top, cur_vertex_bottom , nxt_vertex_top,nxt_vertex_bottom;
+			VertexAttPCNT cur_vertex_top, cur_vertex_bottom , nxt_vertex_top,nxt_vertex_bottom;
 			cur_vertex_top.pos = vec3((m*m2)*r_vec);	
 			cur_vertex_top.norm = normalize(cur_vertex_top.pos);
 			nxt_vertex_top.pos = vec3((m_nxt*m2)*r_vec);	
@@ -113,23 +113,23 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 				nxt_vertex_top.color = vec3(this->colors[ColorIndex(j, slices)]);
 			}
 
-			this->atts_pcn.push_back(cur_vertex_top);
-			this->atts_pcn.push_back(cur_vertex_bottom);
-			this->atts_pcn.push_back(nxt_vertex_bottom);
+			this->atts_pcnt.push_back(cur_vertex_top);
+			this->atts_pcnt.push_back(cur_vertex_bottom);
+			this->atts_pcnt.push_back(nxt_vertex_bottom);
 	
-			this->vertex_indices.push_back(this->atts_pcn.size() - 3);
-			this->vertex_indices.push_back(this->atts_pcn.size() - 1);
-			this->vertex_indices.push_back(this->atts_pcn.size() - 2);
+			this->vertex_indices.push_back(this->atts_pcnt.size() - 3);
+			this->vertex_indices.push_back(this->atts_pcnt.size() - 1);
+			this->vertex_indices.push_back(this->atts_pcnt.size() - 2);
 
 			this->BuildNormalVisualizationGeometry();
 
-			this->atts_pcn.push_back(cur_vertex_top);
-			this->atts_pcn.push_back(nxt_vertex_bottom);
-			this->atts_pcn.push_back(nxt_vertex_top);
+			this->atts_pcnt.push_back(cur_vertex_top);
+			this->atts_pcnt.push_back(nxt_vertex_bottom);
+			this->atts_pcnt.push_back(nxt_vertex_top);
 	
-			this->vertex_indices.push_back(this->atts_pcn.size() - 3);
-			this->vertex_indices.push_back(this->atts_pcn.size() - 1);
-			this->vertex_indices.push_back(this->atts_pcn.size() - 2);
+			this->vertex_indices.push_back(this->atts_pcnt.size() - 3);
+			this->vertex_indices.push_back(this->atts_pcnt.size() - 1);
+			this->vertex_indices.push_back(this->atts_pcnt.size() - 2);
 
 			this->BuildNormalVisualizationGeometry();
 		}
@@ -138,7 +138,7 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 
 
 
-	if (!this->bindArray(&this->vertex_arr_handle, &this->vertex_coor_handle, this->atts_pcn.size() * sizeof(VertexAttPCN), &this->atts_pcn[0]))
+	if (!this->bindArray(&this->vertex_arr_handle, &this->vertex_coor_handle, this->atts_pcnt.size() * sizeof(VertexAttPCNT), &this->atts_pcnt[0]))
 		return false;
 
 	/*	The VertexAttributesPCN class stores vertex attributes: position, color and normal in that order.
@@ -146,12 +146,14 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 		Vertex attributes are stored in an interleaved manner aiding speed of vertex processing.
 	*/
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCN), (GLvoid *) 0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCN), (GLvoid *) (sizeof(vec3) * 2));	// Note offset - legacy of older code
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCN), (GLvoid *) (sizeof(vec3) * 1));	// Same
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCNT), (GLvoid *) 0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCNT), (GLvoid *) (sizeof(vec3) * 2));	// Note offset - legacy of older code
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCNT), (GLvoid *) (sizeof(vec3) * 1));	// Same
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCNT), (GLvoid *) (sizeof(vec3) * 3));	
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
