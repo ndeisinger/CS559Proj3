@@ -3,10 +3,10 @@
 #include <assert.h>
 #include <sstream>
 #include "MaterialInfo.h"
+#include "Textures.h"
 
 //Class for our various shaders.
 enum SHADER_TYPE {NONE, FLAT, GOURAUD, PHONG, DEBUG_POS, MAX, NORM, DEBUG_NORM, TEX}; //max val used to help us cycle
-enum TEXTURE_TYPE {DIRT, CONCRETE, TEX_ERR};
 class Shader
 {
 public:

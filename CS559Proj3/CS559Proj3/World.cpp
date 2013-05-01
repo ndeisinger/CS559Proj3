@@ -45,13 +45,11 @@ bool World::init(int sphere_count)
 	{
 #ifndef BOX2D_DEBUG
 		Sphere * new_s = new Sphere();
-		new_s->initialize(SPHERE_RADIUS, 2, 2);
+		new_s->initialize(SPHERE_RADIUS, 10, 10);
 		new_s->setPos(glm::vec3(-WALL_LENGTH + rand() % (int) (2 * WALL_LENGTH), 0.0f, -WALL_LENGTH + rand() % (int) (2 * WALL_LENGTH)));
 		new_s->initPhysics(world); //Since this uses the inital position, must call after setPos
 		this->spheres.push_back(new_s);
 #endif
-		//TODO: Initialize Box2d info for each sphere as well.  Maybe abstract that into the init method?
-//		this->spheres.push_back(new DrawObject()); //TODO: But for serious need to get a good distribution
 	}
 
 	//DEBUG
@@ -129,11 +127,7 @@ void World::draw()
 		(*sphereIt)->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	}
 	player.update();
-	if (this->currCam == &this->birdsEye)
-	{
-		//Drawing from above, need to show player
-		player.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
-	}
+	player.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 #ifdef BOX2D_DEBUG
 		printf("x: %f, y: %f, q: %f\n", circleBody->GetPosition().x, circleBody->GetPosition().y, circleBody->GetAngle());
 		printf("x: %f, y: %f, q: %f\n\n", circleBody2->GetPosition().x, circleBody2->GetPosition().y, circleBody->GetAngle());

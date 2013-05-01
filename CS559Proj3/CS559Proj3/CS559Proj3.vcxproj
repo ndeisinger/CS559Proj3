@@ -121,6 +121,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Stadium.h" />
+    <ClInclude Include="Textures.h" />
     <ClInclude Include="VertexAtt.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

@@ -9,6 +9,7 @@
 #include "World.h"
 #include "Camera.h"
 #include "Cube.h"
+#include "Textures.h"
 
 #ifdef _DEBUG
 	#define CRTDBG_MAP_ALLOC //Used to help find leaks.
@@ -40,10 +41,7 @@ int mouseY = -1;
 GLint Shader::light_index = GLuint(-1);
 GLuint Shader::light_handle = GLuint(-1); // Used in our lighting calcs
 
-const int NUM_TEXTS = 2;
-//"dirt.jpg", "concrete.jpg" from http://seamless-pixels.blogspot.com/
-const char * texts[NUM_TEXTS] = {"dirt.jpg", "concrete.jpg"};
-GLuint tex[NUM_TEXTS]; //Used for texturing
+GLuint tex[NUM_TEXTS]; //Used for setting up texturing
 
 World draw_world; //Where we actually draw/simulate everything
 Player * game_player; //Our player in the world
@@ -169,6 +167,7 @@ void initTextures()
 	GLuint tid[NUM_TEXTS];
 	for (int i = 0; i < NUM_TEXTS; i++)
 	{
+		if (texts[i] == NULL) { break; }
 		ilGenImages(1, &tex[i]); // Set up texture handle.
 		ilBindImage(tex[i]);
 	
@@ -180,7 +179,12 @@ void initTextures()
 		ILuint Size;
 		FILE *File;
 
-		fopen_s(&File, texts[i], "rb");
+		int err = fopen_s(&File, texts[i], "rb");
+		if (err)
+		{
+			fprintf(stderr, "Error: Could not open texture %s", texts[i]);
+			exit(-1);
+		}
 		fseek(File, 0, SEEK_END);
 		Size = ftell(File);
 
