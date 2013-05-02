@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "Cube.h"
 #include "Textures.h"
+#include "FrameBufferObject.h"
 
 #ifdef _DEBUG
 	#define CRTDBG_MAP_ALLOC //Used to help find leaks.
@@ -48,6 +49,8 @@ Player * game_player; //Our player in the world
 
 int num_spheres; //Number of spheres in the world
 float max_time; //Total time
+
+FrameBufferObject fbo;
 
 class Window
 {
@@ -93,10 +96,8 @@ void PassiveMotionFunc(int x, int y)
 	}
 }
 
-
-void DisplayFunc()
+void RenderScene()
 {
-	if (is_paused) return;
 	char stringbuf[80];
 	sprintf_s(stringbuf, "Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
 	printf("Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
@@ -123,6 +124,15 @@ void DisplayFunc()
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
 	glPopMatrix();
 	glFlush();
+}
+
+void DisplayFunc()
+{
+	if (is_paused) return;
+	fbo.bind(0);
+	RenderScene();
+	fbo.unbind();
+	RenderScene();
 }
 
 void timerFunc(int value)
@@ -207,6 +217,7 @@ void initTextures()
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	}
+	fbo.initialize(glm::ivec2(512, 512), 1, true);
 }
 
 int main (int argc, char * argv[])
