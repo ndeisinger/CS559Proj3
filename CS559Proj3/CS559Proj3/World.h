@@ -22,6 +22,7 @@ public:
 	void draw(bool do_physics);
 	void switchCam(void); //Switch from overhead view to first-person view
 	inline Player * getPlayer(void) { return &this->player; }
+	void TakeDown(void);
 
 private:
 	vector<Sphere *> spheres; // Keeps track of all our spheres in the world

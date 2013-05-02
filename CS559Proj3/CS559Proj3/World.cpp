@@ -16,6 +16,17 @@ World::~World(void)
 	return;
 }
 
+void World::TakeDown(void)
+{
+	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
+	{
+		(*sphereIt)->TakeDown();
+	}
+	stadium.TakeDown();
+	world->~b2World(); //Box2D implements cleanup for physics
+	return;
+}
+
 void World::switchCam(void)
 {
 	if (this->currCam == &this->birdsEye)
@@ -132,7 +143,10 @@ void World::draw(bool do_physics)
 		}
 		(*sphereIt)->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	}
-	player.update();
+	if (do_physics)
+	{
+		player.update();
+	}
 	player.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 #ifdef BOX2D_DEBUG
 		printf("x: %f, y: %f, q: %f\n", circleBody->GetPosition().x, circleBody->GetPosition().y, circleBody->GetAngle());

@@ -7,6 +7,15 @@ Stadium::Stadium(void)
 
 #define FLOOR_DEPTH -(SPHERE_RADIUS)
 
+void Stadium::TakeDown(void)
+{
+	wall_one.TakeDown();
+	wall_two.TakeDown();
+	wall_three.TakeDown();
+	wall_four.TakeDown();
+	floor.TakeDown();
+}
+
 void Stadium::init(void)
 {
 	if (GLReturnedError("Stadium init - on entry")) return;

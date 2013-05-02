@@ -96,11 +96,12 @@ void PassiveMotionFunc(int x, int y)
 	}
 }
 
-void RenderScene(bool do_physics)
+void RenderScene(bool do_physics, int draw_width, int draw_height)
 {
 	char stringbuf[80];
 	sprintf_s(stringbuf, "Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
 	printf("Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
+	if (num_spheres == 0) { WON_GAME = true; }
 	
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
 	//printf("In drawFunc\n");
@@ -108,8 +109,7 @@ void RenderScene(bool do_physics)
 	glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	wireframe = false;
-	glViewport(0, 0, window.width, window.height);
+	glViewport(0, 0, draw_width, draw_height);
 	if (wireframe) 
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -130,9 +130,9 @@ void DisplayFunc()
 {
 	if (is_paused) return;
 	fbo.bind(0);
-	RenderScene(false); //Render to framebuffer
+	RenderScene(false, 512, 512); //Render to framebuffer
 	fbo.unbind();
-	RenderScene(true);
+	RenderScene(true, window.width, window.height);
 }
 
 void timerFunc(int value)
@@ -148,6 +148,24 @@ void timerFunc(int value)
 			glutPostRedisplay();
 		}
 	}
+}
+
+void ExitFunc(void)
+{
+	glutLeaveMainLoop();
+	draw_world.TakeDown();
+	fbo.TakeDown();
+	DrawObject::common_shader.TakeDown();
+	for (int i = 0; i < NUM_TEXTS; i++)
+	{
+		glDeleteTextures(NUM_TEXTS, tex);
+	}
+	
+	
+	printf("Time elapsed: %f\n", elapsed_time);
+	if (WON_GAME) { printf("Congrats! You won!\n"); }
+	else { printf("Sorry, you lose...\n"); }
+	exit(0);
 }
 
 void KeyboardFunc(unsigned char c, int x, int y)
@@ -169,6 +187,14 @@ void KeyboardFunc(unsigned char c, int x, int y)
 			is_paused = true;
 			glutPassiveMotionFunc(NULL);
 		}
+	}
+	if (c == 'w')
+	{
+		wireframe = !wireframe;
+	}
+	if (c == 'q')
+	{
+		ExitFunc();
 	}
 }
 
@@ -261,6 +287,7 @@ int main (int argc, char * argv[])
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(800, 600);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH);
+	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
 
 	window.width = 800;
 	window.height = 600;
@@ -305,6 +332,8 @@ int main (int argc, char * argv[])
 	glutKeyboardFunc(KeyboardFunc);
 	glutPassiveMotionFunc(PassiveMotionFunc);
 	glutMainLoop();
+
+	ExitFunc();
 
 	wireframe = true;
 
