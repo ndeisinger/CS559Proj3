@@ -4,6 +4,7 @@ using namespace glm;
 Cube::Cube(void)
 {
 	this->draw_type = GL_TRIANGLES;
+	this->texture = CONCRETE;
 	super();
 }
 
@@ -29,18 +30,20 @@ bool Cube::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, c
 
 bool Cube::init(float w, float h, float d)
 {
+	vec2 dummy_tex = vec2(0.0f, 0.0f);
+
 	//Positive x is left as we face the front of the cube.
 	//Front face
-	VertexAttPCN f_br = VertexAttPCN(vec3(0.0, 0.0, 0.0), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, -1.0));
-	VertexAttPCN f_bl = VertexAttPCN(vec3(w, 0.0, 0.0), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, -1.0));
-	VertexAttPCN f_ur = VertexAttPCN(vec3(0.0, h, 0.0), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, -1.0));
-	VertexAttPCN f_ul = VertexAttPCN(vec3(w, h, 0.0), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, -1.0));
+	VertexAttPCNT f_br = VertexAttPCNT(vec3(0.0, 0.0, 0.0), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, -1.0), dummy_tex);
+	VertexAttPCNT f_bl = VertexAttPCNT(vec3(w, 0.0, 0.0), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, -1.0), dummy_tex);
+	VertexAttPCNT f_ur = VertexAttPCNT(vec3(0.0, h, 0.0), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, -1.0), dummy_tex);
+	VertexAttPCNT f_ul = VertexAttPCNT(vec3(w, h, 0.0), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, -1.0), dummy_tex);
 	
 	//Back face (note this is flipped horizontally from as though we were looking at it.)
-	VertexAttPCN b_br = VertexAttPCN(vec3(0.0, 0.0, d), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, 1.0));
-	VertexAttPCN b_bl = VertexAttPCN(vec3(w, 0.0, d), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, 1.0));
-	VertexAttPCN b_ur = VertexAttPCN(vec3(0.0, h, d), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, 1.0));
-	VertexAttPCN b_ul = VertexAttPCN(vec3(w, h, d), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, 1.0));
+	VertexAttPCNT b_br = VertexAttPCNT(vec3(0.0, 0.0, d), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, 1.0), dummy_tex);
+	VertexAttPCNT b_bl = VertexAttPCNT(vec3(w, 0.0, d), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, 1.0), dummy_tex);
+	VertexAttPCNT b_ur = VertexAttPCNT(vec3(0.0, h, d), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, 1.0), dummy_tex);
+	VertexAttPCNT b_ul = VertexAttPCNT(vec3(w, h, d), vec3(0.5, 0.5, 0.5), vec3(0.0, 0.0, 1.0), dummy_tex);
 
 	//TODO: Check normals/winding. X
 
@@ -64,16 +67,18 @@ bool Cube::init(float w, float h, float d)
 	//right
 	subInit(b_ul, b_bl, f_ul, f_bl, vec3(1.0, 0.0, 0.0));
 
-	if (!this->bindArray(&this->vertex_arr_handle, &this->vertex_coor_handle, this->atts_pcn.size() * sizeof(VertexAttPCN), &this->atts_pcn[0])) return false;
-	//if (!this->bindArray(&this->normal_arr_handle, &this->normal_coor_handle, this->atts_pcn.size() * sizeof(VertexAttPCN), &this->atts_pcn[0])) return false;
+	if (!this->bindArray(&this->vertex_arr_handle, &this->vertex_coor_handle, this->atts_pcnt.size() * sizeof(VertexAttPCNT), &this->atts_pcnt[0])) return false;
+	//if (!this->bindArray(&this->normal_arr_handle, &this->normal_coor_handle, this->atts_pcnt.size() * sizeof(VertexAttPCNT), &this->atts_pcnt[0])) return false;
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCN), (GLvoid *) 0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCN), (GLvoid *) (0 + sizeof(vec3) * 1)); 
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCN), (GLvoid *) (0 + sizeof(vec3) * 2)); 
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCNT), (GLvoid *) 0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCNT), (GLvoid *) (0 + sizeof(vec3) * 1)); 
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCNT), (GLvoid *) (0 + sizeof(vec3) * 2)); 
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCNT), (GLvoid *) (0 + sizeof(vec3) * 3)); 
 	
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -97,23 +102,27 @@ void Cube::initPhysics(float size, glm::vec2 center, float angle, b2World * worl
 }
 
 
-void Cube::subInit(VertexAttPCN b_l, VertexAttPCN u_l, VertexAttPCN b_r, VertexAttPCN u_r, vec3 norm)
+void Cube::subInit(VertexAttPCNT b_l, VertexAttPCNT u_l, VertexAttPCNT b_r, VertexAttPCNT u_r, vec3 norm)
 {
 	b_l.norm = u_l.norm = u_r.norm = b_r.norm = norm;
+	b_l.tex_coord = vec2(0.0, 0.0);
+	b_r.tex_coord = vec2(1.0, 0.0);
+	u_l.tex_coord = vec2(0.0, 1.0);
+	u_r.tex_coord = vec2(1.0, 1.0);
 
-	this->atts_pcn.push_back(u_l);
-	this->atts_pcn.push_back(u_r);
-	this->atts_pcn.push_back(b_l);
+	this->atts_pcnt.push_back(u_l);
+	this->atts_pcnt.push_back(u_r);
+	this->atts_pcnt.push_back(b_l);
 
-	this->vertex_indices.push_back(this->atts_pcn.size() - 3);
-	this->vertex_indices.push_back(this->atts_pcn.size() - 2);
-	this->vertex_indices.push_back(this->atts_pcn.size() - 1);
+	this->vertex_indices.push_back(this->atts_pcnt.size() - 3);
+	this->vertex_indices.push_back(this->atts_pcnt.size() - 2);
+	this->vertex_indices.push_back(this->atts_pcnt.size() - 1);
 
-	this->atts_pcn.push_back(b_r);
-	this->atts_pcn.push_back(b_l);
-	this->atts_pcn.push_back(u_r);
+	this->atts_pcnt.push_back(b_r);
+	this->atts_pcnt.push_back(b_l);
+	this->atts_pcnt.push_back(u_r);
 
-	this->vertex_indices.push_back(this->atts_pcn.size() - 3);
-	this->vertex_indices.push_back(this->atts_pcn.size() - 2);
-	this->vertex_indices.push_back(this->atts_pcn.size() - 1);
+	this->vertex_indices.push_back(this->atts_pcnt.size() - 3);
+	this->vertex_indices.push_back(this->atts_pcnt.size() - 2);
+	this->vertex_indices.push_back(this->atts_pcnt.size() - 1);
 }

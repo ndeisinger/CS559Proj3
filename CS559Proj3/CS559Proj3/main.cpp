@@ -156,10 +156,7 @@ void ExitFunc(void)
 	draw_world.TakeDown();
 	fbo.TakeDown();
 	DrawObject::common_shader.TakeDown();
-	for (int i = 0; i < NUM_TEXTS; i++)
-	{
-		glDeleteTextures(NUM_TEXTS, tex);
-	}
+	glDeleteTextures(NUM_TEXTS, tex);
 	
 	
 	printf("Time elapsed: %f\n", elapsed_time);
@@ -240,7 +237,10 @@ void initTextures()
 		int h = ilGetInteger(IL_IMAGE_HEIGHT);
 		void * data = ilGetData();
 		ilutGLBindTexImage();
+		
 
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	}
