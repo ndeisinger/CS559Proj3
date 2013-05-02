@@ -96,7 +96,7 @@ void PassiveMotionFunc(int x, int y)
 	}
 }
 
-void RenderScene()
+void RenderScene(bool do_physics)
 {
 	char stringbuf[80];
 	sprintf_s(stringbuf, "Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
@@ -118,7 +118,7 @@ void RenderScene()
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
-	draw_world.draw();
+	draw_world.draw(do_physics);
 	glRasterPos2i(0, 0);
 	glPushMatrix();
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
@@ -130,9 +130,9 @@ void DisplayFunc()
 {
 	if (is_paused) return;
 	fbo.bind(0);
-	RenderScene();
+	RenderScene(false); //Render to framebuffer
 	fbo.unbind();
-	RenderScene();
+	RenderScene(true);
 }
 
 void timerFunc(int value)
@@ -175,7 +175,8 @@ void KeyboardFunc(unsigned char c, int x, int y)
 void initTextures()
 {
 	GLuint tid[NUM_TEXTS];
-	for (int i = 0; i < NUM_TEXTS; i++)
+	int i = 0;
+	for (i = 0; i < NUM_TEXTS; i++)
 	{
 		if (texts[i] == NULL) { break; }
 		ilGenImages(1, &tex[i]); // Set up texture handle.
@@ -217,6 +218,7 @@ void initTextures()
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	}
+	glActiveTexture(GL_TEXTURE0 + i);
 	fbo.initialize(glm::ivec2(512, 512), 1, true);
 }
 

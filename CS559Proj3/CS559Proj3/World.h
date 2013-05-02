@@ -19,7 +19,7 @@ public:
 	~World(void);
 	bool init(int spheres); //Should we specify stacks/slices?
 	//void draw(glm::mat4 mv, glm::mat4 perspective); //Actually, this should be void - we handle mv/persp inside
-	void draw(void);
+	void draw(bool do_physics);
 	void switchCam(void); //Switch from overhead view to first-person view
 	inline Player * getPlayer(void) { return &this->player; }
 

@@ -115,15 +115,21 @@ bool World::init(int sphere_count)
 
 int debug_counter = 0;
 
-void World::draw()
+void World::draw(bool do_physics)
 {
 	if (GLReturnedError("World draw - on entry")) return;
 	lightInfo * new_l = &l;
 	materialInfo * new_m = &m;
-	world->Step(0.016667f, 10, 10); //TODO: Match this w/ draw rate
+	if (do_physics) 
+	{
+		world->Step(0.016667f, 10, 10); //TODO: Match this w/ draw rate
+	}
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
 	{
-		(*sphereIt)->updatePos(); //Update sphere's location with physics-based one
+		if (do_physics)
+		{
+			(*sphereIt)->updatePos(); //Update sphere's location with physics-based one
+		}
 		(*sphereIt)->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	}
 	player.update();
