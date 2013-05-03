@@ -21,7 +21,9 @@ void World::TakeDown(void)
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
 	{
 		(*sphereIt)->TakeDown();
+		delete *sphereIt;
 	}
+	
 	stadium.TakeDown();
 	world->~b2World(); //Box2D implements cleanup for physics
 	return;
@@ -63,6 +65,9 @@ bool World::init(int sphere_count)
 #endif
 	}
 
+	skydome.initialize(5000, 50, 50);
+	skydome.makeSkydome();
+
 	//DEBUG
 	/*
 	for (int j = -50; j < 50; j++)
@@ -83,7 +88,7 @@ bool World::init(int sphere_count)
 	l.amb = glm::vec3(0.5, 0.5, 0.5);
 	l.diff = glm::vec3(0.5, 0.5, 0.5);
 	l.spec = glm::vec3(0.5, 0.5, 0.5);
-	l.position = glm::vec4(0.0, 5.0, 0.0, 1.0);
+	l.position = glm::vec4(0.0, 500.0, 0.0, 1.0);
 	m.kA = glm::vec3(0.9f, 0.9f, 0.9f);
 	m.kD = glm::vec3(0.5f, 0.5f, 0.5f);
 	m.kS = glm::vec3(0.6f, 0.6f, 0.6f);
@@ -147,6 +152,7 @@ void World::draw(bool do_physics)
 	{
 		player.update();
 	}
+	skydome.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	player.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 #ifdef BOX2D_DEBUG
 		printf("x: %f, y: %f, q: %f\n", circleBody->GetPosition().x, circleBody->GetPosition().y, circleBody->GetAngle());

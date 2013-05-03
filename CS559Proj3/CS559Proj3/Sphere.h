@@ -15,6 +15,7 @@ public:
 	void initPhysics(b2World * world); //Set up our Box2D object
 	void updatePos();
 	void preSolve(b2Contact* contact, const b2Manifold* oldManifold);
+	void makeSkydome(void);
 
 	//getters/setters
 	inline b2Body * getBody() { return circleBody; }

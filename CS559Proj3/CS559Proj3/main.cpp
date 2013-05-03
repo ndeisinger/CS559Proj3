@@ -106,7 +106,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
 	//printf("In drawFunc\n");
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
+	//glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, draw_width, draw_height);
@@ -293,6 +293,16 @@ int main (int argc, char * argv[])
 	window.height = 600;
 	window.aspect = (float) 800/ (float)600;
 	window.handle = glutCreateWindow("A Treatise on why These Projects Need to be Started Sooner, or: Stools 102");
+
+	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, window.width, window.height);
+	glRasterPos2i(0, 0);
+	glPushMatrix();
+	const unsigned char load_msg[] = "Loading...";
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, load_msg);
+	glPopMatrix();
+	glFlush();
 //	window.cam.loc = glm::vec3(-4.0, 1.0, 0.0);
 	/*
 	glutDisplayFunc(drawFunc);
@@ -320,9 +330,6 @@ int main (int argc, char * argv[])
 	ilutRenderer(ILUT_OPENGL);
 
 	initTextures();
-
-	window.width = 800;
-	window.height = 600;
 
 	draw_world.init(num_spheres);
 	game_player = draw_world.getPlayer();

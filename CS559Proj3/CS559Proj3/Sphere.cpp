@@ -239,6 +239,18 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 	return true;
 }
 
+void Sphere::makeSkydome(void)
+{
+	//Notice: This should be called on a large sphere that does _not_ have physics associated with it.
+	for (int i = 0; i < atts_pcnt.size(); i++)
+	{
+		atts_pcnt.at(i).norm.x = -atts_pcnt.at(i).norm.x;
+		atts_pcnt.at(i).norm.y = -atts_pcnt.at(i).norm.y;
+		atts_pcnt.at(i).norm.z = -atts_pcnt.at(i).norm.z;
+	}
+	this->texture = SKY;
+}
+
 void Sphere::updatePos(void)
 {
 	b2Vec2 pos = circleBody->GetPosition();
@@ -248,7 +260,7 @@ void Sphere::updatePos(void)
 	{
 		//reset the sphere
 		data.active = false;
-		this->texture = DIRT;
+		this->texture = FRAME_BUF;
 		data.time_left = max_time;
 		num_spheres++;
 	}

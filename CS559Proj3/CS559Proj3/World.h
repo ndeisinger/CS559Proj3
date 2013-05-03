@@ -35,6 +35,8 @@ private:
 	lightInfo l; //Light for our world
 	materialInfo m; //Material for our world
 	ContactListener contactListener;
+	Sphere skydome; // Our skydome
+
 	// The camera for the player is in the Player class
 
 	//BOX2D INFO
