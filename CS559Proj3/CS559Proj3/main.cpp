@@ -49,6 +49,9 @@ Player * game_player; //Our player in the world
 
 int num_spheres; //Number of spheres in the world
 float max_time; //Total time
+//bool useShadows;
+
+static bool msaa_on = false; //Lets us toggle MSAA
 
 FrameBufferObject fbo;
 
@@ -110,6 +113,14 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, draw_width, draw_height);
+	if (msaa_on)
+	{
+		glEnable(GL_MULTISAMPLE_ARB);
+	}
+	else
+	{
+		glDisable(GL_MULTISAMPLE_ARB);
+	}
 	if (wireframe) 
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -192,6 +203,10 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	if (c == 'q')
 	{
 		ExitFunc();
+	}
+	if (c == 'm')
+	{
+		msaa_on = !msaa_on;
 	}
 }
 
@@ -286,7 +301,7 @@ int main (int argc, char * argv[])
 	glutInit(&argc, argv);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(800, 600);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
 
 	window.width = 800;

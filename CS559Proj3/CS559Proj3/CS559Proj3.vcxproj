@@ -85,6 +85,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="FrameBufferObject.cpp" />
+    <ClCompile Include="glutInclude.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
