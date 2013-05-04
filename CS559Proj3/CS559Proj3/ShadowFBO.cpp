@@ -20,7 +20,9 @@ void ShadowFBO::initialize(void)
 
 	//Set up faux texture to store depth info in
 	glGenTextures(1, this->tex_handles);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 512, 512, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, NULL);
+	glBindTexture(GL_TEXTURE_2D, tex_handles[0]);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 512, 512, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER); //Disallow wrapping around the texture
@@ -29,7 +31,6 @@ void ShadowFBO::initialize(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE); //Lets us do comparisons with the depth map
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LESS);
 
-	glBindTexture(GL_TEXTURE_2D, tex_handles[0]);
 
 	//Set up framebuffer
 	glGenFramebuffers(1, &this->frame_buffer_handle);

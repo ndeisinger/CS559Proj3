@@ -294,6 +294,10 @@ bool Shader::init(SHADER_TYPE t)
 		vertex_shader_file = "tex_shader.vert";
 		fragment_shader_file = "tex_shader.frag";
 		break;
+	case TEX_W_SHADOWS:
+		vertex_shader_file = "tex_shader_w_shadows.vert";
+		fragment_shader_file = "tex_shader_w_shadows.frag";
+		break;
 	default:
 		return false;
 	}
@@ -345,6 +349,8 @@ bool Shader::init(SHADER_TYPE t)
 
 	glAttachShader(this->program_id, this->vertex_s_id);
 	glAttachShader(this->program_id, this->frag_s_id);
+	
+	if (GLReturnedError("Shader init - before link")) return false;
 
 	glLinkProgram(this->program_id);
 

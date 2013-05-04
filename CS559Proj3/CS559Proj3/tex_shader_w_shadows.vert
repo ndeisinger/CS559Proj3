@@ -19,6 +19,6 @@ void main()
 	texCoord = vertex_tex_coord;
 	normal = normalize(n_matrix * vertex_normal);
 	vert_position = vec3(mv_matrix * vec4(vertex_position, 1.0));
-	shadowCoord = (shadow_matrix * vertex_position);
+	shadowCoord = (shadow_matrix * vec4(vertex_position, 1.0));
 	gl_Position = mvp_matrix * vec4(vertex_position, 1.0);
 }

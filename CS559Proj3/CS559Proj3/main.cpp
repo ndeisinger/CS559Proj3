@@ -12,6 +12,7 @@
 #include "Textures.h"
 #include "FrameBufferObject.h"
 #include "ShadowFBO.h"
+#include "ShaderWithShadows.h"
 
 #ifdef _DEBUG
 	#define CRTDBG_MAP_ALLOC //Used to help find leaks.
@@ -32,7 +33,7 @@ DrawObject * DrawObject::a; // Shared object used to draw axes.
 bool DrawObject::draw_norms; // Boolean to declare if we want to draw normals.
 bool DrawObject::draw_axes; // Boolean to declare if we want to draw local axes.
 bool DrawObject::axes_init; // Boolean to determine if the shared Axes object is initialized.
-Shader DrawObject::common_shader;
+Shader DrawObject::common_shader; //Shader shared amongst standard DrawObjects (here, spheres)
 
 
 int Shader::bind_point = 2; // Bindings for our lighting/materials.
@@ -50,7 +51,6 @@ Player * game_player; //Our player in the world
 
 int num_spheres; //Number of spheres in the world
 float max_time; //Total time
-//bool useShadows;
 
 static bool msaa_on = false; //Lets us toggle MSAA
 
@@ -132,19 +132,31 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 	draw_world.draw(do_physics);
-	glRasterPos2i(0, 0);
-	glPushMatrix();
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
-	glPopMatrix();
+	if (!do_physics)
+	{
+		glRasterPos2i(0, 0);
+		glPushMatrix();
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
+		glPopMatrix();
+	}
 	glFlush();
 }
 
 void DisplayFunc()
 {
 	if (is_paused) return;
+	if (useShadows)
+	{
+		s_fbo.bind(0);
+		render_target = RENDER_SFBO;
+		RenderScene(false, 512, 512); //Render to shadow map
+		s_fbo.unbind();
+	}
 	fbo.bind(0);
+	render_target = RENDER_FBO;
 	RenderScene(false, 512, 512); //Render to framebuffer
 	fbo.unbind();
+	render_target = RENDER_FULL;
 	RenderScene(true, window.width, window.height);
 }
 
@@ -197,6 +209,11 @@ void KeyboardFunc(unsigned char c, int x, int y)
 			is_paused = true;
 			glutPassiveMotionFunc(NULL);
 		}
+	}
+	if (c == 's')
+	{
+		//Toggle shadows
+		useShadows = !useShadows;
 	}
 	if (c == 'w')
 	{
@@ -264,7 +281,7 @@ void initTextures()
 	glActiveTexture(GL_TEXTURE0 + int(FRAME_BUF));
 	fbo.initialize(glm::ivec2(512, 512), 1, true);
 	glActiveTexture(GL_TEXTURE0 + int(SHADOW_BUF));
-	
+	s_fbo.initialize();
 }
 
 int main (int argc, char * argv[])
@@ -349,6 +366,9 @@ int main (int argc, char * argv[])
 	ilutRenderer(ILUT_OPENGL);
 
 	initTextures();
+
+	ShaderWithShadows test_shader;
+	DrawObject::common_shader = test_shader;
 
 	draw_world.init(num_spheres);
 	game_player = draw_world.getPlayer();

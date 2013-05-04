@@ -1,5 +1,5 @@
 #version 400
-#extension GL_ARB_separate_shader_objects : enable
+//#extension GL_ARB_separate_shader_objects : enable
 
 layout (location = 0) out vec4 fragColor;
 
@@ -27,7 +27,6 @@ uniform sampler2DShadow shadow_map;
 subroutine void renderPassType();
 subroutine uniform renderPassType renderPass;
 
-subroutine(renderPassType)
 vec3 phong_ds()
 {
 	vec3 n = normalize(normal); 

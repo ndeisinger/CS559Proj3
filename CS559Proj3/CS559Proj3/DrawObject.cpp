@@ -127,6 +127,16 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		{
 			common_shader.materialSetup(*m);
 		}
+		if (useShadows)
+		{
+			//TODO: It's a titanic waste to calculate the light matrix/shadow matrix for every object.
+			//Store a static one in the DrawObject class?
+
+			glm::mat4 light_matrix = glm::lookAt(glm::vec3((*l).position), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+			glm::mat4 shadow_matrix = bias_matrix * proj * light_matrix * mv;
+			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
+			common_shader.subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, NULL, NULL);
+		}
 		common_shader.texSetup(texture);
 	}
 	glBindVertexArray(this->vertex_arr_handle);

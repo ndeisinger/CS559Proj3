@@ -136,19 +136,19 @@ void World::draw(bool do_physics)
 	if (GLReturnedError("World draw - on entry")) return;
 	lightInfo * new_l = &l;
 	materialInfo * new_m = &m;
-	if (do_physics) 
+	if (render_target == RENDER_FULL) 
 	{
 		world->Step(0.016667f, 10, 10); //TODO: Match this w/ draw rate
 	}
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
 	{
-		if (do_physics)
+		if (render_target == RENDER_FULL)
 		{
 			(*sphereIt)->updatePos(); //Update sphere's location with physics-based one
 		}
 		(*sphereIt)->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	}
-	if (do_physics)
+	if (render_target == RENDER_FULL)
 	{
 		player.update();
 	}

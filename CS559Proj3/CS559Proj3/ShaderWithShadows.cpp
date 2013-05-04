@@ -14,21 +14,21 @@ void ShaderWithShadows::subInval(void)
 {
 	//Invalidate any special data here
 	shad_mat_handle = BAD_GL_VALUE;
-	super::inval();
+	Shader::inval();
 }
 
 void ShaderWithShadows::subTakeDown(void)
 {
 	//Do any special cleanup here
 	subInval();
-	super::TakeDown();
+	Shader::TakeDown();
 }
 
 void ShaderWithShadows::subInit(void)
 {
 	//Do any special initialization code here
-	this->shad_mat_handle = glGetUniformLocation(this->program_id, "shadow_map");
-
+	this->shad_mat_handle = glGetUniformLocation(this->program_id, "shadow_matrix");
+	this->shad_buf_handle = glGetUniformLocation(this->program_id, "shadow_map");
 	//Set up subroutine
 }
 
@@ -52,4 +52,5 @@ void ShaderWithShadows::subSetup(void * arg1, void * arg2, void * arg3, void * a
 	{
 		glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &main_index);
 	}
+	glUniform1i(this->shad_buf_handle, int(SHADOW_BUF));
 }

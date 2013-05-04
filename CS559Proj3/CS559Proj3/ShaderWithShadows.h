@@ -1,6 +1,6 @@
 #pragma once
 #include "shader.h"
-typedef Shader super;
+//typedef Shader super;
 class ShaderWithShadows :
 	public Shader
 {
@@ -13,5 +13,6 @@ public:
 protected:
 	void subInval(void);
 	GLuint shad_mat_handle;
+	GLuint shad_buf_handle;
 };
 

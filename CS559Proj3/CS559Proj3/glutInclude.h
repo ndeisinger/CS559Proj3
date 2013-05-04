@@ -15,18 +15,26 @@
 
 
 //#pragma comment(lib, "glew32.lib") //wat
+enum RENDER_TARGET {RENDER_FULL, RENDER_FBO, RENDER_SFBO};
 
 #define PI_D 3.14159265
 #define PI_F 3.14159265f
 static bool GLEW_IS_INIT = false;
 static bool WON_GAME = false;
 extern bool useShadows;
+extern RENDER_TARGET render_target;
 
 inline double degToRad(double degree) { return (degree/180) * PI_D; }
 inline float degToRad(float degree) { return (degree/180) * PI_F; }
 
 inline double radToDeg(double rad) { return (rad * 180) / PI_D; }
 inline float radToDeg(float rad) { return (rad * 180) / PI_F; }
+
+static const glm::mat4 bias_matrix = glm::mat4(0.5f, 0.0f, 0.0f, 0.5f,
+											   0.0f, 0.5f, 0.0f, 0.5f,
+											   0.0f, 0.0f, 0.5f, 0.5f,
+											   0.0f, 0.0f, 0.0f, 1.0f);
+
 
 //The following two functions are taken from Perry Kivolowitz's code.
 
