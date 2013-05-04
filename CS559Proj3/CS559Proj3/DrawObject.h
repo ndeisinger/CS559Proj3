@@ -8,7 +8,7 @@
 
 using namespace std;
 
-extern Shader common_shader;
+extern Shader * common_shader;
 class DrawObject
 {
 public:

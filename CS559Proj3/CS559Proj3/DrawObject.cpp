@@ -22,7 +22,7 @@ void DrawObject::UseTexture()
 void DrawObject::switchShader(SHADER_TYPE t)
 {
 	if (customShader) shader.reload(t);
-	else common_shader.reload(t);
+	else common_shader->reload(t);
 }
 
 void DrawObject::setPos(glm::vec3 pos)
@@ -100,7 +100,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 	mat4 mvp = proj * trans_mv;
-	mat3 nm = inverse(transpose(mat3(trans_mv))); //TODO: dat math X
+	mat3 nm = inverse(transpose(mat3(trans_mv))); 
 	if (customShader)
 	{
 		this->shader.use();
@@ -117,29 +117,29 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	}
 	else
 	{
-		common_shader.use();
-		common_shader.setup(time, value_ptr(size), value_ptr(proj), value_ptr(trans_mv), value_ptr(mvp), value_ptr(nm));
+		common_shader->use();
+		common_shader->setup(time, value_ptr(size), value_ptr(proj), value_ptr(trans_mv), value_ptr(mvp), value_ptr(nm));
 		if (l != NULL)
 		{
-			common_shader.lightSetup(*l); //TODO: Is this safe? X
+			common_shader->lightSetup(*l); //TODO: Is this safe? X
 		}
 		if (m != NULL)
 		{
-			common_shader.materialSetup(*m);
+			common_shader->materialSetup(*m);
 		}
 		if (useShadows)
 		{
 			//TODO: It's a titanic waste to calculate the light matrix/shadow matrix for every object.
 			//Store a static one in the DrawObject class?
 
-			Shader * test_ptr = &common_shader;
+			Shader * test_ptr = common_shader;
 
 			glm::mat4 light_matrix = glm::lookAt(glm::vec3((*l).position), glm::vec3(0.00001, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 			glm::mat4 shadow_matrix = bias_matrix * proj * light_matrix * mv;
-			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
-			common_shader.subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, NULL, NULL);
+			bool shadRend = (render_target != RENDER_SFBO); //Decide if we're on first pass or not
+			common_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, NULL, NULL);
 		}
-		common_shader.texSetup(texture);
+		common_shader->texSetup(texture);
 	}
 	glBindVertexArray(this->vertex_arr_handle);
 	glDrawElements(this->draw_type, this->vertex_indices.size(), GL_UNSIGNED_INT, &this->vertex_indices[0]);

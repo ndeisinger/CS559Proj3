@@ -67,6 +67,7 @@ void Shader::inval()
 
 	this->lightBuffer = NULL;
 	this->matBuffer = NULL;
+
 }
 
 void Shader::reload(SHADER_TYPE t)
@@ -405,6 +406,8 @@ bool Shader::init(SHADER_TYPE t)
 	{
 		this->tex_handle = glGetUniformLocation(this->program_id, "Tex1");
 	}
+
+	subInit();
 
 	glUseProgram(0); //Only use a shader once we call its Use function.
 
