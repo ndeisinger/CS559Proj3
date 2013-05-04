@@ -5,6 +5,8 @@
 #include "MaterialInfo.h"
 #include "Textures.h"
 
+#define BAD_GL_VALUE GLuint(-1)
+
 //Class for our various shaders.
 enum SHADER_TYPE {NONE, FLAT, GOURAUD, PHONG, DEBUG_POS, MAX, NORM, DEBUG_NORM, TEX}; //max val used to help us cycle
 class Shader
@@ -15,14 +17,15 @@ public:
 	//bool init(char * vertex_shader_file, char * fragment_shader_file);
 	//TODO: Reboot function X
 	bool init(SHADER_TYPE t);
-	void subInit(void); //To be overridden
+	virtual void subInit(void); //To be overridden
 	void setup(const float time, const GLint * size, const GLfloat * proj, const GLfloat * mv, const GLfloat * mvp, const GLfloat * norm);
-	void subSetup(void * arg1, void * arg2, void * arg3, void * arg4); //To be overridden
+	virtual void subSetup(void * arg1, void * arg2, void * arg3, void * arg4); //To be overridden
 	void use(void);
 	void lightSetup(lightInfo & l);
 	void materialSetup(materialInfo & m);
 	void texSetup(TEXTURE_TYPE type);
 	void TakeDown(void); //TODO: Different protection? X Nah, we want to be able to call it from main.
+	virtual void subTakeDown(void); //
 	void reload(SHADER_TYPE t);
 	std::stringstream GetShaderLog(GLuint shader_id);
 	SHADER_TYPE type;
@@ -32,6 +35,7 @@ public:
 
 protected:
 	void inval(void);
+	virtual void subInval(void);
 	//bool GLReturnedError(char * s);
 	bool load(char * file, GLuint handle);
 	static int bind_point; // Binding locations for our uniform buffers.

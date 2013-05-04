@@ -4,7 +4,6 @@
 //Much of the code in this class is adapted from Perry Kivolowitz's hello world.
 //However, I attempted to avoid cutting and pasting, instead typing by hand with my own variable names;
 //the hope is that in doing so, I will think about what the code I'm adapting means.
-#define BAD_GL_VALUE GLuint(-1)
 
 Shader::Shader(void)
 {
@@ -20,10 +19,22 @@ void Shader::subInit(void)
 	init(NONE);
 }
 
+void Shader::subTakeDown(void)
+{
+	TakeDown();
+}
+
 void Shader::subSetup(void * arg1, void * arg2, void * arg3, void * arg4)
 {
 	return;
 }
+
+
+/*
+void Shader::subSetup(void * arg1, void * arg2, void * arg3, void * arg4)
+{
+	return;
+}*/
 
 //Ensures that all of our internal values are in a 'bad' state so we can check them later.
 void Shader::inval()
@@ -57,9 +68,10 @@ void Shader::inval()
 void Shader::reload(SHADER_TYPE t)
 {
 	GLReturnedError("Shader - reload on entry\n");
-	this->TakeDown();
+	this->subTakeDown();
 	bool boot = this->init(t);
 	assert(boot);
+	this->subInit();
 	GLReturnedError("Shader - reload on exit\n");
 }
 
