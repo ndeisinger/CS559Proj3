@@ -90,23 +90,23 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 			VertexAttPCNT cur_vertex_top, cur_vertex_bottom , nxt_vertex_top,nxt_vertex_bottom;
 			cur_vertex_top.pos = vec3((m*m2)*r_vec);	
 			cur_vertex_top.norm = normalize(cur_vertex_top.pos);
-			cur_vertex_top.tex_coord.x = asin(cur_vertex_top.norm.x)/PI_F + 0.5;
-			cur_vertex_top.tex_coord.y = asin(cur_vertex_top.norm.y)/PI_F + 0.5;
+			cur_vertex_top.tex_coord.x = asin(cur_vertex_top.norm.x)/PI_F + 0.5f;
+			cur_vertex_top.tex_coord.y = asin(cur_vertex_top.norm.y)/PI_F + 0.5f;
 
 			nxt_vertex_top.pos = vec3((m_nxt*m2)*r_vec);	
 			nxt_vertex_top.norm = normalize(nxt_vertex_top.pos);
-			nxt_vertex_top.tex_coord.x = asin(nxt_vertex_top.norm.x)/PI_F + 0.5;
-			nxt_vertex_top.tex_coord.y = asin(nxt_vertex_top.norm.y)/PI_F + 0.5;
+			nxt_vertex_top.tex_coord.x = asin(nxt_vertex_top.norm.x)/PI_F + 0.5f;
+			nxt_vertex_top.tex_coord.y = asin(nxt_vertex_top.norm.y)/PI_F + 0.5f;
 
 			cur_vertex_bottom.pos = vec3((m*m2_nxt)*r_vec);	
 			cur_vertex_bottom.norm = normalize(cur_vertex_bottom.pos);
-			cur_vertex_bottom.tex_coord.x = asin(cur_vertex_bottom.norm.x)/PI_F + 0.5;
-			cur_vertex_bottom.tex_coord.y = asin(cur_vertex_bottom.norm.y)/PI_F + 0.5;
+			cur_vertex_bottom.tex_coord.x = asin(cur_vertex_bottom.norm.x)/PI_F + 0.5f;
+			cur_vertex_bottom.tex_coord.y = asin(cur_vertex_bottom.norm.y)/PI_F + 0.5f;
 
 			nxt_vertex_bottom.pos = vec3((m_nxt*m2_nxt)*r_vec);	
 			nxt_vertex_bottom.norm = normalize(nxt_vertex_bottom.pos);
-			nxt_vertex_bottom.tex_coord.x = asin(nxt_vertex_bottom.norm.x)/PI_F + 0.5;
-			nxt_vertex_bottom.tex_coord.y = asin(nxt_vertex_bottom.norm.y)/PI_F + 0.5;
+			nxt_vertex_bottom.tex_coord.x = asin(nxt_vertex_bottom.norm.x)/PI_F + 0.5f;
+			nxt_vertex_bottom.tex_coord.y = asin(nxt_vertex_bottom.norm.y)/PI_F + 0.5f;
 
 
 			if(solidColor)
@@ -242,7 +242,7 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 void Sphere::makeSkydome(void)
 {
 	//Notice: This should be called on a large sphere that does _not_ have physics associated with it.
-	for (int i = 0; i < atts_pcnt.size(); i++)
+	for (unsigned int i = 0; i < atts_pcnt.size(); i++)
 	{
 		atts_pcnt.at(i).norm.x = -atts_pcnt.at(i).norm.x;
 		atts_pcnt.at(i).norm.y = -atts_pcnt.at(i).norm.y;

@@ -16,7 +16,7 @@ Shader::~Shader(void)
 
 void Shader::subInit(void)
 {
-	init(NONE);
+	return;
 }
 
 void Shader::subTakeDown(void)
@@ -29,6 +29,10 @@ void Shader::subSetup(void * arg1, void * arg2, void * arg3, void * arg4)
 	return;
 }
 
+void Shader::subInval(void)
+{
+	inval();
+}
 
 /*
 void Shader::subSetup(void * arg1, void * arg2, void * arg3, void * arg4)
