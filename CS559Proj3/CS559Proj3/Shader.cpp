@@ -15,6 +15,16 @@ Shader::~Shader(void)
 {
 }
 
+void Shader::subInit(void)
+{
+	init(NONE);
+}
+
+void Shader::subSetup(void * arg1, void * arg2, void * arg3, void * arg4)
+{
+	return;
+}
+
 //Ensures that all of our internal values are in a 'bad' state so we can check them later.
 void Shader::inval()
 {

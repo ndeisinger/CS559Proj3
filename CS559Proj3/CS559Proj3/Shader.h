@@ -15,7 +15,9 @@ public:
 	//bool init(char * vertex_shader_file, char * fragment_shader_file);
 	//TODO: Reboot function X
 	bool init(SHADER_TYPE t);
+	void subInit(void); //To be overridden
 	void setup(const float time, const GLint * size, const GLfloat * proj, const GLfloat * mv, const GLfloat * mvp, const GLfloat * norm);
+	void subSetup(void * arg1, void * arg2, void * arg3, void * arg4); //To be overridden
 	void use(void);
 	void lightSetup(lightInfo & l);
 	void materialSetup(materialInfo & m);

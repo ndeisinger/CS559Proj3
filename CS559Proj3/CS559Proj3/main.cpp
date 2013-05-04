@@ -11,6 +11,7 @@
 #include "Cube.h"
 #include "Textures.h"
 #include "FrameBufferObject.h"
+#include "ShadowFBO.h"
 
 #ifdef _DEBUG
 	#define CRTDBG_MAP_ALLOC //Used to help find leaks.
@@ -53,7 +54,8 @@ float max_time; //Total time
 
 static bool msaa_on = false; //Lets us toggle MSAA
 
-FrameBufferObject fbo;
+FrameBufferObject fbo; //For drawing jumbotron
+ShadowFBO s_fbo; //For drawing shadows
 
 class Window
 {
@@ -259,8 +261,10 @@ void initTextures()
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	}
-	glActiveTexture(GL_TEXTURE0 + i);
+	glActiveTexture(GL_TEXTURE0 + int(FRAME_BUF));
 	fbo.initialize(glm::ivec2(512, 512), 1, true);
+	glActiveTexture(GL_TEXTURE0 + int(SHADOW_BUF));
+	
 }
 
 int main (int argc, char * argv[])

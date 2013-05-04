@@ -1,5 +1,6 @@
 #pragma once
 #include "glutInclude.h"
+#include "Textures.h"
 class FrameBufferObject
 {
 public:
@@ -11,7 +12,7 @@ public:
 	void bind(int color_attachment_index);
 	void unbind(void);
 
-private:
+protected:
 	glm::ivec2 tex_res;
 	GLuint * tex_handles;
 	GLuint depth_buffer_handle;
