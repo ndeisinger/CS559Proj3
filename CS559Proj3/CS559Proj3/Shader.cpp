@@ -23,11 +23,11 @@ void Shader::subTakeDown(void)
 {
 	TakeDown();
 }
-
+/*
 void Shader::subSetup(void * arg1, void * arg2, void * arg3, void * arg4)
 {
 	return;
-}
+}*/
 
 void Shader::subInval(void)
 {
@@ -352,7 +352,13 @@ bool Shader::init(SHADER_TYPE t)
 	
 	if (GLReturnedError("Shader init - before link")) return false;
 
-	glLinkProgram(this->program_id);
+	try{
+		glLinkProgram(this->program_id);
+	}
+	catch(int e)
+	{
+		fprintf(stderr, "Exception on link: %i", e);
+	}
 
 	glGetProgramiv(this->program_id, GL_LINK_STATUS, &gl_check);
 	if (gl_check != GL_TRUE)

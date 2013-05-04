@@ -33,7 +33,7 @@ DrawObject * DrawObject::a; // Shared object used to draw axes.
 bool DrawObject::draw_norms; // Boolean to declare if we want to draw normals.
 bool DrawObject::draw_axes; // Boolean to declare if we want to draw local axes.
 bool DrawObject::axes_init; // Boolean to determine if the shared Axes object is initialized.
-Shader DrawObject::common_shader; //Shader shared amongst standard DrawObjects (here, spheres)
+Shader common_shader; //Shader shared amongst standard DrawObjects (here, spheres)
 
 
 int Shader::bind_point = 2; // Bindings for our lighting/materials.
@@ -180,7 +180,7 @@ void ExitFunc(void)
 	glutLeaveMainLoop();
 	draw_world.TakeDown();
 	fbo.TakeDown();
-	DrawObject::common_shader.TakeDown();
+	common_shader.TakeDown();
 	glDeleteTextures(NUM_TEXTS, tex);
 	
 	
@@ -368,7 +368,7 @@ int main (int argc, char * argv[])
 	initTextures();
 
 	ShaderWithShadows test_shader;
-	DrawObject::common_shader = test_shader;
+	common_shader = test_shader;
 
 	draw_world.init(num_spheres);
 	game_player = draw_world.getPlayer();

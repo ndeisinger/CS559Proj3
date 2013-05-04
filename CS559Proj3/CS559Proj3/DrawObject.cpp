@@ -22,7 +22,7 @@ void DrawObject::UseTexture()
 void DrawObject::switchShader(SHADER_TYPE t)
 {
 	if (customShader) shader.reload(t);
-	else DrawObject::common_shader.reload(t);
+	else common_shader.reload(t);
 }
 
 void DrawObject::setPos(glm::vec3 pos)
@@ -132,7 +132,9 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 			//TODO: It's a titanic waste to calculate the light matrix/shadow matrix for every object.
 			//Store a static one in the DrawObject class?
 
-			glm::mat4 light_matrix = glm::lookAt(glm::vec3((*l).position), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+			Shader * test_ptr = &common_shader;
+
+			glm::mat4 light_matrix = glm::lookAt(glm::vec3((*l).position), glm::vec3(0.00001, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 			glm::mat4 shadow_matrix = bias_matrix * proj * light_matrix * mv;
 			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
 			common_shader.subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, NULL, NULL);

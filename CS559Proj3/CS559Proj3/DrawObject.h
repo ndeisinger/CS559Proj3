@@ -4,8 +4,11 @@
 #include "VertexAtt.h"
 #include <algorithm>
 #include "Shader.h"
+#include "ShaderWithShadows.h"
 
 using namespace std;
+
+extern Shader common_shader;
 class DrawObject
 {
 public:
@@ -27,7 +30,7 @@ public:
 							   // Nope, all good.  But this begs the question: could we make the actual shader static as well?
 							   // Would obviously limit us to one shader for all objects... but that's what we do now anyways.  
 	static bool draw_norms;    // If we're showing normals, may as well show them all, since we can't much switch between objects.
-	static Shader common_shader;
+	static Shader second_shader;
 	static bool draw_axes;
 	static DrawObject * a;
 	static bool axes_init;

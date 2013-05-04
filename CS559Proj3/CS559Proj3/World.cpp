@@ -124,7 +124,7 @@ bool World::init(int sphere_count)
 
 #endif
 
-	DrawObject::common_shader.init(TEX);
+	common_shader.init(TEX_W_SHADOWS);
 	if (GLReturnedError("World init - on exit")) return false;
 	return true;
 }

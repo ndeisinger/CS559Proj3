@@ -19,7 +19,7 @@ public:
 	bool init(SHADER_TYPE t);
 	virtual void subInit(void); //To be overridden
 	void setup(const float time, const GLint * size, const GLfloat * proj, const GLfloat * mv, const GLfloat * mvp, const GLfloat * norm);
-	virtual void subSetup(void * arg1, void * arg2, void * arg3, void * arg4); //To be overridden
+	virtual void subSetup(void * arg1, void * arg2, void * arg3, void * arg4) { return; } //To be overridden
 	void use(void);
 	void lightSetup(lightInfo & l);
 	void materialSetup(materialInfo & m);

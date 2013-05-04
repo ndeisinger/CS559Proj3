@@ -1,5 +1,10 @@
 #version 400
-//#extension GL_ARB_separate_shader_objects : enable
+#extension GL_ARB_gpu_shader5 : require
+#extension GL_ARB_shader_subroutine : require
+//#extension GL_ARB_separate_shader_objects : require
+
+subroutine void renderPassType();
+subroutine uniform renderPassType renderPass;
 
 layout (location = 0) out vec4 fragColor;
 
@@ -24,9 +29,6 @@ uniform	float shininess;
 uniform sampler2D Tex1;
 uniform sampler2DShadow shadow_map;
 
-subroutine void renderPassType();
-subroutine uniform renderPassType renderPass;
-
 vec3 phong_ds()
 {
 	vec3 n = normalize(normal); 
@@ -43,13 +45,13 @@ vec3 phong_ds()
 	return diff_comp + spec_comp;
 }
 
-subroutine(renderPassType)
+subroutine(renderPassType) 
 void recordDepth()
 {
 	//Do no lighting calcs - just getting the depths
 }
 
-subroutine(renderPassType)
+subroutine(renderPassType) 
 void shade()
 {
 	//Do the actual shading calculation
@@ -67,8 +69,6 @@ void shade()
 		fragColor = texColor *  vec4(amb_comp, 1.0);
 	}
 }
-
-// We opt for a set material, because we're only texturing the ground.
 
 void main()
 {
