@@ -48,7 +48,7 @@ void Player::update(void)
 	float z_force = 50.0f * rotate_force.y;
 	printf("Angle: %f, x: %f, z: %f, radius: %f, rot_angle: %f, travel_angle: %f,\nx_force: %f, z_force: %f\n", rot_angle, x, z, sphere.getRadius(), rot_angle, x_force, z_force);
 	playCam.modelview = glm::lookAt(glm::vec3(x, 0.0, z), glm::vec3(x + (sphere.getRadius() * travel_force.x), 0.0, z + (sphere.getRadius() * travel_force.y)), glm::vec3(0.0f, 1.0f, 0.0f));
-	playCam.proj = glm::perspective(playCam.fov, (float) 800/600, 1.0f, 6000.0f);
+	playCam.proj = glm::perspective(playCam.fov, (float) 800/600, 1.0f, 20000.0f);
 
 	//body->SetAngularVelocity(ang_force);
 

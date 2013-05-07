@@ -20,7 +20,7 @@ void Stadium::init(void)
 {
 	if (GLReturnedError("Stadium init - on entry")) return;
 	Shader s;
-	s.init(TEX);
+	s.init(TEX_W_SHADOWS);
 	wall_one.init(0.1f, WALL_HEIGHT, 2 * WALL_LENGTH);
 	wall_one.setPos(glm::vec3(WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
 	wall_one.setShader(s);

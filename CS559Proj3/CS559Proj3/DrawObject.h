@@ -22,6 +22,7 @@ public:
 	void recolor(glm::vec3 color);
 	void switchShader(SHADER_TYPE t);
 	inline void setShader(Shader newShader) { shader = newShader; customShader = true; }
+	inline void setTexture(TEXTURE_TYPE type) { texture = type;}
 
 	void setPos(glm::vec3 pos);
 	inline glm::vec3 getPos() { return position; };

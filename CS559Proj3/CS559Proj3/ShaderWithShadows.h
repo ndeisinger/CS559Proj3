@@ -15,5 +15,7 @@ protected:
 	void subInval(void);
 	GLuint shad_mat_handle;
 	GLuint shad_buf_handle;
+	GLuint shad_pass_handle;
+	GLuint draw_shad_handle;
 };
 

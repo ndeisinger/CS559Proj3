@@ -368,6 +368,7 @@ int main (int argc, char * argv[])
 	initTextures();
 
 	ShaderWithShadows test_shader;
+	//common_shader = new Shader();
 	common_shader = &test_shader;
 
 	draw_world.init(num_spheres);

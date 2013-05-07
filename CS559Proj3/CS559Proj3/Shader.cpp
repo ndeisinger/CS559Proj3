@@ -402,10 +402,7 @@ bool Shader::init(SHADER_TYPE t)
 	{
 		this->material_index = glGetUniformBlockIndex(this->program_id, "materialInfo");
 	}*/
-	if (t == TEX)
-	{
-		this->tex_handle = glGetUniformLocation(this->program_id, "Tex1");
-	}
+	this->tex_handle = glGetUniformLocation(this->program_id, "Tex1");
 
 	subInit();
 

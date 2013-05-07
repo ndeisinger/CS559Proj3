@@ -131,15 +131,18 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		{
 			//TODO: It's a titanic waste to calculate the light matrix/shadow matrix for every object.
 			//Store a static one in the DrawObject class?
-
-			Shader * test_ptr = common_shader;
-
 			glm::mat4 light_matrix = glm::lookAt(glm::vec3((*l).position), glm::vec3(0.00001, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 			glm::mat4 shadow_matrix = bias_matrix * proj * light_matrix * mv;
-			bool shadRend = (render_target != RENDER_SFBO); //Decide if we're on first pass or not
-			common_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, NULL, NULL);
+			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
+			common_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, (void *) &mvp, &light_matrix);
 		}
-		common_shader->texSetup(texture);
+		else
+		{
+			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
+			common_shader->subSetup(NULL, (void *) &shadRend, NULL, NULL);
+			printf(""); //Just so we can break here
+		}
+		common_shader->texSetup(this->texture);
 	}
 	glBindVertexArray(this->vertex_arr_handle);
 	glDrawElements(this->draw_type, this->vertex_indices.size(), GL_UNSIGNED_INT, &this->vertex_indices[0]);

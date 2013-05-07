@@ -30,12 +30,15 @@ void ShadowFBO::initialize(void)
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, border);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE); //Lets us do comparisons with the depth map
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LESS);
-
+	
 
 	//Set up framebuffer
 	glGenFramebuffers(1, &this->frame_buffer_handle);
 	glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer_handle);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, tex_handles[0], 0);
+
+	GLenum drawBuffers[]={GL_NONE}; //??????
+	glDrawBuffers(1,drawBuffers);
 
 	GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (status != GL_FRAMEBUFFER_COMPLETE)

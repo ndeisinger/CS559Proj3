@@ -1,7 +1,6 @@
 #version 400
 #extension GL_ARB_gpu_shader5 : require
 #extension GL_ARB_shader_subroutine : require
-//#extension GL_ARB_separate_shader_objects : require
 
 subroutine void renderPassType();
 subroutine uniform renderPassType renderPass;
@@ -28,6 +27,8 @@ uniform	float shininess;
 
 uniform sampler2D Tex1;
 uniform sampler2DShadow shadow_map;
+uniform bool shadow_pass;
+uniform bool draw_shadows;
 
 vec3 phong_ds()
 {
@@ -45,13 +46,6 @@ vec3 phong_ds()
 	return diff_comp + spec_comp;
 }
 
-subroutine(renderPassType) 
-void recordDepth()
-{
-	//Do no lighting calcs - just getting the depths
-}
-
-subroutine(renderPassType) 
 void shade()
 {
 	//Do the actual shading calculation
@@ -70,7 +64,30 @@ void shade()
 	}
 }
 
+void recordDepth()
+{
+	//Do no lighting calcs - just getting the depths
+}
+
 void main()
 {
-	renderPass();
+/*
+	if (shadow_pass) 
+	{
+		//Nothing to do here
+	}*/
+	if (draw_shadows)
+	{
+		//Do calculations for a shadow
+		shade();
+	}
+	else
+	{
+		//Do standard ADS
+		
+		vec4 texColor = texture(Tex1, texCoord);
+		vec3 amb_comp = amb * kA;
+		vec3 ds_result = phong_ds();
+		fragColor = texColor *  vec4((amb_comp + ds_result), 1.0);
+	}
 }
