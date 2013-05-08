@@ -97,6 +97,8 @@ bool World::init(int sphere_count)
 	m.kS = glm::vec3(0.6f, 0.6f, 0.6f);
 	m.shininess = 0.6f;
 	
+	cursor.init(glm::vec3(0.0f, 0.0f, 0.0f));
+
 	stadium.init();
 	stadium.initPhysics(world);
 
@@ -127,7 +129,7 @@ bool World::init(int sphere_count)
 
 #endif
 
-	common_shader->init(TEX_W_SHADOWS);
+	common_shader->init(TEX);
 	if (GLReturnedError("World init - on exit")) return false;
 	return true;
 }
@@ -170,6 +172,8 @@ void World::draw(bool do_physics)
 	{
 		player.update();
 	}
+
+	cursor.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 
 	stadium.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 
