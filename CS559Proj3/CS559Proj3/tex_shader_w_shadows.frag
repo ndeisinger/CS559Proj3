@@ -78,12 +78,12 @@ void recordDepth()
 
 void main()
 {
-/*
+
 	if (shadow_pass) 
 	{
 		//Nothing to do here
-	}*/
-	if (draw_shadows)
+	}
+	else if (draw_shadows)
 	{
 		//Do calculations for a shadow
 		shade();

@@ -58,29 +58,11 @@ static bool msaa_on = false; //Lets us toggle MSAA
 FrameBufferObject fbo; //For drawing jumbotron
 ShadowFBO s_fbo; //For drawing shadows
 
+//For dynamic shadows
+glm::mat4 light_matrix; //Light's POV, used in dynamic shadows
+glm::mat4 bp_matrix; //Bias times light's projection matrix
+
 Axes common_axes;
-
-class Window
-{
-public:
-	Window()
-	{
-		this->height = 0;
-		this->width = 0;
-		this->handle = 0;
-		this->interval = 1000/120;
-	}
-	~Window()
-	{
-
-	}
-	GLint height;
-	GLint width;
-	GLfloat aspect;
-	int handle;
-	int interval;
-	//vector<string> textbuf;
-} window; //TODO: Make this class a little cleaner for possibility of multiple windows.
 
 
 // This function taken from DevIL documentation.
@@ -164,7 +146,7 @@ void DisplayFunc()
 	{
 		s_fbo.bind(0);
 		render_target = RENDER_SFBO;
-		RenderScene(false, 1024, 1024); //Render to shadow map
+		RenderScene(false, SHADOW_BUFFER_RES, SHADOW_BUFFER_RES); //Render to shadow map
 		s_fbo.unbind();
 	}
 	fbo.bind(0);
@@ -195,6 +177,7 @@ void ExitFunc(void)
 	glutLeaveMainLoop();
 	draw_world.TakeDown();
 	fbo.TakeDown();
+	s_fbo.TakeDown();
 	common_shader->TakeDown();
 	glDeleteTextures(NUM_TEXTS, tex);
 	
@@ -249,6 +232,16 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	if (c == 'n')
 	{
 		DrawObject::draw_norms = !DrawObject::draw_norms;
+	}
+}
+
+void ReshapeFunc(int w, int h)
+{
+	if (w > 0 && h > 0 && window.handle != -1)
+	{
+		window.width = w;
+		window.height = h;
+		window.aspect = (float) w/ (float) h;
 	}
 }
 
@@ -362,17 +355,6 @@ int main (int argc, char * argv[])
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, load_msg);
 	glPopMatrix();
 	glFlush();
-//	window.cam.loc = glm::vec3(-4.0, 1.0, 0.0);
-	/*
-	glutDisplayFunc(drawFunc);
-	glutSpecialFunc(specialFunc);
-	glutKeyboardFunc(keyboardFunc);
-	glutReshapeFunc(reshapeFunc);
-	glutCloseFunc(closeFunc);
-	glutTimerFunc(window.interval, timerFunc, 0);
-	glutSpecialFunc(specialFunc);
-	glutMouseFunc(mouseFunc);
-	glutPassiveMotionFunc(PassiveMotionFunc);*/
 
 	GLenum err = glewInit();
 
@@ -404,6 +386,7 @@ int main (int argc, char * argv[])
 	glutTimerFunc(window.interval, timerFunc, 0);
 	glutKeyboardFunc(KeyboardFunc);
 	glutPassiveMotionFunc(PassiveMotionFunc);
+	glutReshapeFunc(ReshapeFunc);
 	glutMainLoop();
 
 	ExitFunc();

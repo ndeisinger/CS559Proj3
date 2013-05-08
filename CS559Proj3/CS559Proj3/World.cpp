@@ -23,8 +23,8 @@ void World::TakeDown(void)
 		(*sphereIt)->TakeDown();
 		delete *sphereIt;
 	}
-	
 	stadium.TakeDown();
+	skydome.TakeDown();
 	world->~b2World(); //Box2D implements cleanup for physics
 	return;
 }
@@ -51,7 +51,7 @@ bool World::init(int sphere_count)
 	world->SetAllowSleeping(doSleep);
 	world->SetContactListener(&contactListener);
 	//world->SetContinuousPhysics(true); //For testing only
-	birdsEye.proj = glm::perspective(birdsEye.fov, (float) 800/600, 1.0f, 50000.0f); //TODO: Need to move data from window to world
+	birdsEye.proj = glm::perspective(birdsEye.fov, window.aspect, 1.0f, 50000.0f); 
 	birdsEye.modelview = glm::lookAt(glm::vec3(0.0f, 1000.0f, 0.0f), glm::vec3(-000.01f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	
 	for (int i = 0; i < sphere_count; i++)
@@ -139,10 +139,21 @@ void World::draw(bool do_physics)
 	if (GLReturnedError("World draw - on entry")) return;
 	lightInfo * new_l = &l;
 	materialInfo * new_m = &m;
+	if (currCam == &birdsEye)
+	{
+		birdsEye.proj = glm::perspective(birdsEye.fov, window.aspect, 1.0f, 50000.0f); 
+	}
 	if (render_target == RENDER_FULL) 
 	{
 		world->Step(0.016667f, 10, 10); //TODO: Match this w/ draw rate
 	}
+	//Precompute some matrices for shadow maps on first pass
+	if (useShadows && (render_target == RENDER_SFBO))
+	{
+		light_matrix = glm::lookAt(glm::vec3(l.position), glm::vec3(0.00001, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+		bp_matrix = bias_matrix * currCam->proj;
+	}
+	
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
 	{
 		if (render_target == RENDER_FULL)

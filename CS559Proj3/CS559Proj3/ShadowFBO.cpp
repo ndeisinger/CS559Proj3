@@ -15,7 +15,7 @@ void ShadowFBO::initialize(void)
 {
 	GLfloat border[] = {1.0, 0.0, 0.0, 0.0}; //Border color for the depth map
 	this->color_attachments = 1;
-	this->tex_res = glm::ivec2(1024, 1024);
+	this->tex_res = glm::ivec2(SHADOW_BUFFER_RES, SHADOW_BUFFER_RES);
 	this->tex_handles = new GLuint[color_attachments];
 
 	//Set up faux texture to store depth info in

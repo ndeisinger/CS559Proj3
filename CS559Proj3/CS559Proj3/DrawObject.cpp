@@ -128,20 +128,17 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	}
 	if (useShadows)
 	{
-		//TODO: It's a titanic waste to calculate the light matrix/shadow matrix for every object.
-		//Store a static one in the DrawObject class?
-		glm::mat4 light_matrix = glm::lookAt(glm::vec3((*l).position), glm::vec3(0.00001, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-		trans_mv = translate(light_matrix, position);
+		glm::mat4 l_trans_mv = translate(light_matrix, position);
 		if (physicsBody != NULL)
 		{
-			trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
+			l_trans_mv = glm::rotate(l_trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
 		}
-		glm::mat4 shadow_matrix = bias_matrix * proj * trans_mv;
-		mvp = proj * trans_mv;
-		vec4 dummy_pos = mvp * vec4(0.0f, 0.0f, 0.0f, 1.0f);
-		vec4 dummy_pos_b = shadow_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		glm::mat4 shadow_matrix = bp_matrix * l_trans_mv;
+		glm::mat4 l_mvp = proj * l_trans_mv;
+		//vec4 dummy_pos = l_mvp * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		//vec4 dummy_pos_b = shadow_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
 		bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
-		curr_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, (void *) &mvp, &trans_mv);
+		curr_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, (void *) &l_mvp, &l_trans_mv);
 	}
 	else
 	{
@@ -157,7 +154,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 
 	//The following two code blocks let us draw norms/axes, but only if we're not ourself an Axes object.
 
-	if (DrawObject::draw_norms && (this != DrawObject::a))
+	if (DrawObject::draw_norms && (this != DrawObject::a) && (render_target != RENDER_SFBO))
 	{
 		if(!norms_init)
 		{
@@ -175,7 +172,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		glUseProgram(0);
 	}
 	
-	if (DrawObject::draw_axes && (this != DrawObject::a))
+	if (DrawObject::draw_axes && (this != DrawObject::a) && (render_target != RENDER_SFBO))
 	{
 		if(DrawObject::axes_init == false) return false;
 		DrawObject::a->s_draw(proj, trans_mv, size, time, l, m); //TODO: Will this work? X: Yup.

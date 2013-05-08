@@ -49,10 +49,8 @@ void ShaderWithShadows::subSetup(void * arg1, void * arg2, void * arg3, void * a
 	bool depth_pass = *((bool *)arg2);
 	if (depth_pass)
 	{
-		glUniformMatrix4fv(mv_mat_handle, 1, GL_FALSE, glm::value_ptr(*((glm::mat4 *)arg4)));
-		//Need to set up mvp matrix as well
 		glUniformMatrix4fv(mvp_mat_handle, 1, GL_FALSE, glm::value_ptr(*((glm::mat4 *)arg3)));
-		//For now, leave projection matrix the same
+		glUniformMatrix4fv(mv_mat_handle, 1, GL_FALSE, glm::value_ptr(*((glm::mat4 *)arg4)));
 	}
 	glUniform1i(shad_pass_handle, (int)(depth_pass));
 	glUniform1i(draw_shad_handle, (int)(useShadows));

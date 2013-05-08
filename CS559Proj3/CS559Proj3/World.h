@@ -21,6 +21,7 @@ public:
 	//void draw(glm::mat4 mv, glm::mat4 perspective); //Actually, this should be void - we handle mv/persp inside
 	void draw(bool do_physics);
 	void switchCam(void); //Switch from overhead view to first-person view
+	inline Camera * getCurrentCam(void) { return this->currCam; }
 	inline Player * getPlayer(void) { return &this->player; }
 	void TakeDown(void);
 
@@ -34,9 +35,8 @@ private:
 	glm::mat4 baseMv; // Base modelview for our world
 	lightInfo l; //Light for our world
 	materialInfo m; //Material for our world
-	ContactListener contactListener;
+	ContactListener contactListener; //Deals with collisions
 	Sphere skydome; // Our skydome
-
 	// The camera for the player is in the Player class
 
 	//BOX2D INFO
