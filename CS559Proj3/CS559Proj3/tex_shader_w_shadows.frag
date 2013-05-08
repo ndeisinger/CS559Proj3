@@ -58,7 +58,7 @@ void shade()
 	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(-1, 1));
 	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(-1, -1));
 	float shadow = sum * 0.25;
-	if (shadow > 0.05)
+	if (shadow > 0.01)
 	{
 		//Not in shadow
 		vec3 ds_result = phong_ds();
