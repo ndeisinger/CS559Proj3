@@ -173,6 +173,7 @@ void World::draw(bool do_physics)
 		player.update();
 	}
 
+	
 	cursor.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 
 	stadium.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);

@@ -16,9 +16,9 @@ void Cursor::init(glm::vec3 pos)
 	
 	//Kept for potential future implementation of unique cursor as defined by texture
 	//glutSetCursor(GLUT_CURSOR_NONE);//Mute the cursor so the texture works.
-	//textureCursor.init(10.0f, 10.0f, 1.0f);
-	//textureCursor.setPos(pos);
-	//textureCursor.setTexture(DIRT);
+	textureCursor.init(10.0f, 10.0f, 1.0f);
+	textureCursor.setPos(pos);
+	textureCursor.setTexture(DIRT);
 }
 
 void Cursor::TakeDown(void)
