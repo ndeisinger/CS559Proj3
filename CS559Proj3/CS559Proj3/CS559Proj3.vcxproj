@@ -81,16 +81,18 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Release</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Axes.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="FrameBufferObject.cpp" />
     <ClCompile Include="glutInclude.cpp" />
+    <ClCompile Include="Jumbotron.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -116,18 +118,21 @@
     <None Include="no_shader.vert" />
     <None Include="Phong_shader.frag" />
     <None Include="Phong_shader.vert" />
+    <None Include="tex_no_lighting.frag" />
     <None Include="tex_shader.frag" />
     <None Include="tex_shader.vert" />
     <None Include="tex_shader_w_shadows.frag" />
     <None Include="tex_shader_w_shadows.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Axes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DrawObject.h" />
     <ClInclude Include="FrameBufferObject.h" />
     <ClInclude Include="glutInclude.h" />
+    <ClInclude Include="Jumbotron.h" />
     <ClInclude Include="MaterialInfo.h" />
     <ClInclude Include="PhysicsInclude.h" />
     <ClInclude Include="Player.h" />

@@ -63,6 +63,12 @@
     <ClCompile Include="ShaderWithShadows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Axes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Jumbotron.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ADSShader.frag">
@@ -112,6 +118,9 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="tex_shader_w_shadows.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="tex_no_lighting.frag">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
@@ -168,6 +177,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShaderWithShadows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Axes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Jumbotron.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

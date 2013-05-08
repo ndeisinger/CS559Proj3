@@ -11,6 +11,7 @@
 #include "Cube.h"
 #include <vector>
 #include "Sphere.h"
+#include "Jumbotron.h"
 
 #pragma once
 class Stadium
@@ -28,6 +29,8 @@ protected:
 	Cube wall_three;
 	Cube wall_four; //NOTE: We must be able to simulate bumping against these.
 	Cube floor;
+	Jumbotron screen_one;
+	Jumbotron screen_two;
 	b2Body* ground;
 };
 

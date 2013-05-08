@@ -51,17 +51,23 @@ void shade()
 	//Do the actual shading calculation
 	vec4 texColor = texture(Tex1, texCoord);
 	vec3 amb_comp = amb * kA;
-	float shadow = textureProj(shadow_map, shadowCoord);
-	if (shadow > 0)
+	float sum = 0;
+	//In order to smooth our shadows, use the average of 4 nearby points
+	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(1, 1));
+	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(1, -1));
+	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(-1, 1));
+	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(-1, -1));
+	float shadow = sum * 0.25;
+	if (shadow > 0.05)
 	{
 		//Not in shadow
 		vec3 ds_result = phong_ds();
-		fragColor = texColor *  vec4((amb_comp + ds_result), 1.0);
+		fragColor = texColor *  vec4((amb_comp + (shadow * ds_result)), 1.0);
 	}
 	else
 	{
-		fragColor = vec4(0.0, 0.0, 0.0, 1.0);
-		//fragColor = texColor *  vec4(amb_comp, 1.0);
+		//fragColor = vec4(0.0, 0.0, 0.0, 1.0);
+		fragColor = texColor *  vec4(amb_comp, 1.0);
 	}
 }
 
@@ -72,12 +78,12 @@ void recordDepth()
 
 void main()
 {
-/*
+
 	if (shadow_pass) 
 	{
 		//Nothing to do here
-	}*/
-	if (draw_shadows)
+	}
+	else if (draw_shadows)
 	{
 		//Do calculations for a shadow
 		shade();

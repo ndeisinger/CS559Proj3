@@ -299,6 +299,10 @@ bool Shader::init(SHADER_TYPE t)
 		vertex_shader_file = "tex_shader_w_shadows.vert";
 		fragment_shader_file = "tex_shader_w_shadows.frag";
 		break;
+	case TEX_NO_LIGHTING:
+		vertex_shader_file = "tex_shader.vert";
+		fragment_shader_file = "tex_no_lighting.frag";
+		break;
 	default:
 		return false;
 	}

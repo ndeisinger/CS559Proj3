@@ -15,14 +15,14 @@ void ShadowFBO::initialize(void)
 {
 	GLfloat border[] = {1.0, 0.0, 0.0, 0.0}; //Border color for the depth map
 	this->color_attachments = 1;
-	this->tex_res = glm::ivec2(512, 512);
+	this->tex_res = glm::ivec2(SHADOW_BUFFER_RES, SHADOW_BUFFER_RES);
 	this->tex_handles = new GLuint[color_attachments];
 
 	//Set up faux texture to store depth info in
 	glGenTextures(1, this->tex_handles);
 	glBindTexture(GL_TEXTURE_2D, tex_handles[0]);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 512, 512, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, tex_res.x, tex_res.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER); //Disallow wrapping around the texture

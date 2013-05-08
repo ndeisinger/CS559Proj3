@@ -13,6 +13,28 @@
 #include <IL\ilut_config.h>
 #include <math.h>
 
+class Window
+{
+public:
+	Window()
+	{
+		this->height = 0;
+		this->width = 0;
+		this->handle = 0;
+		this->interval = 1000/120;
+	}
+	~Window()
+	{
+
+	}
+	GLint height;
+	GLint width;
+	GLfloat aspect;
+	int handle;
+	int interval;
+	//vector<string> textbuf;
+};
+
 
 //#pragma comment(lib, "glew32.lib") //wat
 enum RENDER_TARGET {RENDER_FULL, RENDER_FBO, RENDER_SFBO};
@@ -23,6 +45,11 @@ static bool GLEW_IS_INIT = false;
 static bool WON_GAME = false;
 extern bool useShadows;
 extern RENDER_TARGET render_target;
+extern Window window;
+
+//For dynamic shadows
+extern glm::mat4 light_matrix; //Light's POV, used in dynamic shadows
+extern glm::mat4 bp_matrix; //Bias times light's projection matrix
 
 inline double degToRad(double degree) { return (degree/180) * PI_D; }
 inline float degToRad(float degree) { return (degree/180) * PI_F; }
@@ -30,13 +57,14 @@ inline float degToRad(float degree) { return (degree/180) * PI_F; }
 inline double radToDeg(double rad) { return (rad * 180) / PI_D; }
 inline float radToDeg(float rad) { return (rad * 180) / PI_F; }
 
-static const glm::mat4 bias_matrix = glm::mat4(0.5f, 0.0f, 0.0f, 0.5f,
-											   0.0f, 0.5f, 0.0f, 0.5f,
-											   0.0f, 0.0f, 0.5f, 0.5f,
-											   0.0f, 0.0f, 0.0f, 1.0f);
+static const glm::mat4 bias_matrix = glm::mat4(0.5f, 0.0f, 0.0f, 0.0f,
+											   0.0f, 0.5f, 0.0f, 0.0f,
+											   0.0f, 0.0f, 0.5f, 0.0f,
+											   0.5f, 0.5f, 0.5f, 1.0f);
 
 
 //The following two functions are taken from Perry Kivolowitz's code.
+
 
 static bool GLReturnedError(char * s) 
 {

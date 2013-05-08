@@ -13,6 +13,7 @@
 #include "FrameBufferObject.h"
 #include "ShadowFBO.h"
 #include "ShaderWithShadows.h"
+#include "Axes.h"
 
 #ifdef _DEBUG
 	#define CRTDBG_MAP_ALLOC //Used to help find leaks.
@@ -57,27 +58,11 @@ static bool msaa_on = false; //Lets us toggle MSAA
 FrameBufferObject fbo; //For drawing jumbotron
 ShadowFBO s_fbo; //For drawing shadows
 
-class Window
-{
-public:
-	Window()
-	{
-		this->height = 0;
-		this->width = 0;
-		this->handle = 0;
-		this->interval = 1000/120;
-	}
-	~Window()
-	{
+//For dynamic shadows
+glm::mat4 light_matrix; //Light's POV, used in dynamic shadows
+glm::mat4 bp_matrix; //Bias times light's projection matrix
 
-	}
-	GLint height;
-	GLint width;
-	GLfloat aspect;
-	int handle;
-	int interval;
-	//vector<string> textbuf;
-} window; //TODO: Make this class a little cleaner for possibility of multiple windows.
+Axes common_axes;
 
 
 // This function taken from DevIL documentation.
@@ -111,7 +96,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
 	//printf("In drawFunc\n");
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
+	glEnable(GL_POLYGON_OFFSET_FILL);
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, draw_width, draw_height);
@@ -131,6 +116,12 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+	if (render_target == RENDER_SFBO) {
+		glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
+		glCullFace(GL_FRONT);
+		glPolygonMode(GL_BACK, GL_FILL);
+		glPolygonOffset(5.0f, 1.0f);
+	}
 	draw_world.draw(do_physics);
 	if (do_physics)
 	{
@@ -140,6 +131,12 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glPopMatrix();
 	}
 	glFlush();
+	if (render_target == RENDER_SFBO) {
+		glDisable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonOffset(0.0f, 0.0f);
+	}
 }
 
 void DisplayFunc()
@@ -147,12 +144,10 @@ void DisplayFunc()
 	if (is_paused) return;
 	if (useShadows)
 	{
-		glCullFace(GL_FRONT);
 		s_fbo.bind(0);
 		render_target = RENDER_SFBO;
-		RenderScene(false, 512, 512); //Render to shadow map
+		RenderScene(false, SHADOW_BUFFER_RES, SHADOW_BUFFER_RES); //Render to shadow map
 		s_fbo.unbind();
-		glCullFace(GL_BACK);
 	}
 	fbo.bind(0);
 	render_target = RENDER_FBO;
@@ -182,7 +177,12 @@ void ExitFunc(void)
 	glutLeaveMainLoop();
 	draw_world.TakeDown();
 	fbo.TakeDown();
+<<<<<<< HEAD
 	common_shader->TakeDown(); //TODO: Crashes on exit
+=======
+	s_fbo.TakeDown();
+	common_shader->TakeDown();
+>>>>>>> 7919cdd6306f4a27412af327067f315c8b26e708
 	glDeleteTextures(NUM_TEXTS, tex);
 	
 	
@@ -194,6 +194,10 @@ void ExitFunc(void)
 
 void KeyboardFunc(unsigned char c, int x, int y)
 {
+	if (c == 'a')
+	{
+		DrawObject::draw_axes = !DrawObject::draw_axes;
+	}
 	if (c == 'c')
 	{
 		draw_world.switchCam();
@@ -228,6 +232,20 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	if (c == 'm')
 	{
 		msaa_on = !msaa_on;
+	}
+	if (c == 'n')
+	{
+		DrawObject::draw_norms = !DrawObject::draw_norms;
+	}
+}
+
+void ReshapeFunc(int w, int h)
+{
+	if (w > 0 && h > 0 && window.handle != -1)
+	{
+		window.width = w;
+		window.height = h;
+		window.aspect = (float) w/ (float) h;
 	}
 }
 
@@ -341,17 +359,6 @@ int main (int argc, char * argv[])
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, load_msg);
 	glPopMatrix();
 	glFlush();
-//	window.cam.loc = glm::vec3(-4.0, 1.0, 0.0);
-	/*
-	glutDisplayFunc(drawFunc);
-	glutSpecialFunc(specialFunc);
-	glutKeyboardFunc(keyboardFunc);
-	glutReshapeFunc(reshapeFunc);
-	glutCloseFunc(closeFunc);
-	glutTimerFunc(window.interval, timerFunc, 0);
-	glutSpecialFunc(specialFunc);
-	glutMouseFunc(mouseFunc);
-	glutPassiveMotionFunc(PassiveMotionFunc);*/
 
 	GLenum err = glewInit();
 
@@ -375,11 +382,15 @@ int main (int argc, char * argv[])
 
 	draw_world.init(num_spheres);
 	game_player = draw_world.getPlayer();
+	DrawObject::axes_init = common_axes.init();
+	DrawObject::a = &common_axes;
+	DrawObject::norm_shader.init(NORM);
 
 	glutDisplayFunc(DisplayFunc);
 	glutTimerFunc(window.interval, timerFunc, 0);
 	glutKeyboardFunc(KeyboardFunc);
 	glutPassiveMotionFunc(PassiveMotionFunc);
+	glutReshapeFunc(ReshapeFunc);
 	glutMainLoop();
 
 	ExitFunc();
