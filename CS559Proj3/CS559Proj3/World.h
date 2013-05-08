@@ -11,6 +11,7 @@
 #include "MaterialInfo.h"
 #include "ContactListener.h"
 #include "Cursor.h"
+#include "Cube.h"
 //#define BOX2D_DEBUG
 
 class World
@@ -29,11 +30,16 @@ public:
 private:
 	vector<Sphere *> spheres; // Keeps track of all our spheres in the world
 	std::vector<Sphere *>::iterator sphereIt; //Lets us move through the spheres and draw them
+
+	vector<Cube *> cubes; // Keeps track of all our spheres in the world
+	std::vector<Cube *>::iterator cubeIt; //Lets us move through the spheres and draw them
+
 	Camera * currCam; // Points to the camera we're using
 	Player player; // Our player object
 	Camera birdsEye; // Camera situated above the world
 	
 	Cursor cursor;
+	Cube cube;
 	
 	Stadium stadium; // Our playing field
 	glm::mat4 baseMv; // Base modelview for our world

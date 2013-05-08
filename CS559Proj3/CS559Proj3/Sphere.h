@@ -2,6 +2,7 @@
 #include "DrawObject.h"
 #include "glutInclude.h"
 #include "PhysicsInclude.h"
+#include "Cube.h"
 typedef DrawObject super;
 
 class Sphere :
@@ -24,6 +25,7 @@ public:
 	inline void setPlayer(bool val) { data.isPlayer = val; }
 
 private:
+	Cube cube;
 	float own_radius; //Allow this to be variable in case we want to adjust spheres
 	glm::vec4 colors[2];
 	bool solidColor;

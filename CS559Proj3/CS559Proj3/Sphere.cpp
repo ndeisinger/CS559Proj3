@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "Sphere.h"
+#include "Cube.h"
 
 using namespace std;
 using namespace glm;
@@ -180,6 +181,9 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 		glBindVertexArray(0);
 	}*/
 	
+
+	
+
 	if (GLReturnedError("Sphere::Initialize - on exit"))
 		return false;
 
@@ -225,8 +229,9 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 	//unsigned char watString [4] = "wat";
 	//const unsigned char * str = &watString[0];
 
-
-
+	if(data.active){
+	//cube.draw(proj,mv,size,time,l,m);
+	}
 	////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -273,6 +278,9 @@ void Sphere::updatePos(void)
 	}
 	else if (data.active)
 	{
+
+		
+
 		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this
 		this->texture = CONCRETE;
 

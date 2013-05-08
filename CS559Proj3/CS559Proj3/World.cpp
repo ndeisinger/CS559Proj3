@@ -58,9 +58,19 @@ bool World::init(int sphere_count)
 	{
 #ifndef BOX2D_DEBUG
 		Sphere * new_s = new Sphere();
+
 		new_s->initialize(SPHERE_RADIUS, 10, 10);
-		new_s->setPos(glm::vec3(-WALL_LENGTH + rand() % (int) (2 * WALL_LENGTH), 0.0f, -WALL_LENGTH + rand() % (int) (2 * WALL_LENGTH)));
+
+		glm::vec3 spherePosForCube = glm::vec3(-WALL_LENGTH + rand() % (int) (2 * WALL_LENGTH), 0.0f, -WALL_LENGTH + rand() % (int) (2 * WALL_LENGTH));
+
+		new_s->setPos(spherePosForCube);
 		new_s->initPhysics(world); //Since this uses the inital position, must call after setPos
+		
+		cube.init(50.0f,50.0f,50.0f);
+		cube.setPos(glm::vec3(spherePosForCube.x, 70.0f, spherePosForCube.z));
+
+		
+		
 		this->spheres.push_back(new_s);
 #endif
 	}
@@ -156,6 +166,8 @@ void World::draw(bool do_physics)
 		bp_matrix = bias_matrix * currCam->proj;
 	}
 	
+
+	////////////////////////WILL ALSO HAVE TO MOVE CUBE WITH SPHERE
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
 	{
 		if (render_target == RENDER_FULL)
@@ -166,8 +178,25 @@ void World::draw(bool do_physics)
 
 
 		(*sphereIt)->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
-
+		
 	}
+	
+		////////////////////////WILL ALSO HAVE TO MOVE CUBE WITH SPHERE
+	//Should I make another it or put above?
+	for (cubeIt = cubes.begin(); cubeIt < cubes.end(); cubeIt++)
+	{
+		if (render_target == RENDER_FULL)
+		{
+			//(*cubeIt)->updatePos(); //Update sphere's location with physics-based one
+		}
+
+		(*cubeIt)->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
+		
+	}
+
+	
+	
+	
 	if (render_target == RENDER_FULL)
 	{
 		player.update();
