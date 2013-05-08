@@ -1,6 +1,5 @@
 #include "Stadium.h"
 
-
 Stadium::Stadium(void)
 {
 }
@@ -22,6 +21,8 @@ void Stadium::TakeDown(void)
 	wall_three.TakeDown();
 	wall_four.TakeDown();
 	floor.TakeDown();
+	screen_one.TakeDown();
+	screen_two.TakeDown();
 }
 
 void Stadium::init(void)
@@ -44,6 +45,9 @@ void Stadium::init(void)
 	floor.init(2 * WALL_LENGTH, 1.0f, 2 * WALL_LENGTH);
 	floor.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
 	floor.setShader(s); //TODO: Floor needs a special shader
+
+	screen_one.init(glm::vec3(WALL_LENGTH + 1, 0.0f, 1.0f), false);
+	screen_two.init(glm::vec3(-WALL_LENGTH - 1, 0.0f, 1.0f), true);
 	if (GLReturnedError("Stadium init - on exit")) return;
 }
 
@@ -118,6 +122,8 @@ bool Stadium::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size
 	wall_three.draw(proj, mv, size, time, l, m);
 	wall_four.draw(proj, mv, size, time, l, m);
 	floor.draw(proj, mv, size, time, l, m);
+	screen_one.draw(proj, mv, size, time, l, m);
+	screen_two.draw(proj, mv, size, time, l, m);
 	if (GLReturnedError("Stadium draw - on exit")) return false;
 	return true;
 }

@@ -81,7 +81,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Release</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -92,6 +92,7 @@
     <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="FrameBufferObject.cpp" />
     <ClCompile Include="glutInclude.cpp" />
+    <ClCompile Include="Jumbotron.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="DrawObject.h" />
     <ClInclude Include="FrameBufferObject.h" />
     <ClInclude Include="glutInclude.h" />
+    <ClInclude Include="Jumbotron.h" />
     <ClInclude Include="MaterialInfo.h" />
     <ClInclude Include="PhysicsInclude.h" />
     <ClInclude Include="Player.h" />

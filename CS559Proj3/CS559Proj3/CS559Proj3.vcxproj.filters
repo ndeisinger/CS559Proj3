@@ -66,6 +66,9 @@
     <ClCompile Include="Axes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Jumbotron.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ADSShader.frag">
@@ -177,6 +180,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Axes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Jumbotron.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
