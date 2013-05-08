@@ -66,7 +66,7 @@ glm::mat4 bp_matrix; //Bias times light's projection matrix
 
 Axes common_axes;
 
-
+Cursor cursor;
 
 // This function taken from DevIL documentation.
 // http://openil.sourceforge.net/tuts/tut_3/index.htm
@@ -86,6 +86,10 @@ void PassiveMotionFunc(int x, int y)
 		float ratio = (x - (float)window.width/2)/((float)window.width/2);
 		game_player->rotate(90.0f * ratio);
 		printf("ratio: %f\n", ratio);
+
+		//Why is this here?
+		//DrawObject::draw_axes = !DrawObject::draw_axes;
+
 	}
 }
 
@@ -112,6 +116,8 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	glVertex2f(0,-0.03f*window.aspect);
 	glVertex2f(0, 0.03f*window.aspect);
 	glEnd();
+
+
 
 	if (msaa_on)
 	{

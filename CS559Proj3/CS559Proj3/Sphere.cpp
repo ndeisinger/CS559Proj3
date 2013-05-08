@@ -297,7 +297,7 @@ void Sphere::updatePos(void)
 	GLint assH;
 
 	//something with fucking aspect ratios....too late to math........
-	printf("CUNT ");
+	printf("Wut ");
 	printf("%d\n", h);
 	printf("%d\n", w);
 	assW = (w-(window.aspect*(w-800)));
