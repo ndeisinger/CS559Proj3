@@ -103,6 +103,16 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, draw_width, draw_height);
+
+	//Draw crosshair in middle of screen in locked position
+	glLineWidth(1.0);
+	glBegin(GL_LINES);
+	glVertex2f(-0.03f, 0);
+	glVertex2f( 0.03f, 0);
+	glVertex2f(0,-0.03f*window.aspect);
+	glVertex2f(0, 0.03f*window.aspect);
+	glEnd();
+
 	if (msaa_on)
 	{
 		glEnable(GL_MULTISAMPLE_ARB);
