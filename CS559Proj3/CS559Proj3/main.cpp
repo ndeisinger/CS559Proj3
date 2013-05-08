@@ -147,10 +147,12 @@ void DisplayFunc()
 	if (is_paused) return;
 	if (useShadows)
 	{
+		glCullFace(GL_FRONT);
 		s_fbo.bind(0);
 		render_target = RENDER_SFBO;
 		RenderScene(false, 512, 512); //Render to shadow map
 		s_fbo.unbind();
+		glCullFace(GL_BACK);
 	}
 	fbo.bind(0);
 	render_target = RENDER_FBO;

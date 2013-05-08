@@ -132,9 +132,15 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 			//TODO: It's a titanic waste to calculate the light matrix/shadow matrix for every object.
 			//Store a static one in the DrawObject class?
 			glm::mat4 light_matrix = glm::lookAt(glm::vec3((*l).position), glm::vec3(0.00001, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-			glm::mat4 shadow_matrix = bias_matrix * proj * light_matrix * mv;
+			trans_mv = translate(light_matrix, position);
+			if (physicsBody != NULL)
+			{
+				trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
+			}
+			glm::mat4 shadow_matrix = bias_matrix * proj * trans_mv;
+			mvp = proj * trans_mv;
 			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
-			common_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, (void *) &mvp, &light_matrix);
+			common_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, (void *) &mvp, &trans_mv);
 		}
 		else
 		{

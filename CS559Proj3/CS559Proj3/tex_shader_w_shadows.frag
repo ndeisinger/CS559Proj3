@@ -60,7 +60,8 @@ void shade()
 	}
 	else
 	{
-		fragColor = texColor *  vec4(amb_comp, 1.0);
+		fragColor = vec4(0.0, 0.0, 0.0, 1.0);
+		//fragColor = texColor *  vec4(amb_comp, 1.0);
 	}
 }
 

@@ -38,7 +38,7 @@ void ShaderWithShadows::subInit(void)
 
 //ARG1 = Shadow matrix (GLfloat *)
 //ARG2 = Are we collecting depth? (bool *)
-//ARG3 = Projection matrix
+//ARG3 = Projection * light
 //ARG4 = Light matrix
 void ShaderWithShadows::subSetup(void * arg1, void * arg2, void * arg3, void * arg4)
 {
