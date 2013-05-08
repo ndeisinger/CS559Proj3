@@ -114,7 +114,6 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
 	//printf("In drawFunc\n");
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, draw_width, draw_height);
@@ -134,7 +133,8 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
-	if (useShadows) {
+	if (render_target == RENDER_SFBO) {
+		glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
 		glCullFace(GL_FRONT);
 		glPolygonMode(GL_BACK, GL_FILL);
 	}
@@ -147,7 +147,8 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glPopMatrix();
 	}
 	glFlush();
-	if (useShadows) {
+	if (render_target == RENDER_SFBO) {
+		glDisable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
