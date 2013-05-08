@@ -182,7 +182,7 @@ void ExitFunc(void)
 	glutLeaveMainLoop();
 	draw_world.TakeDown();
 	fbo.TakeDown();
-	common_shader->TakeDown();
+	common_shader->TakeDown(); //TODO: Crashes on exit
 	glDeleteTextures(NUM_TEXTS, tex);
 	
 	

@@ -1,6 +1,4 @@
 /*	
-	Chelsey Denton
-
 	Code based upon code provided by Perry Kivolowitz, some code it directly copied
 */
 
@@ -9,6 +7,7 @@
 
 using namespace std;
 using namespace glm;
+
 
 Sphere::Sphere()
 {
@@ -224,8 +223,17 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 {
 	if (GLReturnedError("Sphere draw - on entry\n")) return false;
 	//Draw text above sphere
-	unsigned char watString [4] = "wat";
-	const unsigned char * str = &watString[0];
+	//unsigned char watString [4] = "wat";
+	//const unsigned char * str = &watString[0];
+
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 	super::s_draw(proj, mv, size, time, l, m);
 #ifdef _DEBUG
@@ -268,6 +276,40 @@ void Sphere::updatePos(void)
 	{
 		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this
 		this->texture = CONCRETE;
+
+
+		
+
+	glm::vec3 drawTextCoords = this->position;
+	float a = drawTextCoords.x;
+	float b = drawTextCoords.y;
+	float c = drawTextCoords.z;
+	
+
+	//glDisable(GL_LIGHTING);
+	glColor3f(0.0f,1.0f,1.0f);
+	glPushMatrix();
+	printf("%f\n", a);
+	glRasterPos2f(-c/780.0f, -a/780.0f);//780 bound of stadium. This is off; still needs to account for screen width
+		//glPushMatrix();//may not need
+	
+	unsigned char watString[] = "wat...";
+
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, watString);
+	glPopMatrix();
+	//glEnable(GL_LIGHTING);
+
+	//char stringbuf[80];
+	//sprintf_s(stringbuf, "AAAAA elapsed: %f,\n BBBBBBB left: %i\n", ass, titties);
+		//glPopMatrix();//may not need
+
+
+	//glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
+
+
+
+
+
 	}
 
 	//Need some way to quickly change color if the ball is struck...

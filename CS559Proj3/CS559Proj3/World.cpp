@@ -146,16 +146,24 @@ void World::draw(bool do_physics)
 		{
 			(*sphereIt)->updatePos(); //Update sphere's location with physics-based one
 		}
+
+
+
 		(*sphereIt)->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
+
+
+
+
+
+
+
 	}
 	if (render_target == RENDER_FULL)
 	{
 		player.update();
 	}
-		stadium.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	skydome.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	player.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
-
 #ifdef BOX2D_DEBUG
 		printf("x: %f, y: %f, q: %f\n", circleBody->GetPosition().x, circleBody->GetPosition().y, circleBody->GetAngle());
 		printf("x: %f, y: %f, q: %f\n\n", circleBody2->GetPosition().x, circleBody2->GetPosition().y, circleBody->GetAngle());
@@ -166,6 +174,6 @@ void World::draw(bool do_physics)
 		printf("Stop! 10000 passed.\n");
 		world->Dump();
 	}
-	
+	stadium.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	if (GLReturnedError("World draw - on exit")) return;
 }

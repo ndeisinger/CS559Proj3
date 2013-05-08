@@ -94,7 +94,12 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	//printf("Drawing an object!\n");
 #endif
 	glEnable(GL_DEPTH_TEST);
+
+
+
 	mat4 trans_mv = translate(mv, position);
+
+
 	if (physicsBody != NULL)
 	{
 		trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -180,6 +185,11 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		if(DrawObject::axes_init == false) return false;
 		DrawObject::a->s_draw(proj, trans_mv, size, time, l, m); //TODO: Will this work? X: Yup.
 	}
+
+
+
+
+
 
 	return true;
 }
