@@ -165,12 +165,6 @@ void World::draw(bool do_physics)
 
 		(*sphereIt)->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 
-
-
-
-
-
-
 	}
 	if (render_target == RENDER_FULL)
 	{

@@ -8,7 +8,6 @@
 using namespace std;
 using namespace glm;
 
-
 Sphere::Sphere()
 {
 	this->draw_type = GL_TRIANGLES;
@@ -277,38 +276,37 @@ void Sphere::updatePos(void)
 		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this
 		this->texture = CONCRETE;
 
-
-		
-
+//////////////////Drawing text goes here because of coord complaints in s_draw
 	glm::vec3 drawTextCoords = this->position;
 	float a = drawTextCoords.x;
 	float b = drawTextCoords.y;
 	float c = drawTextCoords.z;
-	
 
-	//glDisable(GL_LIGHTING);
+	GLint h = window.height;
+	GLint w = window.width;
+
+	GLint assW;
+	GLint assH;
+
+	//something with fucking aspect ratios....too late to math........
+	printf("CUNT ");
+	printf("%d\n", h);
+	printf("%d\n", w);
+	assW = (w-(window.aspect*(w-800)));
+	assH = (h-(window.aspect*(w-800)));
+
 	glColor3f(0.0f,1.0f,1.0f);
-	glPushMatrix();
-	printf("%f\n", a);
-	glRasterPos2f(-c/780.0f, -a/780.0f);//780 bound of stadium. This is off; still needs to account for screen width
-		//glPushMatrix();//may not need
-	
+	printf("YOOOOOOOOOOOOOOOOOOOO ");
+	printf("%d\n", assH);
+	printf("%d\n", assW);
+	//804.672 is stadium wall length in meters
+	glRasterPos2f(-c/assW, -a/assH);//780 bound of stadium. This is off; still needs to account for screen width
 	unsigned char watString[] = "wat...";
-
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, watString);
-	glPopMatrix();
-	//glEnable(GL_LIGHTING);
 
 	//char stringbuf[80];
 	//sprintf_s(stringbuf, "AAAAA elapsed: %f,\n BBBBBBB left: %i\n", ass, titties);
-		//glPopMatrix();//may not need
-
-
 	//glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
-
-
-
-
 
 	}
 

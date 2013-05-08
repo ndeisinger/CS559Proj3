@@ -14,6 +14,8 @@
 #include "ShadowFBO.h"
 #include "ShaderWithShadows.h"
 #include "Axes.h"
+#include "Sphere.h"
+#include "Cursor.h"
 
 #ifdef _DEBUG
 	#define CRTDBG_MAP_ALLOC //Used to help find leaks.
@@ -63,6 +65,7 @@ glm::mat4 light_matrix; //Light's POV, used in dynamic shadows
 glm::mat4 bp_matrix; //Bias times light's projection matrix
 
 Axes common_axes;
+
 
 
 // This function taken from DevIL documentation.
@@ -149,6 +152,7 @@ void DisplayFunc()
 		RenderScene(false, SHADOW_BUFFER_RES, SHADOW_BUFFER_RES); //Render to shadow map
 		s_fbo.unbind();
 	}
+
 	fbo.bind(0);
 	render_target = RENDER_FBO;
 	RenderScene(false, 512, 512); //Render to framebuffer
@@ -347,6 +351,8 @@ int main (int argc, char * argv[])
 	window.height = 600;
 	window.aspect = (float) 800/ (float)600;
 	window.handle = glutCreateWindow("A Treatise on why These Projects Need to be Started Sooner, or: Stools 102");
+
+	//glutSetCursor(GLUT_CURSOR_NONE);//Mute the cursor so the texture works.
 
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

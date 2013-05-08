@@ -34,7 +34,7 @@ void Stadium::init(void)
 	//wall_one.init(0.1f, WALL_HEIGHT, 2 * WALL_LENGTH);
 
 	ShaderWithShadows * s = new ShaderWithShadows();
-	s->init(TEX_W_SHADOWS);
+	s->init(TEX);
 	wall_one.init(1.0f, WALL_HEIGHT, 2 * WALL_LENGTH);
 
 	wall_one.setPos(glm::vec3(WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
