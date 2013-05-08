@@ -4,12 +4,10 @@
 
 typedef struct _lightInfo {
 	glm::vec4 position; //come to think of it, should this be vec3?
-	glm::vec3 color; // TODO: This is redundant.
+	glm::vec3 color; //This is currently unused
 	glm::vec3 amb;
 	glm::vec3 diff;
 	glm::vec3 spec;
-	GLint spec_exp; //TODO: Have this here or in other location?
-	// Ultimately it made more sense to deal with it w/ shininess, but no time to remove.
 } lightInfo;
 
 typedef struct _materialInfo {

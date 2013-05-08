@@ -52,8 +52,8 @@ void Stadium::init(void)
 	floor.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
 	floor.setShader(s); //TODO: Floor needs a special shader
 
-	screen_one.init(glm::vec3(WALL_LENGTH + 1, 0.0f, 1.0f), false);
-	screen_two.init(glm::vec3(-WALL_LENGTH - 1, 0.0f, 1.0f), true);
+	screen_one.init(glm::vec3(WALL_LENGTH + 1.1, 0.0f, 1.0f), false);
+	screen_two.init(glm::vec3(-WALL_LENGTH - 1.1f, 0.0f, -1.0f), true);
 	if (GLReturnedError("Stadium init - on exit")) return;
 }
 

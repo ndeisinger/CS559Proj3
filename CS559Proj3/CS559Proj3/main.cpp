@@ -267,6 +267,21 @@ void ReshapeFunc(int w, int h)
 	}
 }
 
+void SpecialFunc(int key, int x, int y)
+{
+	switch(key)
+	{
+	case GLUT_KEY_F2:
+#ifdef _DEBUG
+		printf("Adjusting skyobx!\n");
+#endif
+		draw_world.switchSkydome();
+		break;
+	default:
+		break;
+	}
+}
+
 void initTextures()
 {
 	GLuint tid[NUM_TEXTS];
@@ -411,6 +426,7 @@ int main (int argc, char * argv[])
 	glutKeyboardFunc(KeyboardFunc);
 	glutPassiveMotionFunc(PassiveMotionFunc);
 	glutReshapeFunc(ReshapeFunc);
+	glutSpecialFunc(SpecialFunc);
 	glutMainLoop();
 
 	ExitFunc();

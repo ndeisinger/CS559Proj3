@@ -41,6 +41,33 @@ void World::switchCam(void)
 	}
 }
 
+void World::initSkyboxes(void)
+{
+	for (int i = 0; i < NUM_TEXTS; i++)
+	{
+		switch(TEXTURE_TYPE(i))
+		{
+		case SKY:
+			skyboxes[i].l.position = glm::vec4(300.0f, 600.0f, 0.0f, 1.0f);
+			skyboxes[i].l.amb = glm::vec3(0.3f, 0.3f, 0.2f);
+			skyboxes[i].l.diff = glm::vec3(0.8f, 0.8f, 0.8f);
+			skyboxes[i].l.spec = glm::vec3(0.9f, 0.9f, 0.9f);
+			skyboxes[i].tex = SKY;
+			break;
+		case NIGHT_SKY:
+			skyboxes[i].l.position = glm::vec4(300.0f, 600.0f, 0.0f, 1.0f);
+			skyboxes[i].l.amb = glm::vec3(0.1f, 0.1f, 0.1f);
+			skyboxes[i].l.diff = glm::vec3(0.5f, 0.5f, 0.5f);
+			skyboxes[i].l.spec = glm::vec3(0.7f, 0.7f, 0.7f);
+			skyboxes[i].tex = NIGHT_SKY;
+			break;
+		default:
+			skyboxes[i].tex = TEX_ERR;
+			break;
+		}
+	}
+}
+
 bool World::init(int sphere_count)
 {
 	if (GLReturnedError("World init - on entry")) return true;
@@ -139,12 +166,34 @@ bool World::init(int sphere_count)
 
 #endif
 
+	sky_index = 0;
+	initSkyboxes();
+	switchSkydome();
+
 	common_shader->init(TEX);
 	if (GLReturnedError("World init - on exit")) return false;
 	return true;
 }
 
 int debug_counter = 0;
+
+void World::switchSkydome(void)
+{
+	sky_index++;
+	sky_index %= NUM_TEXTS;
+	while (skyboxes[sky_index].tex == TEX_ERR && sky_index < NUM_TEXTS)
+	{
+		sky_index++;
+		sky_index %= NUM_TEXTS;
+	}
+	if (skyboxes[sky_index].tex == TEX_ERR)
+	{
+		fprintf(stderr, "Warning: No good skybox texture found\n");
+		return;
+	}
+	this->skydome.setTexture(skyboxes[sky_index].tex);
+	this->l = skyboxes[sky_index].l;
+}
 
 void World::draw(bool do_physics)
 {

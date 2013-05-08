@@ -25,9 +25,11 @@ public:
 	void switchCam(void); //Switch from overhead view to first-person view
 	inline Camera * getCurrentCam(void) { return this->currCam; }
 	inline Player * getPlayer(void) { return &this->player; }
+	void switchSkydome(void);
 	void TakeDown(void);
 
 private:
+	void initSkyboxes(void);
 	vector<Sphere *> spheres; // Keeps track of all our spheres in the world
 	std::vector<Sphere *>::iterator sphereIt; //Lets us move through the spheres and draw them
 
@@ -49,18 +51,11 @@ private:
 	Sphere skydome; // Our skydome
 	// The camera for the player is in the Player class
 
+	//Our various skybox configs
+	skyboxInfo skyboxes[NUM_TEXTS];
+	int sky_index;
+	
 	//BOX2D INFO
 	b2World * world; //Our world; have as pointer because there's no default constructor
 
-#ifdef BOX2D_DEBUG
-	b2BodyDef circleDef;
-	b2Body * circleBody;
-	b2CircleShape circleShape;
-	b2FixtureDef circleFixtureDef;
-
-	b2BodyDef circleDef2;
-	b2Body * circleBody2;
-	b2CircleShape circleShape2;
-	b2FixtureDef circleFixtureDef2;
-#endif
 };

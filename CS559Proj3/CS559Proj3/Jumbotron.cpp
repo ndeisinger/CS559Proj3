@@ -22,7 +22,7 @@ void Jumbotron::init(glm::vec3 pos, bool flipped)
 		stand.setTexture(CONCRETE);
 
 		screen.init(0.5f, SCREEN_HEIGHT, SCREEN_LENGTH);
-		screen.setPos(glm::vec3(pos.x - 20.0f, pos.y + 80, pos.z - SCREEN_LENGTH/2));
+		screen.setPos(glm::vec3(pos.x - 20.1f, pos.y + 80, pos.z - SCREEN_LENGTH/2));
 		screen.setTexture(FRAME_BUF);
 	}
 	else
@@ -32,7 +32,7 @@ void Jumbotron::init(glm::vec3 pos, bool flipped)
 		stand.setTexture(CONCRETE);
 
 		screen.init(-0.5f, SCREEN_HEIGHT, SCREEN_LENGTH);
-		screen.setPos(glm::vec3(pos.x + 20.0f, pos.y + 80, pos.z - SCREEN_LENGTH/2));
+		screen.setPos(glm::vec3(pos.x + 20.1f, pos.y + 80, pos.z - SCREEN_LENGTH/2));
 		screen.setTexture(FRAME_BUF);
 	}
 }
