@@ -88,7 +88,7 @@ bool World::init(int sphere_count)
 	l.amb = glm::vec3(0.5, 0.5, 0.5);
 	l.diff = glm::vec3(0.5, 0.5, 0.5);
 	l.spec = glm::vec3(0.5, 0.5, 0.5);
-	l.position = glm::vec4(500.0, 500.0, 500.0, 1.0);
+	l.position = glm::vec4(0.0, 5000.0, 0.0, 1.0);
 	m.kA = glm::vec3(0.9f, 0.9f, 0.9f);
 	m.kD = glm::vec3(0.5f, 0.5f, 0.5f);
 	m.kS = glm::vec3(0.6f, 0.6f, 0.6f);

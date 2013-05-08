@@ -52,7 +52,7 @@ void shade()
 	vec4 texColor = texture(Tex1, texCoord);
 	vec3 amb_comp = amb * kA;
 	float shadow = textureProj(shadow_map, shadowCoord);
-	if (shadow > 0)
+	if (shadow > 0.1)
 	{
 		//Not in shadow
 		vec3 ds_result = phong_ds();

@@ -30,10 +30,10 @@ inline float degToRad(float degree) { return (degree/180) * PI_F; }
 inline double radToDeg(double rad) { return (rad * 180) / PI_D; }
 inline float radToDeg(float rad) { return (rad * 180) / PI_F; }
 
-static const glm::mat4 bias_matrix = glm::mat4(0.5f, 0.0f, 0.0f, 0.5f,
-											   0.0f, 0.5f, 0.0f, 0.5f,
-											   0.0f, 0.0f, 0.5f, 0.5f,
-											   0.0f, 0.0f, 0.0f, 1.0f);
+static const glm::mat4 bias_matrix = glm::mat4(0.5f, 0.0f, 0.0f, 0.0f,
+											   0.0f, 0.5f, 0.0f, 0.0f,
+											   0.0f, 0.0f, 0.5f, 0.0f,
+											   0.5f, 0.5f, 0.5f, 1.0f);
 
 
 //The following two functions are taken from Perry Kivolowitz's code.

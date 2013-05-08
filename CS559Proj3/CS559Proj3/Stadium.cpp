@@ -9,6 +9,14 @@ Stadium::Stadium(void)
 
 void Stadium::TakeDown(void)
 {
+	Shader * wall_shader = wall_one.getShader();
+	free(wall_shader);
+	wall_one.setShader(NULL);
+	wall_two.setShader(NULL);
+	wall_three.setShader(NULL);
+	wall_four.setShader(NULL);
+	floor.setShader(NULL);
+
 	wall_one.TakeDown();
 	wall_two.TakeDown();
 	wall_three.TakeDown();
@@ -19,8 +27,8 @@ void Stadium::TakeDown(void)
 void Stadium::init(void)
 {
 	if (GLReturnedError("Stadium init - on entry")) return;
-	Shader s;
-	s.init(TEX_W_SHADOWS);
+	ShaderWithShadows * s = new ShaderWithShadows();
+	s->init(TEX_W_SHADOWS);
 	wall_one.init(0.1f, WALL_HEIGHT, 2 * WALL_LENGTH);
 	wall_one.setPos(glm::vec3(WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
 	wall_one.setShader(s);

@@ -13,6 +13,7 @@
 #include "FrameBufferObject.h"
 #include "ShadowFBO.h"
 #include "ShaderWithShadows.h"
+#include "Axes.h"
 
 #ifdef _DEBUG
 	#define CRTDBG_MAP_ALLOC //Used to help find leaks.
@@ -56,6 +57,8 @@ static bool msaa_on = false; //Lets us toggle MSAA
 
 FrameBufferObject fbo; //For drawing jumbotron
 ShadowFBO s_fbo; //For drawing shadows
+
+Axes common_axes;
 
 class Window
 {
@@ -131,6 +134,10 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+	if (useShadows) {
+		glCullFace(GL_FRONT);
+		glPolygonMode(GL_BACK, GL_FILL);
+	}
 	draw_world.draw(do_physics);
 	if (do_physics)
 	{
@@ -140,6 +147,10 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glPopMatrix();
 	}
 	glFlush();
+	if (useShadows) {
+		glCullFace(GL_BACK);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }
 
 void DisplayFunc()
@@ -147,12 +158,10 @@ void DisplayFunc()
 	if (is_paused) return;
 	if (useShadows)
 	{
-		glCullFace(GL_FRONT);
 		s_fbo.bind(0);
 		render_target = RENDER_SFBO;
-		RenderScene(false, 512, 512); //Render to shadow map
+		RenderScene(false, 1024, 1024); //Render to shadow map
 		s_fbo.unbind();
-		glCullFace(GL_BACK);
 	}
 	fbo.bind(0);
 	render_target = RENDER_FBO;
@@ -194,6 +203,10 @@ void ExitFunc(void)
 
 void KeyboardFunc(unsigned char c, int x, int y)
 {
+	if (c == 'a')
+	{
+		DrawObject::draw_axes = !DrawObject::draw_axes;
+	}
 	if (c == 'c')
 	{
 		draw_world.switchCam();
@@ -228,6 +241,10 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	if (c == 'm')
 	{
 		msaa_on = !msaa_on;
+	}
+	if (c == 'n')
+	{
+		DrawObject::draw_norms = !DrawObject::draw_norms;
 	}
 }
 
@@ -375,6 +392,9 @@ int main (int argc, char * argv[])
 
 	draw_world.init(num_spheres);
 	game_player = draw_world.getPlayer();
+	DrawObject::axes_init = common_axes.init();
+	DrawObject::a = &common_axes;
+	DrawObject::norm_shader.init(NORM);
 
 	glutDisplayFunc(DisplayFunc);
 	glutTimerFunc(window.interval, timerFunc, 0);

@@ -21,11 +21,12 @@ public:
 	void UseTexture(); //Deprecated?
 	void recolor(glm::vec3 color);
 	void switchShader(SHADER_TYPE t);
-	inline void setShader(Shader newShader) { shader = newShader; customShader = true; }
+	inline void setShader(Shader * newShader) { shader = newShader; customShader = true; }
 	inline void setTexture(TEXTURE_TYPE type) { texture = type;}
 
 	void setPos(glm::vec3 pos);
 	inline glm::vec3 getPos() { return position; };
+	inline Shader * getShader(void) { return this->shader;}
 	
 	static Shader norm_shader; // All objects will use the same norm shader.  Hopefully this doesn't catastrophically break anything.  If it does we can bump it down to the protected/non-static.
 							   // Nope, all good.  But this begs the question: could we make the actual shader static as well?
@@ -64,7 +65,7 @@ protected:
 	vector<VertexAttP> norm_vertices;
 	vector<GLuint> norm_indices;
 
-	Shader shader;
+	Shader * shader;
 	TEXTURE_TYPE texture;
 
 	b2Body * physicsBody; //This will be left unused if there are no associated phsyics

@@ -7,6 +7,7 @@
 DrawObject::DrawObject(void)
 {
 	initialize();
+	this->shader = NULL;
 }
 
 DrawObject::~DrawObject(void)
@@ -21,7 +22,7 @@ void DrawObject::UseTexture()
 
 void DrawObject::switchShader(SHADER_TYPE t)
 {
-	if (customShader) shader.reload(t);
+	if (customShader) shader->reload(t);
 	else common_shader->reload(t);
 }
 
@@ -33,7 +34,11 @@ void DrawObject::setPos(glm::vec3 pos)
 void DrawObject::TakeDown(void)
 {
 	if (GLReturnedError("DrawObject TakeDown - on entry\n")) return;
-	shader.TakeDown();
+	if (shader != NULL)
+	{
+		shader->TakeDown();
+		free(shader);
+	}
 	this->atts_pcn.clear();
 	this->atts_pcnt.clear();
 	this->vertex_indices.clear();
@@ -71,6 +76,7 @@ bool DrawObject::initialize(void)
 	this->position = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->physicsBody = NULL;
 	this->texture = DIRT;
+	this->shader = NULL;
 	if (GLReturnedError("DrawObject initialize - on exit\n")) return false;
 	return true;
 }
@@ -94,62 +100,56 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	//printf("Drawing an object!\n");
 #endif
 	glEnable(GL_DEPTH_TEST);
-	mat4 trans_mv = translate(mv, position);
+	mat4 trans_mv = glm::translate(mv, position);
 	if (physicsBody != NULL)
 	{
 		trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 	mat4 mvp = proj * trans_mv;
 	mat3 nm = inverse(transpose(mat3(trans_mv))); 
+	Shader * curr_shader;
 	if (customShader)
 	{
-		this->shader.use();
-		this->shader.setup(time, value_ptr(size), value_ptr(proj), value_ptr(trans_mv), value_ptr(mvp), value_ptr(nm));
-		if (l != NULL)
-		{
-			shader.lightSetup(*l); //TODO: Is this safe? X
-		}
-		if (m != NULL)
-		{
-			shader.materialSetup(*m);
-		}
-		shader.texSetup(texture);
+		curr_shader = this->shader;
 	}
 	else
 	{
-		common_shader->use();
-		common_shader->setup(time, value_ptr(size), value_ptr(proj), value_ptr(trans_mv), value_ptr(mvp), value_ptr(nm));
-		if (l != NULL)
-		{
-			common_shader->lightSetup(*l); //TODO: Is this safe? X
-		}
-		if (m != NULL)
-		{
-			common_shader->materialSetup(*m);
-		}
-		if (useShadows)
-		{
-			//TODO: It's a titanic waste to calculate the light matrix/shadow matrix for every object.
-			//Store a static one in the DrawObject class?
-			glm::mat4 light_matrix = glm::lookAt(glm::vec3((*l).position), glm::vec3(0.00001, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-			trans_mv = translate(light_matrix, position);
-			if (physicsBody != NULL)
-			{
-				trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
-			}
-			glm::mat4 shadow_matrix = bias_matrix * proj * trans_mv;
-			mvp = proj * trans_mv;
-			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
-			common_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, (void *) &mvp, &trans_mv);
-		}
-		else
-		{
-			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
-			common_shader->subSetup(NULL, (void *) &shadRend, NULL, NULL);
-			printf(""); //Just so we can break here
-		}
-		common_shader->texSetup(this->texture);
+		curr_shader = common_shader;
 	}
+	curr_shader->use();
+	curr_shader->setup(time, value_ptr(size), value_ptr(proj), value_ptr(trans_mv), value_ptr(mvp), value_ptr(nm));
+	if (l != NULL)
+	{
+		curr_shader->lightSetup(*l); //TODO: Is this safe? X
+	}
+	if (m != NULL)
+	{
+		curr_shader->materialSetup(*m);
+	}
+	if (useShadows)
+	{
+		//TODO: It's a titanic waste to calculate the light matrix/shadow matrix for every object.
+		//Store a static one in the DrawObject class?
+		glm::mat4 light_matrix = glm::lookAt(glm::vec3((*l).position), glm::vec3(0.00001, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+		trans_mv = translate(light_matrix, position);
+		if (physicsBody != NULL)
+		{
+			trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
+		}
+		glm::mat4 shadow_matrix = bias_matrix * proj * trans_mv;
+		mvp = proj * trans_mv;
+		vec4 dummy_pos = mvp * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		vec4 dummy_pos_b = shadow_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
+		curr_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, (void *) &mvp, &trans_mv);
+	}
+	else
+	{
+		bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
+		curr_shader->subSetup(NULL, (void *) &shadRend, NULL, NULL);
+		printf(""); //Just so we can break here
+	}
+	curr_shader->texSetup(this->texture);
 	glBindVertexArray(this->vertex_arr_handle);
 	glDrawElements(this->draw_type, this->vertex_indices.size(), GL_UNSIGNED_INT, &this->vertex_indices[0]);
 	glBindVertexArray(0);
@@ -210,15 +210,15 @@ bool DrawObject::initNorms()
 	}
 	else
 	{
-		for (int i = 0; i < (int) this->atts_pcn.size(); i++)
+		for (int i = 0; i < (int) this->atts_pcnt.size(); i++)
 		{
-			VertexAttPCN temp = this->atts_pcn.at(i);
+			VertexAttPCNT temp = this->atts_pcnt.at(i);
 			this->norm_vertices.push_back(VertexAttP(temp.pos));
 			this->norm_vertices.push_back(VertexAttP(temp.pos + temp.norm));
 			this->norm_indices.push_back(this->norm_vertices.size() - 2);
 			this->norm_indices.push_back(this->norm_vertices.size() - 1);
 		}
-		if (!this->bindArray(&this->normal_arr_handle, &this->normal_coor_handle, this->norm_vertices.size() * sizeof(VertexAttPCN), &this->norm_vertices[0])) return false;
+		if (!this->bindArray(&this->normal_arr_handle, &this->normal_coor_handle, this->norm_vertices.size() * sizeof(VertexAttP), &this->norm_vertices[0])) return false;
 	}
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttP), 0); //position
 	glEnableVertexAttribArray(0);
