@@ -132,7 +132,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 	draw_world.draw(do_physics);
-	if (!do_physics)
+	if (do_physics)
 	{
 		glRasterPos2i(0, 0);
 		glPushMatrix();
@@ -182,7 +182,7 @@ void ExitFunc(void)
 	glutLeaveMainLoop();
 	draw_world.TakeDown();
 	fbo.TakeDown();
-	common_shader->TakeDown(); //TODO: Crashes on exit
+	common_shader->TakeDown();
 	glDeleteTextures(NUM_TEXTS, tex);
 	
 	
