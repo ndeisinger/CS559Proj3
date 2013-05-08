@@ -100,16 +100,9 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	//printf("Drawing an object!\n");
 #endif
 	glEnable(GL_DEPTH_TEST);
-<<<<<<< HEAD
 
-
-
-	mat4 trans_mv = translate(mv, position);
-
-
-=======
 	mat4 trans_mv = glm::translate(mv, position);
->>>>>>> 7919cdd6306f4a27412af327067f315c8b26e708
+
 	if (physicsBody != NULL)
 	{
 		trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));

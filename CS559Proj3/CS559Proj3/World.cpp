@@ -176,10 +176,9 @@ void World::draw(bool do_physics)
 	{
 		player.update();
 	}
-<<<<<<< HEAD
-=======
+
 	stadium.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
->>>>>>> 7919cdd6306f4a27412af327067f315c8b26e708
+
 	skydome.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	player.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 #ifdef BOX2D_DEBUG
