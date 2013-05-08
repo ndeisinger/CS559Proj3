@@ -13,7 +13,9 @@ Cursor::~Cursor(void)
 void Cursor::init(glm::vec3 pos)
 
 {
-	glutSetCursor(GLUT_CURSOR_FULL_CROSSHAIR);
+	
+	//This line below is 'confusing'
+	//glutSetCursor(GLUT_CURSOR_FULL_CROSSHAIR);
 	
 
 	//Kept for potential future implementation of unique cursor as defined by texture
