@@ -114,6 +114,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
 	//printf("In drawFunc\n");
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_POLYGON_OFFSET_FILL);
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, draw_width, draw_height);
@@ -137,6 +138,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
 		glCullFace(GL_FRONT);
 		glPolygonMode(GL_BACK, GL_FILL);
+		glPolygonOffset(5.0f, 1.0f);
 	}
 	draw_world.draw(do_physics);
 	if (do_physics)
@@ -151,6 +153,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glDisable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonOffset(0.0f, 0.0f);
 	}
 }
 
