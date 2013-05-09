@@ -70,6 +70,9 @@ protected:
 	TEXTURE_TYPE texture;
 	bool tile_texture;
 
+	glm::vec3 goochCool;
+	glm::vec3 goochWarm; //Used in gooch shading
+
 	b2Body * physicsBody; //This will be left unused if there are no associated phsyics
 
 	inline glm::vec4 MakeColor(int r, int g, int b, float gain = 1.0f) {	return glm::vec4(float(r) * gain / 255.0f, float(g) * gain / 255.0f, float(b) * gain / 255.0f, 1.0f); }

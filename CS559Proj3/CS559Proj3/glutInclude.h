@@ -11,6 +11,7 @@
 #include <IL\ilu.h>
 #include <IL\ilut.h>
 #include <IL\ilut_config.h>
+#include <noise\noise.h>
 #include <math.h>
 
 class Window

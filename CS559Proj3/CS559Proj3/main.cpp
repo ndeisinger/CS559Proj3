@@ -1,10 +1,12 @@
 //Oh god what is this I don't even
 
-#include "physicsInclude.h"
 #include <sstream>
 #include <string>
-#include "glutInclude.h"
 #include <math.h>
+
+#include "physicsInclude.h"
+#include "glutInclude.h"
+
 #include "DrawObject.h"
 #include "World.h"
 #include "Camera.h"

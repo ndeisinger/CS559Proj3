@@ -78,6 +78,9 @@ bool DrawObject::initialize(void)
 	this->texture = DIRT;
 	this->shader = NULL;
 	this->tile_texture = FALSE;
+	this->goochWarm = glm::vec3(0.6, 0.6, 0);
+	this->goochCool = glm::vec3(0, 0.6, 0.6);
+
 	if (GLReturnedError("DrawObject initialize - on exit\n")) return false;
 	return true;
 }

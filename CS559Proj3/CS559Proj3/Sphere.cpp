@@ -279,7 +279,9 @@ void Sphere::updatePos(void)
 	{
 		//reset the sphere
 		data.active = false;
-		this->texture = FRAME_BUF;
+		this->texture = DIRT;
+		this->goochWarm = glm::vec3(0.6f, 0.6f, 0.0f);
+		this->goochCool = glm::vec3(0.0f, 0.6f, 0.6f);
 		data.time_left = max_time;
 		num_spheres++;
 	}
@@ -289,6 +291,8 @@ void Sphere::updatePos(void)
 
 		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this
 		this->texture = CONCRETE;
+		this->goochWarm = glm::vec3(0.9f, 0.5f, 0.2f);
+		this->goochCool = glm::vec3(0.1f, 0.4f, 0.3f);
 
 		/*
 //////////////////Drawing text goes here because of coord complaints in s_draw
