@@ -1,9 +1,5 @@
 #version 400
 #extension GL_ARB_gpu_shader5 : require
-#extension GL_ARB_shader_subroutine : require
-
-subroutine void renderPassType();
-subroutine uniform renderPassType renderPass;
 
 layout (location = 0) out vec4 fragColor;
 
