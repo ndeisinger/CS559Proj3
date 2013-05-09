@@ -4,7 +4,7 @@ using namespace glm;
 Cube::Cube(void)
 {
 	this->draw_type = GL_TRIANGLES;
-	this->texture = TEXTTEST;
+	this->texture = CONCRETE;
 	super();
 }
 

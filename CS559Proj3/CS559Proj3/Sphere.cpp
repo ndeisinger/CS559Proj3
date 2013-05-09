@@ -237,7 +237,19 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 	//const unsigned char * str = &watString[0];
 	////////////////////////////////////////////////////////////////////////////////////
 
-	cube.draw(proj, mv, size, time, l, m);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glLoadMatrixf(glm::value_ptr(proj));
+	glViewport(0, 0, window.width, window.height);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(glm::value_ptr(mv));
+	glTranslated(this->position.x - this->getRadius(), this->position.y + 20, this->position.z);
+	glScaled(0.1, 0.1, 10);
+	glPushMatrix();
+	glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "wat");
+	glPopMatrix();
+
+	//cube.draw(proj, mv, size, time, l, m);
 
 	super::s_draw(proj, mv, size, time, l, m);
 #ifdef _DEBUG
