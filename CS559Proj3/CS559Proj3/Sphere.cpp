@@ -237,17 +237,21 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 	//const unsigned char * str = &watString[0];
 	////////////////////////////////////////////////////////////////////////////////////
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glLoadMatrixf(glm::value_ptr(proj));
-	glViewport(0, 0, window.width, window.height);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(glm::value_ptr(mv));
-	glTranslated(this->position.x - this->getRadius(), this->position.y + 20, this->position.z);
-	glScaled(0.1, 0.1, 10);
-	glPushMatrix();
-	glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "wat");
-	glPopMatrix();
+	//TODO: Timer is in wrong position
+	if (render_target == RENDER_FULL)
+	{
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glLoadMatrixf(glm::value_ptr(proj));
+		glViewport(0, 0, window.width, window.height);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf(glm::value_ptr(mv));
+		glTranslated(this->position.x - this->getRadius(), this->position.y + 20, this->position.z);
+		glScaled(0.1, 0.1, 10);
+		glPushMatrix();
+		glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "wat");
+		glPopMatrix();
+	}
 
 	//cube.draw(proj, mv, size, time, l, m);
 

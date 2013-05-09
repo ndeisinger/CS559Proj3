@@ -154,6 +154,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	draw_world.draw(do_physics);
 	if (common_shader == global_shaders[1] && render_target != RENDER_SFBO)
 	{
+		/*
 		//Horrible hacky gooch condition
 		RENDER_TARGET old_target = render_target;
 		render_target = RENDER_GOOCH;
@@ -167,6 +168,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glDepthFunc(GL_LESS);
 		glCullFace(GL_BACK);
 		render_target = old_target;
+		*/
 	}
 	if (render_target == RENDER_SFBO) {
 		glDisable(GL_CULL_FACE);
