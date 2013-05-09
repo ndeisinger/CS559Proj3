@@ -18,14 +18,19 @@ public:
 	void preSolve(b2Contact* contact, const b2Manifold* oldManifold);
 	void makeSkydome(void);
 
+	bool createBoxes(float w, int h, int d);
+
+	Cube cube;
+
 	//getters/setters
 	inline b2Body * getBody() { return circleBody; }
 	inline float getRadius() { return own_radius; }
 	inline void setColor(glm::vec4 new_colors[2]) { colors[0] = new_colors[0]; colors[1] = new_colors[1]; custom_colors = true; }
 	inline void setPlayer(bool val) { data.isPlayer = val; }
+	
 
 private:
-	Cube cube;
+	
 	float own_radius; //Allow this to be variable in case we want to adjust spheres
 	glm::vec4 colors[2];
 	bool solidColor;

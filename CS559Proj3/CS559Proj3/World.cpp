@@ -228,21 +228,7 @@ void World::draw(bool do_physics)
 		
 	}
 	
-		////////////////////////WILL ALSO HAVE TO MOVE CUBE WITH SPHERE
-	//Should I make another it or put above?
-	for (cubeIt = cubes.begin(); cubeIt < cubes.end(); cubeIt++)
-	{
-		if (render_target == RENDER_FULL)
-		{
-			//(*cubeIt)->updatePos(); //Update sphere's location with physics-based one
-		}
 
-		(*cubeIt)->draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
-		
-	}
-
-	
-	
 	
 	if (render_target == RENDER_FULL)
 	{

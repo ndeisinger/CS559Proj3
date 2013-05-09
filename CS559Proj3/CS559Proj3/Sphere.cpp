@@ -180,15 +180,24 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}*/
-	
 
-	
+
+	this->createBoxes(50,50,50);
 
 	if (GLReturnedError("Sphere::Initialize - on exit"))
 		return false;
 
 	return true;
 }
+
+	bool Sphere::createBoxes(float w, int h, int d){
+
+		cube.init(w,h,d);
+
+
+		return true;
+	}
+
 
 /* TakeDown is also handled by DrawObject
 void Sphere::TakeDown()
@@ -228,14 +237,10 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 	//Draw text above sphere
 	//unsigned char watString [4] = "wat";
 	//const unsigned char * str = &watString[0];
-
-	if(data.active){
-	//cube.draw(proj,mv,size,time,l,m);
-	}
 	////////////////////////////////////////////////////////////////////////////////////
 
 
-
+	cube.draw(proj, mv, size, time, l, m);
 
 
 
@@ -267,6 +272,10 @@ void Sphere::updatePos(void)
 {
 	b2Vec2 pos = circleBody->GetPosition();
 	this->position = glm::vec3(pos.x, 0.0, pos.y);
+
+	cube.setPos(glm::vec3(pos.x, 60.0, pos.y));
+
+
 
 	if (data.time_left < 0 && !data.isPlayer)
 	{
@@ -301,7 +310,7 @@ void Sphere::updatePos(void)
 	printf("%d\n", h);
 	printf("%d\n", w);
 	assW = (w-(window.aspect*(w-800)));
-	assH = (h-(window.aspect*(w-800)));
+	assH = (h-(window.aspect*(h-800)));
 
 	glColor3f(0.0f,1.0f,1.0f);
 	printf("YOOOOOOOOOOOOOOOOOOOO ");
