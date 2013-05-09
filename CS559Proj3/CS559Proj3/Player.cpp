@@ -50,6 +50,12 @@ void Player::update(void)
 		x_force = (this->speed + 0.0001f) * rotate_force.x;
 		z_force = (this->speed + 0.0001f) * rotate_force.y;
 	}
+	else
+	{
+		//TODO: When speed is negative we wind up flipping direction constantly
+		x_force = (this->speed + 0.0001f) * rotate_force.x;
+		z_force = (this->speed + 0.0001f) * rotate_force.y;
+	}
 	body->SetLinearVelocity(b2Vec2(x_force, z_force));
 	travel_force = glm::normalize(boxToGlm(body->GetLinearVelocity()));
 	//printf("Angle: %f, x: %f, z: %f, radius: %f, rot_angle: %f, travel_angle: %f,\nx_force: %f, z_force: %f\n", rot_angle, x, z, sphere.getRadius(), rot_angle, x_force, z_force);
