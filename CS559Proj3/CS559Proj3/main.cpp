@@ -67,6 +67,10 @@ ShadowFBO s_fbo; //For drawing shadows
 glm::mat4 light_matrix; //Light's POV, used in dynamic shadows
 glm::mat4 bp_matrix; //Bias times light's projection matrix
 
+GLubyte * noise3DTexPtr; //Memory where we write our noise texture
+const int NOISE_RES = 128; //Resolution for our noise texture
+GLuint noise_tex_handle; 
+
 Axes common_axes;
 const int NUM_SHADERS = 2;
 Shader * global_shaders[NUM_SHADERS]; //TEX_W_SHADOWS, GOOCH
@@ -82,6 +86,59 @@ void getDevILErr()
 	while ((Error = ilGetError()) != IL_NO_ERROR) {
 		printf("%d: %s/n", Error, iluErrorString(Error));
 	} 
+}
+
+//This method adapted from "OpenGL Shading Language, Third Edition" by Randi J. Rost and Bill Licea-Kane.
+bool makeNoiseTexture(void)
+{
+	int f, i, j, k, inc; //Loop variables
+	int startFrequency = 4; //Initial frequency
+	int numOctaves = 4; //Number of octaves we will generate/sum
+	double inci, incj, inck; //Summation variables
+	noise::module::Perlin perlinNoise; //Our perlin noise generator
+
+	int frequency = startFrequency;
+	GLubyte * ptr; //Use to walk through our texture in memory
+	double amp = 0.5; //Amplitude we'll use
+	if (!(noise3DTexPtr = (GLubyte *) malloc(NOISE_RES * NOISE_RES * NOISE_RES * 4)))
+	{
+		fprintf(stderr, "Could not allocate memory for noise!\n");
+		return false;
+	}
+
+	for (f = 0, inc = 0; f < numOctaves; f++, inc++)
+	{
+		perlinNoise.SetFrequency(frequency);
+		ptr = noise3DTexPtr;
+		//ni[0] = ni[1] = ni[2] = 0; 
+
+		inci = 1.0 / (NOISE_RES / frequency);
+		for (i = 0; i < NOISE_RES; i++)
+		{
+			incj = 1.0 / (NOISE_RES / frequency);
+			for (j = 0; j < NOISE_RES; j++)
+			{
+				inck = 1.0 / (NOISE_RES / frequency);
+				for (k = 0; k < NOISE_RES; k++)
+				{
+					*(ptr + inc) = (GLubyte) (perlinNoise.GetValue(inci, incj, inck) * NOISE_RES);
+					ptr += 4;
+				}
+			}
+		}
+		frequency *= 2;
+		amp *= 0.5; //Adjust the frequency/amplitude to get different octaves
+	}
+
+	glGenTextures(1, &noise_tex_handle);
+	glBindTexture(GL_TEXTURE_3D, noise_tex_handle);
+	glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	
+	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, NOISE_RES, NOISE_RES, NOISE_RES, 0, GL_RGBA, GL_UNSIGNED_BYTE, noise3DTexPtr);
 }
 
 
@@ -138,6 +195,7 @@ void initTextures()
 	fbo.initialize(glm::ivec2(512, 512), 1, true);
 	glActiveTexture(GL_TEXTURE0 + int(SHADOW_BUF));
 	s_fbo.initialize();
+	glActiveTexture(GL_TEXTURE0 + int(NOISE));
 }
 
 void cycleShaders()
@@ -306,7 +364,8 @@ void ExitFunc(void)
 	common_shader->TakeDown();
 
 	glDeleteTextures(NUM_TEXTS, tex);
-	
+	glDeleteTextures(1, &noise_tex_handle);
+	free(noise3DTexPtr);	
 	
 	printf("Time elapsed: %f\n", elapsed_time);
 	if (WON_GAME) { printf("Congrats! You won!\n"); }

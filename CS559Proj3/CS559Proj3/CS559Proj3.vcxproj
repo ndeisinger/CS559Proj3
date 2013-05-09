@@ -59,7 +59,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib</AdditionalDependencies>
+      <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib;libnoise.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)\libnoise-1.0.0\lib\Debug;$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -80,8 +80,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\libnoise-1.0.0\lib\Debug;$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib;libnoise.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libnoise-1.0.0\lib\Release;$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Release</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
