@@ -287,8 +287,6 @@ void Sphere::updatePos(void)
 	}
 	else if (data.active)
 	{
-
-
 		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this
 		this->texture = CONCRETE;
 		this->goochWarm = glm::vec3(0.9f, 0.5f, 0.2f);

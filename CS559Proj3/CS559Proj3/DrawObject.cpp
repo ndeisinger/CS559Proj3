@@ -157,8 +157,8 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	}
 	else if (curr_shader->type == GOOCH)
 	{
-		glm::vec3 warm_color = glm::vec3(0.6f, 0.6f, 0.0f);
-		glm::vec3 cool_color = glm::vec3(0.0f, 0.0f, 0.6f);
+		glm::vec3 warm_color = this->goochWarm;
+		glm::vec3 cool_color = this->goochCool;
 		float diffuseWarm = 0.45;
 		float diffuseCool = 0.45;
 		curr_shader->subSetup(glm::value_ptr(warm_color), glm::value_ptr(cool_color), &diffuseWarm, &diffuseCool);

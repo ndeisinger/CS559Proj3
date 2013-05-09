@@ -230,7 +230,6 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glPolygonMode(GL_BACK, GL_FILL);
 		glPolygonOffset(5.0f, 1.0f);
 	}
-	draw_world.draw(do_physics);
 	if (render_shader == GOOCH_SHADER)
 	{
 		RENDER_TARGET old_target = render_target;
@@ -246,6 +245,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glCullFace(GL_BACK);
 		render_target = old_target;
 	}
+	draw_world.draw(do_physics);
 	if (render_target == RENDER_SFBO) {
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
