@@ -15,6 +15,8 @@ Jumbotron::~Jumbotron(void)
 
 void Jumbotron::init(glm::vec3 pos, bool flipped)
 {
+	screenShader = new Shader();
+	screenShader->init(TEX);
 	if (!flipped)
 	{
 		stand.init(20.0f, 100.0f, 20.0f);
@@ -24,6 +26,7 @@ void Jumbotron::init(glm::vec3 pos, bool flipped)
 		screen.init(0.5f, SCREEN_HEIGHT, SCREEN_LENGTH);
 		screen.setPos(glm::vec3(pos.x - 20.1f, pos.y + 80, pos.z - SCREEN_LENGTH/2));
 		screen.setTexture(FRAME_BUF);
+		screen.setShader(screenShader);
 	}
 	else
 	{
@@ -34,6 +37,7 @@ void Jumbotron::init(glm::vec3 pos, bool flipped)
 		screen.init(-0.5f, SCREEN_HEIGHT, SCREEN_LENGTH);
 		screen.setPos(glm::vec3(pos.x + 20.1f, pos.y + 80, pos.z - SCREEN_LENGTH/2));
 		screen.setTexture(FRAME_BUF);
+		screen.setShader(screenShader);
 	}
 }
 

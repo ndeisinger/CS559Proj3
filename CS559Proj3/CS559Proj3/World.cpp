@@ -168,7 +168,7 @@ bool World::init(int sphere_count)
 	initSkyboxes();
 	switchSkydome();
 
-	common_shader->init(TEX_W_SHADOWS);
+	common_shader->init(GOOCH);
 	if (GLReturnedError("World init - on exit")) return false;
 	return true;
 }

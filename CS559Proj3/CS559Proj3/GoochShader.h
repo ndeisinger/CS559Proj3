@@ -4,7 +4,6 @@
 
 #pragma once
 #include "shader.h"
-typedef Shader super;
 class GoochShader :
 	public Shader
 {

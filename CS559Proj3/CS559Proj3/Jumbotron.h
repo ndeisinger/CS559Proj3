@@ -12,5 +12,6 @@ protected:
 	Cube stand;
 	Cube screen;
 	glm::vec3 pos;
+	Shader * screenShader;
 };
 

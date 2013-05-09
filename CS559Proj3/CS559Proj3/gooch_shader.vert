@@ -6,10 +6,9 @@ layout (location = 0) in vec3 vertex_position;
 layout (location = 1) in vec3 vertex_normal;
 layout (location = 3) in vec2 vertex_tex_coord;
 
-out vec3 normal;
 out vec3 reflectVec;
 out vec3 viewVec;
-out float NDotL
+out float NdotL;
 out vec2 texCoord;
 
 uniform	vec4 light_position;
@@ -28,10 +27,11 @@ void main()
 	{
 		texCoord = vertex_tex_coord;
 	}
-	normal = normalize(n_matrix * vertex_normal);
+	vec3 normal = normalize(n_matrix * vertex_normal);
 	vec3 vert_position = vec3(mv_matrix * vec4(vertex_position, 1.0));
 	vec3 lightVec = normalize(vec3(light_position) - vert_position);
 	reflectVec = normalize(reflect(-lightVec, normal));
-	NDotL = dot(lightVec, normal) * 0.5 + 0.5; //Normalize to [0, 1]
+	viewVec = normalize(-vert_position);
+	NdotL = dot(lightVec, normal) * 0.5 + 0.5; //Normalize to [0, 1]
 	gl_Position = mvp_matrix * vec4(vertex_position, 1.0);
 }

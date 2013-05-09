@@ -129,25 +129,36 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	{
 		curr_shader->materialSetup(*m);
 	}
-	if (useShadows)
+	if (curr_shader->type == TEX_W_SHADOWS)
 	{
-		glm::mat4 l_trans_mv = translate(light_matrix, position);
-		if (physicsBody != NULL)
+		if (useShadows)
 		{
-			l_trans_mv = glm::rotate(l_trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
+			glm::mat4 l_trans_mv = translate(light_matrix, position);
+			if (physicsBody != NULL)
+			{
+				l_trans_mv = glm::rotate(l_trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
+			}
+			glm::mat4 shadow_matrix = bp_matrix * l_trans_mv;
+			glm::mat4 l_mvp = proj * l_trans_mv;
+			//vec4 dummy_pos = l_mvp * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+			//vec4 dummy_pos_b = shadow_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
+			curr_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, (void *) &l_mvp, &l_trans_mv);
 		}
-		glm::mat4 shadow_matrix = bp_matrix * l_trans_mv;
-		glm::mat4 l_mvp = proj * l_trans_mv;
-		//vec4 dummy_pos = l_mvp * vec4(0.0f, 0.0f, 0.0f, 1.0f);
-		//vec4 dummy_pos_b = shadow_matrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
-		bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
-		curr_shader->subSetup((void *)value_ptr(shadow_matrix), (void *) &shadRend, (void *) &l_mvp, &l_trans_mv);
+		else
+		{
+			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
+			curr_shader->subSetup(NULL, (void *) &shadRend, NULL, NULL);
+			printf(""); //Just so we can break here
+		}
 	}
-	else
+	else if (curr_shader->type == GOOCH)
 	{
-		bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
-		curr_shader->subSetup(NULL, (void *) &shadRend, NULL, NULL);
-		printf(""); //Just so we can break here
+		glm::vec3 warm_color = glm::vec3(0.6f, 0.6f, 0.0f);
+		glm::vec3 cool_color = glm::vec3(0.0f, 0.0f, 0.6f);
+		float diffuseWarm = 0.45;
+		float diffuseCool = 0.45;
+		curr_shader->subSetup(glm::value_ptr(warm_color), glm::value_ptr(cool_color), &diffuseWarm, &diffuseCool);
 	}
 	curr_shader->texSetup(this->texture, this->tile_texture);
 	glBindVertexArray(this->vertex_arr_handle);

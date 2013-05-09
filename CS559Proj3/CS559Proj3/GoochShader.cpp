@@ -16,13 +16,13 @@ void GoochShader::subInval(void)
 	this->cool_color_handle = BAD_GL_VALUE;
 	this->diffuse_warm_handle = BAD_GL_VALUE;
 	this->diffuse_cool_handle = BAD_GL_VALUE;
-	super::inval();
+	Shader::inval();
 }
 
 void GoochShader::subTakeDown(void)
 {
 	//Do any special cleanup here
-	super::TakeDown();
+	Shader::TakeDown();
 }
 
 //ARG1 = warmColor (vec3 *)
@@ -43,5 +43,6 @@ void GoochShader::subInit(void)
 	this->cool_color_handle = glGetUniformLocation(this->program_id, "coolColor");
 	this->diffuse_warm_handle = glGetUniformLocation(this->program_id, "diffuseWarm");
 	this->diffuse_cool_handle = glGetUniformLocation(this->program_id, "diffuseCool");
+	this->position_handle = glGetUniformLocation(this->program_id, "light_position"); //Different name in gooch
 	//Do any special initialization code here
 }
