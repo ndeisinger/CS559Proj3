@@ -168,6 +168,8 @@ bool World::init(int sphere_count)
 	initSkyboxes();
 	switchSkydome();
 	
+	dummy_gooch_shader.init(NONE);
+
 	//We used to init common shader here - that's now done in main
 
 	if (GLReturnedError("World init - on exit")) return false;
@@ -199,6 +201,7 @@ void World::draw(bool do_physics)
 	if (GLReturnedError("World draw - on entry")) return;
 	lightInfo * new_l = &l;
 	materialInfo * new_m = &m;
+	Shader * common_shader_back; //Used for Gooch
 	if (currCam == &birdsEye)
 	{
 		birdsEye.proj = glm::perspective(birdsEye.fov, window.aspect, 1.0f, 50000.0f); 
@@ -215,6 +218,8 @@ void World::draw(bool do_physics)
 	}
 	if (render_target == RENDER_GOOCH)
 	{
+		common_shader_back = common_shader;
+		common_shader = &dummy_gooch_shader;
 	}
 	////////////////////////WILL ALSO HAVE TO MOVE CUBE WITH SPHERE
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
@@ -256,5 +261,9 @@ void World::draw(bool do_physics)
 		world->Dump();
 	}
 	stadium.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
+	if (render_target == RENDER_GOOCH)
+	{
+		common_shader = common_shader_back;
+	}
 	if (GLReturnedError("World draw - on exit")) return;
 }

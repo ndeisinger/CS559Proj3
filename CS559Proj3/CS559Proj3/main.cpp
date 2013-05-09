@@ -107,6 +107,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_POLYGON_OFFSET_FILL);
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
+	glCullFace(GL_BACK);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, draw_width, draw_height);
 
@@ -154,6 +155,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	if (common_shader == global_shaders[1] && render_target != RENDER_SFBO)
 	{
 		//Horrible hacky gooch condition
+		RENDER_TARGET old_target = render_target;
 		render_target = RENDER_GOOCH;
 		glLineWidth(5.0);
 		glPolygonMode(GL_BACK, GL_LINE);
@@ -161,9 +163,10 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glCullFace(GL_FRONT);
 		draw_world.draw(false);
 		glLineWidth(1.0);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glDepthFunc(GL_LESS);
 		glCullFace(GL_BACK);
+		render_target = old_target;
 	}
 	if (render_target == RENDER_SFBO) {
 		glDisable(GL_CULL_FACE);
