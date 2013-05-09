@@ -111,10 +111,19 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	//Draw crosshair in middle of screen in locked position
 	glLineWidth(1.0);
 	glBegin(GL_LINES);
-	glVertex2f(-0.03f, 0);
-	glVertex2f( 0.03f, 0);
-	glVertex2f(0,-0.03f*window.aspect);
-	glVertex2f(0, 0.03f*window.aspect);
+	//For boring crosshair
+	//glVertex2f(-0.03f, 0);
+	//glVertex2f( 0.03f, 0);
+	//glVertex2f(0,-0.03f*window.aspect);
+	//glVertex2f(0, 0.03f*window.aspect);
+	//For Tilted one
+	glVertex2f(-0.02f,-0.02f*window.aspect);
+	glVertex2f( 0.02f, 0.02f*window.aspect);
+	glVertex2f(-0.02f, 0.02f*window.aspect);
+	glVertex2f( 0.02f,-0.02f*window.aspect);
+	//glVertex2f(0,-0.03f*window.aspect);
+	//glVertex2f(0, 0.03f*window.aspect);
+
 	glEnd();
 
 
