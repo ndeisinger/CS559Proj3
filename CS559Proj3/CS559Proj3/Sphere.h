@@ -16,7 +16,6 @@ public:
 	void initPhysics(b2World * world); //Set up our Box2D object
 	void updatePos();
 	void preSolve(b2Contact* contact, const b2Manifold* oldManifold);
-	void makeSkydome(void);
 
 	bool createBoxes(float w, int h, int d);
 

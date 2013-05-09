@@ -282,7 +282,7 @@ void SpecialFunc(int key, int x, int y)
 	{
 	case GLUT_KEY_F2:
 #ifdef _DEBUG
-		printf("Adjusting skyobx!\n");
+		printf("Adjusting skybox!\n");
 #endif
 		draw_world.switchSkydome();
 		break;

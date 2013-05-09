@@ -12,6 +12,7 @@
 #include "ContactListener.h"
 #include "Cursor.h"
 #include "Cube.h"
+#include "Skybox.h"
 //#define BOX2D_DEBUG
 
 class World
@@ -45,7 +46,7 @@ private:
 	lightInfo l; //Light for our world
 	materialInfo m; //Material for our world
 	ContactListener contactListener; //Deals with collisions
-	Sphere skydome; // Our skydome
+	Skybox skydome; // Our skydome
 	// The camera for the player is in the Player class
 
 	//Our various skybox configs
