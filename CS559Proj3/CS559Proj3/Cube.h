@@ -1,5 +1,5 @@
 #pragma once
-#include "drawobject.h"
+#include "DrawObject.h"
 #include "Box2D\Box2D.h"
 typedef DrawObject super;
 class Cube :
