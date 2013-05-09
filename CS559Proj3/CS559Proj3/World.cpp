@@ -167,8 +167,9 @@ bool World::init(int sphere_count)
 	sky_index = 0;
 	initSkyboxes();
 	switchSkydome();
+	
+	//We used to init common shader here - that's now done in main
 
-	common_shader->init(GOOCH);
 	if (GLReturnedError("World init - on exit")) return false;
 	return true;
 }
@@ -212,8 +213,9 @@ void World::draw(bool do_physics)
 		light_matrix = glm::lookAt(glm::vec3(l.position), glm::vec3(0.00001, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 		bp_matrix = bias_matrix * currCam->proj;
 	}
-	
-
+	if (render_target == RENDER_GOOCH)
+	{
+	}
 	////////////////////////WILL ALSO HAVE TO MOVE CUBE WITH SPHERE
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
 	{

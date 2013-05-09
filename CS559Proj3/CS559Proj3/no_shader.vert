@@ -15,9 +15,6 @@ out vec3 Color;
 void main()
 {
 	Color = vertex_color;
-	//gl_Position = vec4(vertex_color, 1.0); 
 	position = vertex_position;
-//	position = vec3(mv_matrix * vec4(vertex_position, 1.0));
-	//gl_Position = vec4(position, 1.0);
 	gl_Position =  mvp_matrix * vec4(position, 1.0);
 }

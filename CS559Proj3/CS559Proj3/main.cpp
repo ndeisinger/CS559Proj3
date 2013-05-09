@@ -66,6 +66,7 @@ glm::mat4 light_matrix; //Light's POV, used in dynamic shadows
 glm::mat4 bp_matrix; //Bias times light's projection matrix
 
 Axes common_axes;
+Shader * global_shaders[2]; //TEX_W_SHADOWS, GOOCH
 
 Cursor cursor;
 
@@ -127,8 +128,6 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 
 	glEnd();
 
-
-
 	if (msaa_on)
 	{
 		glEnable(GL_MULTISAMPLE_ARB);
@@ -152,6 +151,26 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glPolygonOffset(5.0f, 1.0f);
 	}
 	draw_world.draw(do_physics);
+	if (common_shader == global_shaders[1] && render_target != RENDER_SFBO)
+	{
+		//Horrible hacky gooch condition
+		render_target = RENDER_GOOCH;
+		glLineWidth(5.0);
+		glPolygonMode(GL_BACK, GL_LINE);
+		glDepthFunc(GL_LEQUAL);
+		glCullFace(GL_FRONT);
+		draw_world.draw(false);
+		glLineWidth(1.0);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glDepthFunc(GL_LESS);
+		glCullFace(GL_BACK);
+	}
+	if (render_target == RENDER_SFBO) {
+		glDisable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonOffset(0.0f, 0.0f);
+	}
 	if (do_physics)
 	{
 		glRasterPos2i(0, 0);
@@ -160,12 +179,6 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glPopMatrix();
 	}
 	glFlush();
-	if (render_target == RENDER_SFBO) {
-		glDisable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glPolygonOffset(0.0f, 0.0f);
-	}
 }
 
 void DisplayFunc()
@@ -287,6 +300,17 @@ void SpecialFunc(int key, int x, int y)
 #endif
 		draw_world.switchSkydome();
 		break;
+	case GLUT_KEY_F3:
+		//Switch shaders
+		if (common_shader == global_shaders[0])
+		{
+			common_shader = global_shaders[1];
+		}
+		else
+		{
+			common_shader = global_shaders[0];
+		}
+		break;
 	default:
 		break;
 	}
@@ -345,6 +369,14 @@ void initTextures()
 	fbo.initialize(glm::ivec2(512, 512), 1, true);
 	glActiveTexture(GL_TEXTURE0 + int(SHADOW_BUF));
 	s_fbo.initialize();
+}
+
+void initShaders()
+{
+	global_shaders[0] = new ShaderWithShadows();
+	global_shaders[0]->init(TEX_W_SHADOWS);
+	global_shaders[1] = new GoochShader();
+	global_shaders[1]->init(GOOCH);
 }
 
 int main (int argc, char * argv[])
@@ -420,11 +452,8 @@ int main (int argc, char * argv[])
 	ilutRenderer(ILUT_OPENGL);
 
 	initTextures();
-
-	ShaderWithShadows test_shader;
-	GoochShader gooch_test;
-	//common_shader = new Shader();
-	common_shader = &gooch_test;
+	initShaders();
+	common_shader = global_shaders[0];
 
 	draw_world.init(num_spheres);
 	game_player = draw_world.getPlayer();

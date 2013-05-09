@@ -37,7 +37,7 @@ public:
 
 
 //#pragma comment(lib, "glew32.lib") //wat
-enum RENDER_TARGET {RENDER_FULL, RENDER_FBO, RENDER_SFBO};
+enum RENDER_TARGET {RENDER_FULL, RENDER_FBO, RENDER_SFBO, RENDER_GOOCH};
 
 #define PI_D 3.14159265
 #define PI_F 3.14159265f
