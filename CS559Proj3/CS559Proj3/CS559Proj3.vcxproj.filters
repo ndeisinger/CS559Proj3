@@ -75,9 +75,11 @@
     <ClCompile Include="Cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+
     <ClCompile Include="Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+
     <ClCompile Include="GoochShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -206,9 +208,11 @@
     <ClInclude Include="Cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+
     <ClInclude Include="Skybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+
     <ClInclude Include="GoochShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
