@@ -180,9 +180,8 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}*/
-
-
-	this->createBoxes(50,50,50);
+	float boxDimensions = 2*this->getRadius();
+	this->createBoxes(boxDimensions, boxDimensions, boxDimensions);
 
 	if (GLReturnedError("Sphere::Initialize - on exit"))
 		return false;
@@ -193,7 +192,6 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 	bool Sphere::createBoxes(float w, int h, int d){
 
 		cube.init(w,h,d);
-
 
 		return true;
 	}
@@ -239,10 +237,7 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 	//const unsigned char * str = &watString[0];
 	////////////////////////////////////////////////////////////////////////////////////
 
-
 	cube.draw(proj, mv, size, time, l, m);
-
-
 
 	super::s_draw(proj, mv, size, time, l, m);
 #ifdef _DEBUG
@@ -273,9 +268,8 @@ void Sphere::updatePos(void)
 	b2Vec2 pos = circleBody->GetPosition();
 	this->position = glm::vec3(pos.x, 0.0, pos.y);
 
-	cube.setPos(glm::vec3(pos.x, 60.0, pos.y));
-
-
+	float cirRad = this->getRadius();
+	cube.setPos(glm::vec3(pos.x - cirRad, cirRad + 10, pos.y - cirRad));//take out that +10
 
 	if (data.time_left < 0 && !data.isPlayer)
 	{
@@ -288,7 +282,6 @@ void Sphere::updatePos(void)
 	else if (data.active)
 	{
 
-		
 
 		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this
 		this->texture = CONCRETE;
