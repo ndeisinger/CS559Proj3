@@ -160,9 +160,10 @@ void PassiveMotionFunc(int x, int y)
 	if (is_paused) return;
 	else
 	{
-		float ratio = (x - (float)window.width/2)/((float)window.width/2);
-		game_player->rotate(90.0f * ratio);
-		printf("ratio: %f\n", ratio);
+		float ang_ratio = (x - (float)window.width/2)/((float)window.width/2);
+		float speed_ratio = (((float)window.height/2) - y)/((float)window.height/2);
+		game_player->setSpeed(degToRad(90.0f) * ang_ratio, 60.0f * speed_ratio);
+		printf("ang_ratio: %f, speed_ratio: %f\n", ang_ratio, speed_ratio);
 
 		//Why is this here?
 		//DrawObject::draw_axes = !DrawObject::draw_axes;
