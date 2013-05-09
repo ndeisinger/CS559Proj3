@@ -290,6 +290,7 @@ void Sphere::updatePos(void)
 		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this
 		this->texture = CONCRETE;
 
+		/*
 //////////////////Drawing text goes here because of coord complaints in s_draw
 	glm::vec3 drawTextCoords = this->position;
 	float a = drawTextCoords.x;
@@ -321,7 +322,7 @@ void Sphere::updatePos(void)
 	//char stringbuf[80];
 	//sprintf_s(stringbuf, "AAAAA elapsed: %f,\n BBBBBBB left: %i\n", ass, titties);
 	//glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
-
+	*/
 	}
 
 	//Need some way to quickly change color if the ball is struck...

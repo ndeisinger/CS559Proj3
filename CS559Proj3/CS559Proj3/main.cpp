@@ -66,7 +66,9 @@ glm::mat4 light_matrix; //Light's POV, used in dynamic shadows
 glm::mat4 bp_matrix; //Bias times light's projection matrix
 
 Axes common_axes;
-Shader * global_shaders[2]; //TEX_W_SHADOWS, GOOCH
+const int NUM_SHADERS = 2;
+Shader * global_shaders[NUM_SHADERS]; //TEX_W_SHADOWS, GOOCH
+int global_shader_id = 0;
 
 Cursor cursor;
 
@@ -79,6 +81,79 @@ void getDevILErr()
 		printf("%d: %s/n", Error, iluErrorString(Error));
 	} 
 }
+
+
+void initTextures()
+{
+	GLuint tid[NUM_TEXTS];
+	int i = 0;
+	for (i = 0; i < NUM_TEXTS; i++)
+	{
+		if (texts[i] == NULL) { break; }
+		ilGenImages(1, &tex[i]); // Set up texture handle.
+		ilBindImage(tex[i]);
+	
+		//Below code is also taken from the DevIL documentation.
+		//I'd love to know why I had to jump through these hoops,
+		//But in any event the normal load function was failing.
+		//My guess? Wrong DLL (non-Unicode v. unicode).
+		ILubyte *Lump;
+		ILuint Size;
+		FILE *File;
+
+		int err = fopen_s(&File, texts[i], "rb");
+		if (err)
+		{
+			fprintf(stderr, "Error: Could not open texture %s", texts[i]);
+			exit(-1);
+		}
+		fseek(File, 0, SEEK_END);
+		Size = ftell(File);
+
+		Lump = (ILubyte*)malloc(Size);
+		fseek(File, 0, SEEK_SET);
+		fread(Lump, 1, Size, File);
+		fclose(File);
+
+		if (!ilLoadL(IL_JPG, Lump, Size)) { getDevILErr(); exit(1); }
+		free(Lump);
+
+		glActiveTexture((GL_TEXTURE0 + i));
+		glGenTextures(1, &tid[i]);
+		glBindTexture(GL_TEXTURE_2D, tid[i]);
+		int w = ilGetInteger(IL_IMAGE_WIDTH);
+		int h = ilGetInteger(IL_IMAGE_HEIGHT);
+		void * data = ilGetData();
+		ilutGLBindTexImage();
+		
+
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	}
+	glActiveTexture(GL_TEXTURE0 + int(FRAME_BUF));
+	fbo.initialize(glm::ivec2(512, 512), 1, true);
+	glActiveTexture(GL_TEXTURE0 + int(SHADOW_BUF));
+	s_fbo.initialize();
+}
+
+void cycleShaders()
+{
+	global_shader_id++;
+	global_shader_id %= NUM_SHADERS;
+	common_shader = global_shaders[global_shader_id];
+	render_shader = RENDER_SHADER(global_shader_id);
+}
+
+void initShaders()
+{
+	global_shaders[0] = new ShaderWithShadows();
+	global_shaders[0]->init(TEX_W_SHADOWS);
+	global_shaders[1] = new GoochShader();
+	global_shaders[1]->init(GOOCH);
+}
+
 
 void PassiveMotionFunc(int x, int y)
 {
@@ -189,7 +264,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 void DisplayFunc()
 {
 	if (is_paused) return;
-	if (useShadows)
+	if (useShadows && (render_shader == TEX_SHADER))
 	{
 		s_fbo.bind(0);
 		render_target = RENDER_SFBO;
@@ -307,81 +382,11 @@ void SpecialFunc(int key, int x, int y)
 		break;
 	case GLUT_KEY_F3:
 		//Switch shaders
-		if (common_shader == global_shaders[0])
-		{
-			common_shader = global_shaders[1];
-		}
-		else
-		{
-			common_shader = global_shaders[0];
-		}
+		cycleShaders();
 		break;
 	default:
 		break;
 	}
-}
-
-void initTextures()
-{
-	GLuint tid[NUM_TEXTS];
-	int i = 0;
-	for (i = 0; i < NUM_TEXTS; i++)
-	{
-		if (texts[i] == NULL) { break; }
-		ilGenImages(1, &tex[i]); // Set up texture handle.
-		ilBindImage(tex[i]);
-	
-		//Below code is also taken from the DevIL documentation.
-		//I'd love to know why I had to jump through these hoops,
-		//But in any event the normal load function was failing.
-		//My guess? Wrong DLL (non-Unicode v. unicode).
-		ILubyte *Lump;
-		ILuint Size;
-		FILE *File;
-
-		int err = fopen_s(&File, texts[i], "rb");
-		if (err)
-		{
-			fprintf(stderr, "Error: Could not open texture %s", texts[i]);
-			exit(-1);
-		}
-		fseek(File, 0, SEEK_END);
-		Size = ftell(File);
-
-		Lump = (ILubyte*)malloc(Size);
-		fseek(File, 0, SEEK_SET);
-		fread(Lump, 1, Size, File);
-		fclose(File);
-
-		if (!ilLoadL(IL_JPG, Lump, Size)) { getDevILErr(); exit(1); }
-		free(Lump);
-
-		glActiveTexture((GL_TEXTURE0 + i));
-		glGenTextures(1, &tid[i]);
-		glBindTexture(GL_TEXTURE_2D, tid[i]);
-		int w = ilGetInteger(IL_IMAGE_WIDTH);
-		int h = ilGetInteger(IL_IMAGE_HEIGHT);
-		void * data = ilGetData();
-		ilutGLBindTexImage();
-		
-
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	}
-	glActiveTexture(GL_TEXTURE0 + int(FRAME_BUF));
-	fbo.initialize(glm::ivec2(512, 512), 1, true);
-	glActiveTexture(GL_TEXTURE0 + int(SHADOW_BUF));
-	s_fbo.initialize();
-}
-
-void initShaders()
-{
-	global_shaders[0] = new ShaderWithShadows();
-	global_shaders[0]->init(TEX_W_SHADOWS);
-	global_shaders[1] = new GoochShader();
-	global_shaders[1]->init(GOOCH);
 }
 
 int main (int argc, char * argv[])

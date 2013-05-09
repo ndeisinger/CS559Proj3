@@ -38,6 +38,7 @@ public:
 
 //#pragma comment(lib, "glew32.lib") //wat
 enum RENDER_TARGET {RENDER_FULL, RENDER_FBO, RENDER_SFBO, RENDER_GOOCH};
+enum RENDER_SHADER {TEX_SHADER, GOOCH_SHADER};
 
 #define PI_D 3.14159265
 #define PI_F 3.14159265f
@@ -45,6 +46,7 @@ static bool GLEW_IS_INIT = false;
 static bool WON_GAME = false;
 extern bool useShadows;
 extern RENDER_TARGET render_target;
+extern RENDER_SHADER render_shader;
 extern Window window;
 
 //For dynamic shadows

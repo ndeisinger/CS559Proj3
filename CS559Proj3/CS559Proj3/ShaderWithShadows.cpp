@@ -53,7 +53,7 @@ void ShaderWithShadows::subSetup(void * arg1, void * arg2, void * arg3, void * a
 		glUniformMatrix4fv(mv_mat_handle, 1, GL_FALSE, glm::value_ptr(*((glm::mat4 *)arg4)));
 	}
 	glUniform1i(shad_pass_handle, (int)(depth_pass));
-	glUniform1i(draw_shad_handle, (int)(useShadows));
+	glUniform1i(draw_shad_handle, (int)(useShadows && (render_shader == TEX_SHADER)));
 	glUniform1i(shad_buf_handle, int(SHADOW_BUF));
 }
 

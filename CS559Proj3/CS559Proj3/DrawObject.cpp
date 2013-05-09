@@ -131,7 +131,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	}
 	if (curr_shader->type == TEX_W_SHADOWS)
 	{
-		if (useShadows)
+		if ((render_shader == TEX_SHADER) && useShadows)
 		{
 			glm::mat4 l_trans_mv = translate(light_matrix, position);
 			if (physicsBody != NULL)
