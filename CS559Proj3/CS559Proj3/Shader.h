@@ -8,7 +8,7 @@
 #define BAD_GL_VALUE GLuint(-1)
 
 //Class for our various shaders.
-enum SHADER_TYPE {NONE, FLAT, GOURAUD, PHONG, DEBUG_POS, MAX, NORM, DEBUG_NORM, TEX, TEX_W_SHADOWS, TEX_NO_LIGHTING}; //max val used to help us cycle
+enum SHADER_TYPE {NONE, FLAT, GOURAUD, PHONG, DEBUG_POS, GOOCH, MAX, NORM, DEBUG_NORM, TEX, TEX_W_SHADOWS, TEX_NO_LIGHTING}; //max val used to help us cycle
 class Shader
 {
 public:

@@ -113,6 +113,8 @@
     <None Include="debug_pos_shader.vert" />
     <None Include="FlatShader.frag" />
     <None Include="FlatShader.vert" />
+    <None Include="gooch_shader.frag" />
+    <None Include="gooch_shader.vert" />
     <None Include="norm_shader.frag" />
     <None Include="norm_shader.vert" />
     <None Include="no_shader.frag" />

@@ -130,7 +130,7 @@ bool World::init(int sphere_count)
 	m.kA = glm::vec3(0.9f, 0.9f, 0.9f);
 	m.kD = glm::vec3(0.5f, 0.5f, 0.5f);
 	m.kS = glm::vec3(0.6f, 0.6f, 0.6f);
-	m.shininess = 0.6f;
+	m.shininess = 2.5f;
 	
 	cursor.init(glm::vec3(0.0f, 0.0f, 0.0f));
 

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{57145b7a-7263-4d36-b3fb-b901360c57ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,57 +77,63 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ADSShader.frag">
-      <Filter>Source Files</Filter>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="gooch_shader.frag">
+      <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="ADSShader.vert">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="debug_pos_shader.frag">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="debug_pos_shader.vert">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="FlatShader.frag">
-      <Filter>Source Files</Filter>
+    <None Include="gooch_shader.vert">
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="FlatShader.vert">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="FlatShader.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="debug_pos_shader.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="debug_pos_shader.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="ADSShader.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="ADSShader.frag">
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="no_shader.frag">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="no_shader.vert">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="norm_shader.frag">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="norm_shader.vert">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Phong_shader.frag">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Phong_shader.vert">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="tex_shader.frag">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="tex_shader.vert">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="tex_shader_w_shadows.frag">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="tex_shader_w_shadows.vert">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="tex_no_lighting.frag">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="tex_shader.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="tex_shader.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="tex_shader_w_shadows.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="tex_shader_w_shadows.vert">
+      <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ class ShaderWithShadows :
 public:
 	ShaderWithShadows(void);
 	~ShaderWithShadows(void);
-	virtual void subSetup(void * arg1, void * arg2, void * arg3, void * arg4);
+	void subSetup(void * arg1, void * arg2, void * arg3, void * arg4);
 
 	void subInit(void); //To be overridden
 	void subTakeDown(void);

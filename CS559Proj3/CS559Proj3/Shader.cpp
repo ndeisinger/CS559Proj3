@@ -307,6 +307,9 @@ bool Shader::init(SHADER_TYPE t)
 		vertex_shader_file = "tex_shader.vert";
 		fragment_shader_file = "tex_no_lighting.frag";
 		break;
+	case GOOCH:
+		vertex_shader_file = "gooch_shader.vert";
+		fragment_shader_file = "gooch_shader.frag";
 	default:
 		return false;
 	}
