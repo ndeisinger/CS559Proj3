@@ -179,10 +179,11 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
 	//printf("In drawFunc\n");
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_POLYGON_OFFSET_FILL);
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
-	glCullFace(GL_BACK);
+	//glCullFace(GL_BACK);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, draw_width, draw_height);
 
@@ -203,6 +204,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	//glVertex2f(0, 0.03f*window.aspect);
 
 	glEnd();
+	glDepthFunc(GL_LESS);
 
 	if (msaa_on)
 	{
@@ -221,16 +223,13 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 	if (render_target == RENDER_SFBO) {
-		glEnable(GL_CULL_FACE); //Not only saves us computation, it also makes sure we're winding correctly.  How nice!
 		glCullFace(GL_FRONT);
 		glPolygonMode(GL_BACK, GL_FILL);
 		glPolygonOffset(5.0f, 1.0f);
 	}
 	draw_world.draw(do_physics);
-	if (common_shader == global_shaders[1] && render_target != RENDER_SFBO)
+	if (render_shader == GOOCH_SHADER)
 	{
-		/*
-		//Horrible hacky gooch condition
 		RENDER_TARGET old_target = render_target;
 		render_target = RENDER_GOOCH;
 		glLineWidth(5.0);
@@ -243,20 +242,19 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glDepthFunc(GL_LESS);
 		glCullFace(GL_BACK);
 		render_target = old_target;
-		*/
 	}
 	if (render_target == RENDER_SFBO) {
-		glDisable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glPolygonOffset(0.0f, 0.0f);
+		glPolygonOffset(1.0f, 1.0f);
 	}
-	if (do_physics)
+	if (render_target == RENDER_FULL)
 	{
+		/*
 		glRasterPos2i(0, 0);
 		glPushMatrix();
 		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
-		glPopMatrix();
+		glPopMatrix();*/
 	}
 	glFlush();
 }

@@ -85,26 +85,28 @@ bool Skybox::initialize(float radius, int slices, int stacks)
 			m2_nxt = rotate(m2, delta, z_axis);
 
 			//Code for generating texture coords on a sphere taken from http://www.mvps.org/directx/articles/spheremap.htm
+			//However, we use opposite values for x and y than suggested so that our texture is not flipped
+			//(as we're seeing the 'inside' of the sphere)
 			VertexAttPCNT cur_vertex_top, cur_vertex_bottom , nxt_vertex_top,nxt_vertex_bottom;
 			cur_vertex_top.pos = vec3((m*m2)*r_vec);	
-			cur_vertex_top.norm = -normalize(cur_vertex_top.pos);
-			cur_vertex_top.tex_coord.x = asin(cur_vertex_top.norm.x)/PI_F + 0.5f;
-			cur_vertex_top.tex_coord.y = asin(cur_vertex_top.norm.y)/PI_F + 0.5f;
+			cur_vertex_top.norm = normalize(-cur_vertex_top.pos);
+			cur_vertex_top.tex_coord.y = asin(cur_vertex_top.norm.x)/PI_F + 0.5f;
+			cur_vertex_top.tex_coord.x = asin(cur_vertex_top.norm.y)/PI_F + 0.5f;
 
 			nxt_vertex_top.pos = vec3((m_nxt*m2)*r_vec);	
-			nxt_vertex_top.norm = -normalize(nxt_vertex_top.pos);
-			nxt_vertex_top.tex_coord.x = asin(nxt_vertex_top.norm.x)/PI_F + 0.5f;
-			nxt_vertex_top.tex_coord.y = asin(nxt_vertex_top.norm.y)/PI_F + 0.5f;
+			nxt_vertex_top.norm = normalize(-nxt_vertex_top.pos);
+			nxt_vertex_top.tex_coord.y = asin(nxt_vertex_top.norm.x)/PI_F + 0.5f;
+			nxt_vertex_top.tex_coord.x = asin(nxt_vertex_top.norm.y)/PI_F + 0.5f;
 
 			cur_vertex_bottom.pos = vec3((m*m2_nxt)*r_vec);	
-			cur_vertex_bottom.norm = -normalize(cur_vertex_bottom.pos);
-			cur_vertex_bottom.tex_coord.x = asin(cur_vertex_bottom.norm.x)/PI_F + 0.5f;
-			cur_vertex_bottom.tex_coord.y = asin(cur_vertex_bottom.norm.y)/PI_F + 0.5f;
+			cur_vertex_bottom.norm = normalize(-cur_vertex_bottom.pos);
+			cur_vertex_bottom.tex_coord.y = asin(cur_vertex_bottom.norm.x)/PI_F + 0.5f;
+			cur_vertex_bottom.tex_coord.x = asin(cur_vertex_bottom.norm.y)/PI_F + 0.5f;
 
 			nxt_vertex_bottom.pos = vec3((m_nxt*m2_nxt)*r_vec);	
-			nxt_vertex_bottom.norm = -normalize(nxt_vertex_bottom.pos);
-			nxt_vertex_bottom.tex_coord.x = asin(nxt_vertex_bottom.norm.x)/PI_F + 0.5f;
-			nxt_vertex_bottom.tex_coord.y = asin(nxt_vertex_bottom.norm.y)/PI_F + 0.5f;
+			nxt_vertex_bottom.norm = normalize(-nxt_vertex_bottom.pos);
+			nxt_vertex_bottom.tex_coord.y = asin(nxt_vertex_bottom.norm.x)/PI_F + 0.5f;
+			nxt_vertex_bottom.tex_coord.x = asin(nxt_vertex_bottom.norm.y)/PI_F + 0.5f;
 
 
 			if(solidColor)
@@ -126,8 +128,8 @@ bool Skybox::initialize(float radius, int slices, int stacks)
 			this->atts_pcnt.push_back(cur_vertex_bottom);
 			this->atts_pcnt.push_back(nxt_vertex_bottom);
 	
-			this->vertex_indices.push_back(this->atts_pcnt.size() - 3);
 			this->vertex_indices.push_back(this->atts_pcnt.size() - 1);
+			this->vertex_indices.push_back(this->atts_pcnt.size() - 3);
 			this->vertex_indices.push_back(this->atts_pcnt.size() - 2);
 
 			this->BuildNormalVisualizationGeometry();
@@ -136,8 +138,8 @@ bool Skybox::initialize(float radius, int slices, int stacks)
 			this->atts_pcnt.push_back(nxt_vertex_bottom);
 			this->atts_pcnt.push_back(nxt_vertex_top);
 	
-			this->vertex_indices.push_back(this->atts_pcnt.size() - 3);
 			this->vertex_indices.push_back(this->atts_pcnt.size() - 1);
+			this->vertex_indices.push_back(this->atts_pcnt.size() - 3);
 			this->vertex_indices.push_back(this->atts_pcnt.size() - 2);
 
 			this->BuildNormalVisualizationGeometry();

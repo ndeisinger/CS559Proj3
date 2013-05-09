@@ -221,7 +221,7 @@ void World::draw(bool do_physics)
 		common_shader_back = common_shader;
 		common_shader = &dummy_gooch_shader;
 	}
-	////////////////////////WILL ALSO HAVE TO MOVE CUBE WITH SPHERE
+
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
 	{
 		if (render_target == RENDER_FULL)

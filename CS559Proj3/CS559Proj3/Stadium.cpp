@@ -21,6 +21,7 @@ void Stadium::TakeDown(void)
 	wall_three.TakeDown();
 	wall_four.TakeDown();
 	floor.TakeDown();
+
 	screen_one.TakeDown();
 	screen_two.TakeDown();
 }
