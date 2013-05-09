@@ -13,6 +13,7 @@
 #include "FrameBufferObject.h"
 #include "ShadowFBO.h"
 #include "ShaderWithShadows.h"
+#include "GoochShader.h"
 #include "Axes.h"
 #include "Sphere.h"
 #include "Cursor.h"
@@ -421,8 +422,9 @@ int main (int argc, char * argv[])
 	initTextures();
 
 	ShaderWithShadows test_shader;
+	GoochShader gooch_test;
 	//common_shader = new Shader();
-	common_shader = &test_shader;
+	common_shader = &gooch_test;
 
 	draw_world.init(num_spheres);
 	game_player = draw_world.getPlayer();

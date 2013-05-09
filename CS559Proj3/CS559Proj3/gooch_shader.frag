@@ -1,9 +1,8 @@
 #version 400
-#extension GL_ARB_separate_shader_objects : enable
 
 layout (location = 0) out vec4 fragColor;
 
-in float NdotL
+in float NdotL;
 in vec3 reflectVec;
 in vec3 viewVec;
 in vec2 texCoord;
@@ -20,9 +19,11 @@ uniform vec3 diffuseCool;
 
 uniform sampler2D Tex1;
 
+out vec4 FragColor;
+
 void main()
 {
-	vec3 surfaceColor = texture(Tex1, texCoord);
+	vec3 surfaceColor = vec3(texture(Tex1, texCoord));
 	vec3 kcool = min(coolColor + diffuseCool * surfaceColor, 1.0);
 	vec3 kwarm = min(warmColor + diffuseWarm * surfaceColor, 1.0);
 	vec3 kfinal = mix(kcool, kwarm, NdotL);

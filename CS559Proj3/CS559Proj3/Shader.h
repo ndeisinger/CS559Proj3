@@ -28,6 +28,7 @@ public:
 	virtual void subTakeDown(void); //
 	void reload(SHADER_TYPE t);
 	std::stringstream GetShaderLog(GLuint shader_id);
+	std::stringstream Shader::GetProgramLog(GLuint program_id);
 	SHADER_TYPE type;
 
 	static GLint light_index;

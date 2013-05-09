@@ -310,6 +310,7 @@ bool Shader::init(SHADER_TYPE t)
 	case GOOCH:
 		vertex_shader_file = "gooch_shader.vert";
 		fragment_shader_file = "gooch_shader.frag";
+		break;
 	default:
 		return false;
 	}
@@ -357,6 +358,8 @@ bool Shader::init(SHADER_TYPE t)
 	if (!this->program_id)
 	{
 		fprintf(stderr, "Could not create shader program!\n");
+		init(NONE);
+		return false;
 	}
 
 	glAttachShader(this->program_id, this->vertex_s_id);
@@ -375,8 +378,10 @@ bool Shader::init(SHADER_TYPE t)
 	glGetProgramiv(this->program_id, GL_LINK_STATUS, &gl_check);
 	if (gl_check != GL_TRUE)
 	{
-		//TODO: Implement shader log
-		fprintf(stderr, "GLSL compilation failed: could not link program\n");
+		fprintf(stderr, "GLSL compilation failed: could not link program\n", fragment_shader_file);
+		fprintf(stderr, "%s", this->GetProgramLog(this->program_id).str());
+		init(NONE);
+		return false;
 	}
 
 	glDeleteShader(this->vertex_s_id);
@@ -480,6 +485,24 @@ stringstream Shader::GetShaderLog(GLuint shader_id)
 		GLchar * buffer = new GLchar[log_length];
 		glGetShaderInfoLog(shader_id, log_length, NULL, buffer);
 		s << "Shader log:" << endl;
+		s << buffer << endl;
+		delete [] buffer;
+	}
+	return s;
+}
+
+stringstream Shader::GetProgramLog(GLuint program_id)
+{
+	stringstream s;
+	GLint log_length;
+	glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &log_length);
+	if (log_length <= 0)
+		s << "No program log information available." << endl;
+	else
+	{
+		GLchar * buffer = new GLchar[log_length];
+		glGetProgramInfoLog(program_id, log_length, NULL, buffer);
+		s << "Program log:" << endl;
 		s << buffer << endl;
 		delete [] buffer;
 	}

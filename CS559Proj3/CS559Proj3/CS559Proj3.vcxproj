@@ -93,6 +93,7 @@
     <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="FrameBufferObject.cpp" />
     <ClCompile Include="glutInclude.cpp" />
+    <ClCompile Include="GoochShader.cpp" />
     <ClCompile Include="Jumbotron.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="DrawObject.h" />
     <ClInclude Include="FrameBufferObject.h" />
     <ClInclude Include="glutInclude.h" />
+    <ClInclude Include="GoochShader.h" />
     <ClInclude Include="Jumbotron.h" />
     <ClInclude Include="MaterialInfo.h" />
     <ClInclude Include="PhysicsInclude.h" />
