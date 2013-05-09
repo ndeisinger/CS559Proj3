@@ -75,7 +75,7 @@ bool DrawObject::initialize(void)
 	this->color = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->position = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->physicsBody = NULL;
-	this->texture = DIRT;
+	this->texture = TEXTTEST;
 	this->shader = NULL;
 	this->tile_texture = FALSE;
 	if (GLReturnedError("DrawObject initialize - on exit\n")) return false;
