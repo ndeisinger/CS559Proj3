@@ -55,7 +55,7 @@ void World::initSkyboxes(void)
 			skyboxes[i].tex = SKY;
 			break;
 		case NIGHT_SKY:
-			skyboxes[i].l.position = glm::vec4(300.0f, 600.0f, 0.0f, 1.0f);
+			skyboxes[i].l.position = glm::vec4(-300.0f, 600.0f, 0.0f, 1.0f);
 			skyboxes[i].l.amb = glm::vec3(0.1f, 0.1f, 0.1f);
 			skyboxes[i].l.diff = glm::vec3(0.5f, 0.5f, 0.5f);
 			skyboxes[i].l.spec = glm::vec3(0.7f, 0.7f, 0.7f);
@@ -94,9 +94,7 @@ bool World::init(int sphere_count)
 		new_s->initPhysics(world); //Since this uses the inital position, must call after setPos
 		
 		cube.init(50.0f,50.0f,50.0f);
-		cube.setPos(glm::vec3(spherePosForCube.x, 70.0f, spherePosForCube.z));
-
-		
+		cube.setPos(glm::vec3(spherePosForCube.x, 70.0f, spherePosForCube.z));		
 		
 		this->spheres.push_back(new_s);
 #endif
@@ -170,7 +168,7 @@ bool World::init(int sphere_count)
 	initSkyboxes();
 	switchSkydome();
 
-	common_shader->init(TEX);
+	common_shader->init(TEX_W_SHADOWS);
 	if (GLReturnedError("World init - on exit")) return false;
 	return true;
 }

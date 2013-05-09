@@ -11,10 +11,18 @@ out vec2 texCoord;
 uniform mat4 mvp_matrix;
 uniform mat4 mv_matrix;
 uniform mat3 n_matrix;
+uniform bool tile_textures;
 
 void main()
 {
-	texCoord = vertex_tex_coord;
+	if(tile_textures)
+	{
+		texCoord = vertex_tex_coord * 10;
+	}
+	else
+	{
+		texCoord = vertex_tex_coord;
+	}
 	normal = normalize(n_matrix * vertex_normal);
 	vert_position = vec3(mv_matrix * vec4(vertex_position, 1.0));
 	gl_Position = mvp_matrix * vec4(vertex_position, 1.0);

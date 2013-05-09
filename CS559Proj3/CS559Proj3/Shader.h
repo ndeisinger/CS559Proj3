@@ -23,7 +23,7 @@ public:
 	void use(void);
 	void lightSetup(lightInfo & l);
 	void materialSetup(materialInfo & m);
-	void texSetup(TEXTURE_TYPE type);
+	void texSetup(TEXTURE_TYPE type, bool doTiles);
 	void TakeDown(void); //TODO: Different protection? X Nah, we want to be able to call it from main.
 	virtual void subTakeDown(void); //
 	void reload(SHADER_TYPE t);
@@ -53,6 +53,7 @@ protected:
 	GLuint material_handle; // Material buffer handle.
 
 	GLint tex_handle; // Texture handle.
+	GLint tile_handle; // Indicate if we tile our textures
 	
 	GLuint program_id; // Program handle.
 	GLuint vertex_s_id; // Vertex shader handle.

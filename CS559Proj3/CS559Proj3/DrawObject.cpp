@@ -77,6 +77,7 @@ bool DrawObject::initialize(void)
 	this->physicsBody = NULL;
 	this->texture = DIRT;
 	this->shader = NULL;
+	this->tile_texture = FALSE;
 	if (GLReturnedError("DrawObject initialize - on exit\n")) return false;
 	return true;
 }
@@ -148,7 +149,7 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		curr_shader->subSetup(NULL, (void *) &shadRend, NULL, NULL);
 		printf(""); //Just so we can break here
 	}
-	curr_shader->texSetup(this->texture);
+	curr_shader->texSetup(this->texture, this->tile_texture);
 	glBindVertexArray(this->vertex_arr_handle);
 	glDrawElements(this->draw_type, this->vertex_indices.size(), GL_UNSIGNED_INT, &this->vertex_indices[0]);
 	glBindVertexArray(0);

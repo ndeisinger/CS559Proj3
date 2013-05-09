@@ -65,6 +65,9 @@ void Shader::inval()
 	this->kd_handle = BAD_GL_VALUE;
 	this->ks_handle = BAD_GL_VALUE;
 
+	this->tex_handle = BAD_GL_VALUE;
+	this->tile_handle = BAD_GL_VALUE;
+
 	this->lightBuffer = NULL;
 	this->matBuffer = NULL;
 
@@ -250,9 +253,10 @@ void Shader::materialSetup(materialInfo & m)
 		GLReturnedError("Shader - materialSetup on exit\n");
 }*/
 
-void Shader::texSetup(TEXTURE_TYPE type)
+void Shader::texSetup(TEXTURE_TYPE type, bool doTiles)
 {
 	glUniform1i(this->tex_handle, int(type));
+	glUniform1i(this->tile_handle, doTiles);
 	return;
 }
 
@@ -396,17 +400,9 @@ bool Shader::init(SHADER_TYPE t)
 	this->kd_handle = glGetUniformLocation(this->program_id, "kD");
 	this->ks_handle = glGetUniformLocation(this->program_id, "kS");
 	this->shininess_handle = glGetUniformLocation(this->program_id, "shininess");
-
-	/*
-	if (this->light_index == BAD_GL_VALUE)//(t == GOURAUD || t == PHONG || t == FLAT) && this->light_index == BAD_GL_VALUE)
-	{
-		this->light_index = glGetUniformBlockIndex(this->program_id, "lightInfo");
-	}
-	if (this->material_index == BAD_GL_VALUE)
-	{
-		this->material_index = glGetUniformBlockIndex(this->program_id, "materialInfo");
-	}*/
+	
 	this->tex_handle = glGetUniformLocation(this->program_id, "Tex1");
+	this->tile_handle = glGetUniformLocation(this->program_id, "tile_textures");
 
 	subInit();
 

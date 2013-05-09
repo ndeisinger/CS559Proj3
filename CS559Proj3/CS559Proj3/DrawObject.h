@@ -23,6 +23,7 @@ public:
 	void switchShader(SHADER_TYPE t);
 	inline void setShader(Shader * newShader) { shader = newShader; customShader = true; }
 	inline void setTexture(TEXTURE_TYPE type) { texture = type;}
+	inline void toggleTiling(bool doTile) { tile_texture = doTile; }
 
 	void setPos(glm::vec3 pos);
 	inline glm::vec3 getPos() { return position; };
@@ -67,6 +68,7 @@ protected:
 
 	Shader * shader;
 	TEXTURE_TYPE texture;
+	bool tile_texture;
 
 	b2Body * physicsBody; //This will be left unused if there are no associated phsyics
 

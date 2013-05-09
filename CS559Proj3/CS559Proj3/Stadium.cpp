@@ -34,22 +34,27 @@ void Stadium::init(void)
 	//wall_one.init(0.1f, WALL_HEIGHT, 2 * WALL_LENGTH);
 
 	ShaderWithShadows * s = new ShaderWithShadows();
-	s->init(TEX);
+	s->init(TEX_W_SHADOWS);
 	wall_one.init(1.0f, WALL_HEIGHT, 2 * WALL_LENGTH);
 
 	wall_one.setPos(glm::vec3(WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
 	wall_one.setShader(s);
+	wall_one.toggleTiling(true);
 	wall_two.init(1.0f, WALL_HEIGHT, 2 * WALL_LENGTH);
 	wall_two.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
 	wall_two.setShader(s);
+	wall_two.toggleTiling(true);
 	wall_three.init(2 * WALL_LENGTH, WALL_HEIGHT, 1.0f);
 	wall_three.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, WALL_LENGTH));
 	wall_three.setShader(s);
+	wall_three.toggleTiling(true);
 	wall_four.init(2 * WALL_LENGTH, WALL_HEIGHT, 1.0f);
 	wall_four.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
 	wall_four.setShader(s);
+	wall_four.toggleTiling(true);
 	floor.init(2 * WALL_LENGTH, 1.0f, 2 * WALL_LENGTH);
 	floor.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
+	floor.toggleTiling(true);
 	floor.setShader(s); //TODO: Floor needs a special shader
 
 	screen_one.init(glm::vec3(WALL_LENGTH + 1.1, 0.0f, 1.0f), false);
