@@ -59,7 +59,7 @@ void Stadium::init(void)
 	floor.setShader(s); //TODO: Floor needs a special shader
 
 	screen_one.init(glm::vec3(WALL_LENGTH + 1.1, 0.0f, 1.0f), false);
-	screen_two.init(glm::vec3(-WALL_LENGTH - 1.1f, 0.0f, -1.0f), true);
+	screen_two.init(glm::vec3(WALL_LENGTH + 1.1f, 0.0f, 1.0f), false);
 	if (GLReturnedError("Stadium init - on exit")) return;
 }
 
@@ -135,7 +135,7 @@ bool Stadium::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size
 	wall_four.draw(proj, mv, size, time, l, m);
 	floor.draw(proj, mv, size, time, l, m);
 	screen_one.draw(proj, mv, size, time, l, m);
-	screen_two.draw(proj, mv, size, time, l, m);
+	screen_two.draw(proj, glm::rotate(mv, 180.0f, glm::vec3(0.0, 1.0, 0.0)), size, time, l, m);
 	if (GLReturnedError("Stadium draw - on exit")) return false;
 	return true;
 }

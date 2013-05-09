@@ -237,7 +237,9 @@ void World::draw(bool do_physics)
 	
 	cursor.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 
+	
 	stadium.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
+
 
 	skydome.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 
@@ -252,7 +254,6 @@ void World::draw(bool do_physics)
 		printf("Stop! 10000 passed.\n");
 		world->Dump();
 	}
-	stadium.draw(currCam->proj, currCam->modelview, glm::ivec2(1.0, 1.0), 0.0f, new_l, new_m);
 	if (render_target == RENDER_GOOCH)
 	{
 		common_shader = common_shader_back;
