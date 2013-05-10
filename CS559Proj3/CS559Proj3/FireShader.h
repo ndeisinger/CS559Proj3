@@ -14,5 +14,6 @@ public:
 protected:
 	void subInval(void);
 	GLuint noiseHandle;
+	GLuint activeHandle;
 };
 

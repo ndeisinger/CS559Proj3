@@ -269,51 +269,51 @@ bool Shader::init(SHADER_TYPE t)
 	switch (t)
 	{
 	case NONE:
-		vertex_shader_file = "no_shader.vert";
-		fragment_shader_file = "no_shader.frag";
+		vertex_shader_file = "shaders\\no_shader.vert";
+		fragment_shader_file = "shaders\\no_shader.frag";
 		break;
 	case PHONG:
-		vertex_shader_file = "Phong_shader.vert";
-		fragment_shader_file = "Phong_shader.frag";
+		vertex_shader_file = "shaders\\Phong_shader.vert";
+		fragment_shader_file = "shaders\\Phong_shader.frag";
 		break;
 	case GOURAUD:
-		vertex_shader_file = "ADSShader.vert";
-		fragment_shader_file = "ADSShader.frag";
+		vertex_shader_file = "shaders\\ADSShader.vert";
+		fragment_shader_file = "shaders\\ADSShader.frag";
 		 break;
 	case FLAT:
-		vertex_shader_file = "FlatShader.vert";
-		fragment_shader_file = "FlatShader.frag";
+		vertex_shader_file = "shaders\\FlatShader.vert";
+		fragment_shader_file = "shaders\\FlatShader.frag";
 		break;
 	case DEBUG_POS:
-		vertex_shader_file = "debug_pos_shader.vert";
-		fragment_shader_file = "debug_pos_shader.frag";
+		vertex_shader_file = "shaders\\debug_pos_shader.vert";
+		fragment_shader_file = "shaders\\debug_pos_shader.frag";
 		break;
 	case DEBUG_NORM:
-		vertex_shader_file = "debug_norm_shader.vert";
-		fragment_shader_file = "debug_norm_shader.frag";
+		vertex_shader_file = "shaders\\debug_norm_shader.vert";
+		fragment_shader_file = "shaders\\debug_norm_shader.frag";
 	case NORM:
-		vertex_shader_file = "norm_shader.vert";
-		fragment_shader_file = "norm_shader.frag";
+		vertex_shader_file = "shaders\\norm_shader.vert";
+		fragment_shader_file = "shaders\\norm_shader.frag";
 		break;
 	case TEX:
-		vertex_shader_file = "tex_shader.vert";
-		fragment_shader_file = "tex_shader.frag";
+		vertex_shader_file = "shaders\\tex_shader.vert";
+		fragment_shader_file = "shaders\\tex_shader.frag";
 		break;
 	case TEX_W_SHADOWS:
-		vertex_shader_file = "tex_shader_w_shadows.vert";
-		fragment_shader_file = "tex_shader_w_shadows.frag";
+		vertex_shader_file = "shaders\\tex_shader_w_shadows.vert";
+		fragment_shader_file = "shaders\\tex_shader_w_shadows.frag";
 		break;
 	case TEX_NO_LIGHTING:
-		vertex_shader_file = "tex_shader.vert";
-		fragment_shader_file = "tex_no_lighting.frag";
+		vertex_shader_file = "shaders\\tex_shader.vert";
+		fragment_shader_file = "shaders\\tex_no_lighting.frag";
 		break;
 	case GOOCH:
-		vertex_shader_file = "gooch_shader.vert";
-		fragment_shader_file = "gooch_shader.frag";
+		vertex_shader_file = "shaders\\gooch_shader.vert";
+		fragment_shader_file = "shaders\\gooch_shader.frag";
 		break;
 	case FIRE_NOISE:
-		vertex_shader_file = "fire_shader.vert";
-		fragment_shader_file = "fire_shader.frag";
+		vertex_shader_file = "shaders\\fire_shader.vert";
+		fragment_shader_file = "shaders\\fire_shader.frag";
 		break;
 	default:
 		return false;

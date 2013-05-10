@@ -87,67 +87,79 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
-    <None Include="gooch_shader.frag">
+    <None Include="shaders\ADSShader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="gooch_shader.vert">
+    <None Include="shaders\ADSShader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="FlatShader.vert">
+    <None Include="shaders\debug_norm_shader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="FlatShader.frag">
+    <None Include="shaders\debug_norm_shader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="debug_pos_shader.vert">
+    <None Include="shaders\debug_pos_shader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="debug_pos_shader.frag">
+    <None Include="shaders\debug_pos_shader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="ADSShader.vert">
+    <None Include="shaders\FlatShader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="ADSShader.frag">
+    <None Include="shaders\FlatShader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="no_shader.frag">
+    <None Include="shaders\gooch_shader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="no_shader.vert">
+    <None Include="shaders\gooch_shader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="norm_shader.frag">
+    <None Include="shaders\no_shader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="norm_shader.vert">
+    <None Include="shaders\no_shader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="Phong_shader.frag">
+    <None Include="shaders\noise_normal.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="Phong_shader.vert">
+    <None Include="shaders\norm_shader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="tex_no_lighting.frag">
+    <None Include="shaders\norm_shader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="tex_shader.frag">
+    <None Include="shaders\Phong_shader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="tex_shader.vert">
+    <None Include="shaders\Phong_shader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="tex_shader_w_shadows.frag">
+    <None Include="shaders\tex_no_lighting.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="tex_shader_w_shadows.vert">
+    <None Include="shaders\tex_shader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="fire_shader.vert">
+    <None Include="shaders\tex_shader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="fire_shader.frag">
+    <None Include="shaders\tex_shader_holey.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="shaders\tex_shader_w_shadows.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="shaders\tex_shader_w_shadows.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="shaders\fire_shader.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="shaders\fire_shader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
