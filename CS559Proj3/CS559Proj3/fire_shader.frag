@@ -14,7 +14,7 @@ uniform sampler3D noiseTex;
 // We opt for a set material, because we're only texturing the ground.
 void main()
 {
-	vec4 texColor = texture(noiseTex, vec3(texCoord, time));
+	vec4 texColor = texture(noiseTex, vec3(texCoord, time/150.0));
 	vec4 compOne = texColor.r * vec4(1.0, 0.2, 0.0, 1.0);
 	vec4 compTwo = texColor.g * vec4(1.0, 0.5, 0.0, 1.0);
 	vec4 compThree = texColor.b * vec4(1.0, 0.9, 0.0, 1.0);

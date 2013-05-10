@@ -58,6 +58,7 @@ Player * game_player; //Our player in the world
 
 int num_spheres; //Number of spheres in the world
 float max_time; //Total time
+float elapsed_time; //Time elapsed in game world
 
 static bool msaa_on = false; //Lets us toggle MSAA
 

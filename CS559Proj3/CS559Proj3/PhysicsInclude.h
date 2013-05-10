@@ -4,7 +4,7 @@
 
 extern float max_time;
 extern int num_spheres;
-static float elapsed_time = 0.0f;
+extern float elapsed_time;
 static float prev_time = 0.0f;
 static bool is_paused = false;
 

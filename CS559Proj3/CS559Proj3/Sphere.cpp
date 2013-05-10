@@ -342,7 +342,7 @@ void Sphere::initPhysics(b2World * world)
 	circleDef.bullet = true;
 	circleBody = world->CreateBody(&circleDef);
 	circleShape.m_p.SetZero();
-	circleShape.m_radius = own_radius;
+	circleShape.m_radius = own_radius + 0.5; //Offset to avoid clipping
 
 	circleFixtureDef.shape = &circleShape;
 	circleFixtureDef.density = 1.0f;
