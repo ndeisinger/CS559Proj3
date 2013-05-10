@@ -8,13 +8,14 @@ Stadium::Stadium(void)
 
 void Stadium::TakeDown(void)
 {
+	//Need to specifically take care of the walls' shader because it's shared
 	Shader * wall_shader = wall_one.getShader();
+	wall_shader->TakeDown();
 	free(wall_shader);
 	wall_one.setShader(NULL);
 	wall_two.setShader(NULL);
 	wall_three.setShader(NULL);
 	wall_four.setShader(NULL);
-	floor.setShader(NULL);
 
 	wall_one.TakeDown();
 	wall_two.TakeDown();
@@ -56,7 +57,10 @@ void Stadium::init(void)
 	floor.init(2 * WALL_LENGTH, 1.0f, 2 * WALL_LENGTH);
 	floor.setPos(glm::vec3(-WALL_LENGTH, FLOOR_DEPTH, -WALL_LENGTH));
 	floor.toggleTiling(true);
-	floor.setShader(s); //TODO: Floor needs a special shader
+
+	FireShader * floor_s = new FireShader();
+	floor_s->init(NOISE_NORMAL);
+	floor.setShader(floor_s); //TODO: Floor needs a special shader
 
 	screen_one.init(glm::vec3(WALL_LENGTH + 1.1, 0.0f, 1.0f), false);
 	screen_two.init(glm::vec3(WALL_LENGTH + 1.1f, 0.0f, 1.0f), false);

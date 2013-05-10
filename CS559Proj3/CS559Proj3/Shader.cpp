@@ -315,6 +315,10 @@ bool Shader::init(SHADER_TYPE t)
 		vertex_shader_file = "shaders\\fire_shader.vert";
 		fragment_shader_file = "shaders\\fire_shader.frag";
 		break;
+	case NOISE_NORMAL:
+		vertex_shader_file = "shaders\\noise_normal.vert";
+		fragment_shader_file = "shaders\\noise_normal.frag";
+		break;
 	default:
 		return false;
 	}

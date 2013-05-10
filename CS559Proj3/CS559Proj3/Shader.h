@@ -9,7 +9,7 @@
 
 //Class for our various shaders.
 enum SHADER_TYPE {NONE, FLAT, GOURAUD, PHONG, DEBUG_POS, GOOCH, MAX, \
-	NORM, DEBUG_NORM, TEX, TEX_W_SHADOWS, TEX_NO_LIGHTING, FIRE_NOISE}; //max val used to help us cycle
+	NORM, DEBUG_NORM, TEX, TEX_W_SHADOWS, TEX_NO_LIGHTING, FIRE_NOISE, NOISE_NORMAL}; //max val used to help us cycle
 class Shader
 {
 public:

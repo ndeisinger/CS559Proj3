@@ -12,6 +12,7 @@
 #include <vector>
 #include "Sphere.h"
 #include "Jumbotron.h"
+#include "FireShader.h"
 
 #pragma once
 class Stadium
