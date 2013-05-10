@@ -163,6 +163,10 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		float diffuseCool = 0.45;
 		curr_shader->subSetup(glm::value_ptr(warm_color), glm::value_ptr(cool_color), &diffuseWarm, &diffuseCool);
 	}
+	else if (curr_shader->type == FIRE_NOISE)
+	{
+		curr_shader->subSetup(NULL, NULL, NULL, NULL);
+	}
 	curr_shader->texSetup(this->texture, this->tile_texture);
 	glBindVertexArray(this->vertex_arr_handle);
 	glDrawElements(this->draw_type, this->vertex_indices.size(), GL_UNSIGNED_INT, &this->vertex_indices[0]);

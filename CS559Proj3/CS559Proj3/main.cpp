@@ -16,6 +16,7 @@
 #include "ShadowFBO.h"
 #include "ShaderWithShadows.h"
 #include "GoochShader.h"
+#include "FireShader.h"
 #include "Axes.h"
 #include "Sphere.h"
 #include "Cursor.h"
@@ -72,8 +73,8 @@ const int NOISE_RES = 128; //Resolution for our noise texture
 GLuint noise_tex_handle; 
 
 Axes common_axes;
-const int NUM_SHADERS = 2;
-Shader * global_shaders[NUM_SHADERS]; //TEX_W_SHADOWS, GOOCH
+const int NUM_SHADERS = 3;
+Shader * global_shaders[NUM_SHADERS]; //TEX_W_SHADOWS, GOOCH, FIRE_NOISE
 int global_shader_id = 0;
 
 Cursor cursor;
@@ -121,7 +122,7 @@ bool makeNoiseTexture(void)
 				inck = 1.0 / (NOISE_RES / frequency);
 				for (k = 0; k < NOISE_RES; k++)
 				{
-					*(ptr + inc) = (GLubyte) (perlinNoise.GetValue(inci, incj, inck) * NOISE_RES);
+					*(ptr + inc) = (GLubyte) (perlinNoise.GetValue(inci + i, incj + j, inck + k) * NOISE_RES * amp);
 					ptr += 4;
 				}
 			}
@@ -196,6 +197,7 @@ void initTextures()
 	glActiveTexture(GL_TEXTURE0 + int(SHADOW_BUF));
 	s_fbo.initialize();
 	glActiveTexture(GL_TEXTURE0 + int(NOISE));
+	makeNoiseTexture();
 }
 
 void cycleShaders()
@@ -212,6 +214,8 @@ void initShaders()
 	global_shaders[0]->init(TEX_W_SHADOWS);
 	global_shaders[1] = new GoochShader();
 	global_shaders[1]->init(GOOCH);
+	global_shaders[2] = new FireShader();
+	global_shaders[2]->init(FIRE_NOISE);
 }
 
 

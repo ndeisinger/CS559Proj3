@@ -75,12 +75,13 @@
     <ClCompile Include="Cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-
     <ClCompile Include="Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-
     <ClCompile Include="GoochShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FireShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -141,6 +142,12 @@
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="tex_shader_w_shadows.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="fire_shader.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="fire_shader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -208,12 +215,13 @@
     <ClInclude Include="Cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-
     <ClInclude Include="Skybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-
     <ClInclude Include="GoochShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FireShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

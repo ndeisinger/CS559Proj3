@@ -91,6 +91,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="DrawObject.cpp" />
+    <ClCompile Include="FireShader.cpp" />
     <ClCompile Include="FrameBufferObject.cpp" />
     <ClCompile Include="glutInclude.cpp" />
     <ClCompile Include="GoochShader.cpp" />
@@ -116,6 +117,8 @@
     <None Include="ClassDiagram1.cd" />
     <None Include="debug_pos_shader.frag" />
     <None Include="debug_pos_shader.vert" />
+    <None Include="fire_shader.frag" />
+    <None Include="fire_shader.vert" />
     <None Include="FlatShader.frag" />
     <None Include="FlatShader.vert" />
     <None Include="gooch_shader.frag" />
@@ -139,6 +142,7 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="DrawObject.h" />
+    <ClInclude Include="FireShader.h" />
     <ClInclude Include="FrameBufferObject.h" />
     <ClInclude Include="glutInclude.h" />
     <ClInclude Include="GoochShader.h" />

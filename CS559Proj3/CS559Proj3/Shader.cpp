@@ -311,6 +311,10 @@ bool Shader::init(SHADER_TYPE t)
 		vertex_shader_file = "gooch_shader.vert";
 		fragment_shader_file = "gooch_shader.frag";
 		break;
+	case FIRE_NOISE:
+		vertex_shader_file = "fire_shader.vert";
+		fragment_shader_file = "fire_shader.frag";
+		break;
 	default:
 		return false;
 	}

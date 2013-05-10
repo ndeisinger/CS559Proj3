@@ -13,13 +13,13 @@ SubShader::~SubShader(void)
 void SubShader::subInval(void)
 {
 	//Invalidate any special data here
-	super::inval();
+	Shader::inval();
 }
 
 void SubShader::subTakeDown(void)
 {
 	//Do any special cleanup here
-	super::TakeDown();
+	Shader::TakeDown();
 }
 
 //ARG1 =
