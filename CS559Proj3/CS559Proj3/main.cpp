@@ -123,7 +123,7 @@ bool makeNoiseTexture(void)
 				inck = 1.0 / (NOISE_RES / frequency);
 				for (k = 0; k < NOISE_RES; k++)
 				{
-					*(ptr + inc) = (GLubyte) (perlinNoise.GetValue(inci + i, incj + j, inck + k) * NOISE_RES * amp);
+					*(ptr + inc) = (GLubyte) (perlinNoise.GetValue(inci * i, incj * j, inck * k) * NOISE_RES * amp);
 					ptr += 4;
 				}
 			}

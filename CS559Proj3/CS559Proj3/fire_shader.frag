@@ -14,12 +14,20 @@ uniform sampler3D noiseTex;
 // We opt for a set material, because we're only texturing the ground.
 void main()
 {
-	vec4 texColor = texture(noiseTex, vec3(texCoord, time/150.0));
-	vec4 compOne = texColor.r * vec4(1.0, 0.2, 0.0, 1.0);
-	vec4 compTwo = texColor.g * vec4(1.0, 0.5, 0.0, 1.0);
-	vec4 compThree = texColor.b * vec4(1.0, 0.9, 0.0, 1.0);
-	vec4 interComp = mix(compOne, compTwo, 0.5);
+	vec4 texColor = texture(noiseTex, vec3(texCoord, time/15000.0));
 
-	fragColor = mix(interComp, compThree, 0.5);
-	//fragColor = texColor;
+	float intensity;
+	intensity += abs(texColor[0] - 0.25);
+	intensity += abs(texColor[1] - 0.125);
+	intensity += abs(texColor[2] - 0.0625);
+	intensity += abs(texColor[3] - 0.03125); //Add varying amounts based on octave
+
+	intensity = clamp (intensity, 0.0, 1.0); //Intensify effect
+
+	vec3 color = mix(vec3(0.8, 0.7, 0.0), vec3(0.6, 0.1, 0.0), intensity);
+	
+	fragColor = vec4(color, 1.0);
+
+	//fragColor = mix(interComp, compThree, 0.5);
+	//fragColor = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(texColor_a.r, texColor_b.g, texColor_c.b, 1.0), 0.5);
 }

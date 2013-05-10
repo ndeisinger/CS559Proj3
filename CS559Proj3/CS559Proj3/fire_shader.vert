@@ -21,7 +21,7 @@ void main()
 	}
 	else
 	{
-		texCoord = vertex_tex_coord * 5;
+		texCoord = vertex_tex_coord * 1;
 	}
 	normal = normalize(n_matrix * vertex_normal);
 	vert_position = vec3(mv_matrix * vec4(vertex_position, 1.0));
