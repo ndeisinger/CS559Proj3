@@ -140,6 +140,7 @@ bool makeNoiseTexture(void)
 	glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	
 	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, NOISE_RES, NOISE_RES, NOISE_RES, 0, GL_RGBA, GL_UNSIGNED_BYTE, noise3DTexPtr);
+	return true;
 }
 
 

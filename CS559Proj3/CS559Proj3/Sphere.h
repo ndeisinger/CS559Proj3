@@ -17,7 +17,7 @@ public:
 	void updatePos();
 	void preSolve(b2Contact* contact, const b2Manifold* oldManifold);
 
-	bool createBoxes(float w, int h, int d);
+	bool createBoxes(float w, float h, float d);
 
 	Cube cube;
 

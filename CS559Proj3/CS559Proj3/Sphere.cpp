@@ -189,7 +189,7 @@ bool Sphere::initialize(float radius, int slices, int stacks)
 	return true;
 }
 
-	bool Sphere::createBoxes(float w, int h, int d){
+	bool Sphere::createBoxes(float w, float h, float d){
 
 		cube.init(w,h,d);
 
