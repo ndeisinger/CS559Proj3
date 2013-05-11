@@ -248,6 +248,23 @@ void PassiveMotionFunc(int x, int y)
 
 void showInfo()
 {
+	    glDisable(GL_LIGHTING);
+        glDisable(GL_TEXTURE_2D);
+        glDisable(GL_DEPTH_TEST);
+        glColor3f(1.0f, 1.0f, 1.0f);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, window.width, 0, window.height, 1, 10);
+        glViewport(0, 0, window.width, window.height);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glTranslated(10, 15 * 2, -5.5);
+        glScaled(0.1, 0.1, 1.0);
+        glPushMatrix();
+		freetype::print(draw_font, 50, 50, "nope");
+        //glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "Hello world");
+        glPopMatrix();
+        glTranslated(0, -150, 0);
 }
 
 void RenderScene(bool do_physics, int draw_width, int draw_height)
@@ -312,7 +329,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	}
 	if (render_target == RENDER_FULL)
 	{
-		
+		glDisable(GL_CULL_FACE);
 		//Draw crosshair in middle of screen in locked position
 		glLineWidth(1.0);
 		glBegin(GL_LINES);
@@ -330,6 +347,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		//glVertex2f(0, 0.03f*window.aspect);
 		glEnd();
 	}
+		showInfo();
 	glFlush();
 }
 
