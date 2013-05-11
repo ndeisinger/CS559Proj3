@@ -50,14 +50,21 @@ void Player::update(void)
 	//else{currDirection = false;}
 
 
-		//compensate for if its zero; crash
-	//if(rotate_force.y > 0){
-	//	rotate_force.y += .00001f;
-	//}
-	//else{
-	//	rotate_force.y -= .00001f;
-	//}
-	//
+	//compensate for if its zero; crash
+	if(rotate_force.y > 0){
+		rotate_force.y += .00001f;
+	}
+	else{
+		rotate_force.y -= .00001f;
+	}
+	if(rotate_force.x > 0){
+		rotate_force.x += .00001f;
+	}
+	else{
+		rotate_force.x -= .00001f;
+	}
+
+	
 	
 	if (speed > 0 && lastDirection == true){
 		this->lastDirection = true;
