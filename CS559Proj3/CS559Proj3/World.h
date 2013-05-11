@@ -27,6 +27,7 @@ public:
 	inline Camera * getCurrentCam(void) { return this->currCam; }
 	inline Player * getPlayer(void) { return &this->player; }
 	void switchSkydome(void);
+	void switchFloorShader(bool set);
 	void TakeDown(void);
 
 	int totalSpheres;

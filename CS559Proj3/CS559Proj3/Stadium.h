@@ -23,6 +23,7 @@ public:
 	void init();
 	bool draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m);
 	void initPhysics(b2World * world); //Set up our Box2D object
+	void switchFloorShader(bool set);
 	void TakeDown(void);
 protected:
 	Cube wall_one;
@@ -32,6 +33,8 @@ protected:
 	Cube floor;
 	Jumbotron screen_one;
 	Jumbotron screen_two;
+	Jumbotron screen_three;
+	Jumbotron screen_four;
 	b2Body* ground;
 };
 

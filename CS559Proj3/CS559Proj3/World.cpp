@@ -16,6 +16,11 @@ World::~World(void)
 	return;
 }
 
+void World::switchFloorShader(bool set)
+{
+	stadium.switchFloorShader(set);
+}
+
 void World::TakeDown(void)
 {
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)

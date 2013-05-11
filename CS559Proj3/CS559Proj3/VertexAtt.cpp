@@ -12,7 +12,6 @@ VertexAttP::VertexAttP(glm::vec3 pos)
 
 VertexAttP::~VertexAttP(void)
 {
-	//TODO: Do we need to do any special cleanup? X Nope, not really.
 }
 
 VertexAttPCN::VertexAttPCN(void)
@@ -37,7 +36,7 @@ void VertexAttPCN::print()
 
 VertexAttPCN::~VertexAttPCN(void)
 {
-	//TODO: Do we need to do any special cleanup? X Nope, not really.
+
 }
 
 VertexAttPCNT::VertexAttPCNT(void)

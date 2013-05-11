@@ -24,6 +24,7 @@ public:
 	inline void setShader(Shader * newShader) { shader = newShader; customShader = true; }
 	inline void setTexture(TEXTURE_TYPE type) { texture = type;}
 	inline void toggleTiling(bool doTile) { tile_texture = doTile; }
+	inline void toggleShader(bool set) { customShader = set; }
 
 	void setPos(glm::vec3 pos);
 	inline glm::vec3 getPos() { return position; };

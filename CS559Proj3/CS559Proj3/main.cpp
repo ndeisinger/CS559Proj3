@@ -220,6 +220,7 @@ void initTextures()
 		if (err)
 		{
 			fprintf(stderr, "Error: Could not open texture %s", texts[i]);
+			Lump = (ILubyte*)malloc(Size);
 			fatal_error = true;
 			ExitFunc();
 		}
@@ -262,6 +263,14 @@ void cycleShaders()
 	global_shader_id %= NUM_SHADERS;
 	common_shader = global_shaders[global_shader_id];
 	render_shader = RENDER_SHADER(global_shader_id);
+	if (render_shader == TEX_SHADER)
+	{
+		draw_world.switchFloorShader(false);
+	}
+	else
+	{
+		draw_world.switchFloorShader(true);
+	}
 }
 
 void initShaders()
@@ -381,13 +390,19 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	}
 	if (render_target == RENDER_FULL)
 	{
-		glDisable(GL_CULL_FACE);
-		//Draw crosshair in middle of screen in locked position
-		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf(glm::value_ptr(draw_world.getCurrentCam()->proj));
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
-		glLoadIdentity();
+		//Draw crosshair
+
+	    glDisable(GL_LIGHTING);
+        glDisable(GL_TEXTURE_2D);
+        glDisable(GL_DEPTH_TEST);
+        glColor3f(1.0f, 1.0f, 1.0f);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, window.width, 0, window.height, 1, 10);
+        glViewport(0, 0, window.width, window.height);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+
 		glLineWidth(1.0);
 		glBegin(GL_LINES);
 		//For boring crosshair
@@ -608,6 +623,8 @@ int main (int argc, char * argv[])
 	DrawObject::axes_init = common_axes.init();
 	DrawObject::a = &common_axes;
 	DrawObject::norm_shader.init(NORM);
+	
+	draw_world.switchFloorShader(false);
 
 	glutDisplayFunc(DisplayFunc);
 	glutTimerFunc(window.interval, timerFunc, 0);
