@@ -19,6 +19,10 @@ static const float WALL_LENGTH = feetToMeters(2640.0f);
 typedef struct _sphere_data
 {
 	float time_left;
+
+	float time_activated;
+	bool alreadyActive;
+
 	bool active;
 	bool isPlayer;
 
