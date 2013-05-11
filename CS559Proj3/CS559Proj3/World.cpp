@@ -70,6 +70,7 @@ void World::initSkyboxes(void)
 
 bool World::init(int sphere_count)
 {
+	totalSpheres = sphere_count;
 	if (GLReturnedError("World init - on entry")) return true;
 	b2Vec2 gravity;
 	gravity.Set(0.0f, 0.0f);

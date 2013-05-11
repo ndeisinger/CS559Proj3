@@ -304,9 +304,14 @@ void showInfo()
         glTranslated(10, 15 * 2, -5.5);
         glScaled(0.1, 0.1, 1.0);
         glPushMatrix();
+
 		char infoString[50];
 		sprintf(infoString, "Time elapsed: %.3fs,\nspheres remaining: %i", elapsed_time/1000, num_spheres);
         glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) infoString);
+
+		freetype::print(draw_font, 50, 50, "nope");
+        //glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "Hello world");
+
         glPopMatrix();
         glTranslated(0, -150, 0);
 }
@@ -319,6 +324,9 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	if (num_spheres == 0) { WON_GAME = true; }
 	
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
+	printf("current_time: %f\n",current_time);
+	printf("elapsed_time: %f\n",elapsed_time);
+
 	//printf("In drawFunc\n");
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
@@ -395,9 +403,12 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		//glVertex2f(0,-0.03f*window.aspect);
 		//glVertex2f(0, 0.03f*window.aspect);
 		glEnd();
+
 		glPopMatrix();
 		showInfo();
+
 	}
+		showInfo();
 	glFlush();
 }
 

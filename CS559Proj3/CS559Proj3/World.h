@@ -29,6 +29,8 @@ public:
 	void switchSkydome(void);
 	void TakeDown(void);
 
+	int totalSpheres;
+
 private:
 	void initSkyboxes(void);
 	vector<Sphere *> spheres; // Keeps track of all our spheres in the world
