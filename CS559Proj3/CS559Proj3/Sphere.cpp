@@ -253,15 +253,7 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 		glPopMatrix();
 	}
 
-	//cube.draw(proj, mv, size, time, l, m);
-
 	super::s_draw(proj, mv, size, time, l, m);
-#ifdef _DEBUG
-	//Axes a;
-	//a.init();
-	//lightInfo * x = NULL;
-	//a.draw(proj, glm::scale(mv, vec3(2.0, 2.0, 2.0)), size, time, x);
-#endif
 
 	if (GLReturnedError("Sphere - draw exit\n")) return false;
 	return true;
@@ -291,44 +283,7 @@ void Sphere::updatePos(void)
 		this->texture = CONCRETE;
 		this->goochWarm = glm::vec3(0.9f, 0.5f, 0.2f);
 		this->goochCool = glm::vec3(0.1f, 0.4f, 0.3f);
-
-		/*
-//////////////////Drawing text goes here because of coord complaints in s_draw
-	glm::vec3 drawTextCoords = this->position;
-	float a = drawTextCoords.x;
-	float b = drawTextCoords.y;
-	float c = drawTextCoords.z;
-
-	GLint h = window.height;
-	GLint w = window.width;
-
-	GLint assW;
-	GLint assH;
-
-	//something with fucking aspect ratios....too late to math........
-	printf("Wut ");
-	printf("%d\n", h);
-	printf("%d\n", w);
-	assW = (w-(window.aspect*(w-800)));
-	assH = (h-(window.aspect*(h-800)));
-
-	glColor3f(0.0f,1.0f,1.0f);
-	printf("YOOOOOOOOOOOOOOOOOOOO ");
-	printf("%d\n", assH);
-	printf("%d\n", assW);
-	//804.672 is stadium wall length in meters
-	glRasterPos2f(-c/assW, -a/assH);//780 bound of stadium. This is off; still needs to account for screen width
-	unsigned char watString[] = "wat...";
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, watString);
-
-	//char stringbuf[80];
-	//sprintf_s(stringbuf, "AAAAA elapsed: %f,\n BBBBBBB left: %i\n", ass, titties);
-	//glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
-	*/
 	}
-
-	//Need some way to quickly change color if the ball is struck...
-	//Maybe add an extra uniform to pass down into the shader?
 
 	//printf("x: %f, y: %f, q: %f\n", circleBody->GetPosition().x, circleBody->GetPosition().y, circleBody->GetAngle());
 	//printf("sphere pos: %f, %f, %f\n", this->position.x, this->position.y, this->position.z);
@@ -342,7 +297,7 @@ void Sphere::initPhysics(b2World * world)
 	circleDef.bullet = true;
 	circleBody = world->CreateBody(&circleDef);
 	circleShape.m_p.SetZero();
-	circleShape.m_radius = own_radius + 0.5; //Offset to avoid clipping
+	circleShape.m_radius = own_radius + 0.5f; //Offset to avoid clipping
 
 	circleFixtureDef.shape = &circleShape;
 	circleFixtureDef.density = 1.0f;

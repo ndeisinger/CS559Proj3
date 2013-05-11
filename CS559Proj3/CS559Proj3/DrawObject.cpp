@@ -92,7 +92,7 @@ bool DrawObject::bindArray(GLuint * arr_handle, GLuint * coor_handle, GLsizeiptr
 	glBindVertexArray(*arr_handle);
 	glGenBuffers(1, coor_handle);
 	glBindBuffer(GL_ARRAY_BUFFER, *coor_handle);
-	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW); //TODO: Why GL_STATIC_DRAW? X
+	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW); 
 	if (GLReturnedError("DrawObject bindArray - on exit\n")) return false;
 	return true;
 }
@@ -110,6 +110,8 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	if (physicsBody != NULL)
 	{
 		trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
+		trans_mv = glm::rotate(trans_mv, float(physicsBody->GetLinearVelocity().x), glm::vec3(0.0f, 0.0f, 1.0f));
+		//TODO: This only rotates Gooch, which is... problematic.
 	}
 	mat4 mvp = proj * trans_mv;
 	mat3 nm = inverse(transpose(mat3(trans_mv))); 
@@ -166,6 +168,11 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	else if (curr_shader->type == FIRE_NOISE)
 	{
 		bool isActive = ((this->physicsBody != NULL) && (this->texture == CONCRETE)); //Only true if an active sphere
+		curr_shader->subSetup(&isActive, NULL, NULL, NULL);
+	}
+	else if (curr_shader->type == NOISE_NORMAL)
+	{
+		bool isActive = true; //Side effect of reusing fire shader class
 		curr_shader->subSetup(&isActive, NULL, NULL, NULL);
 	}
 	curr_shader->texSetup(this->texture, this->tile_texture);

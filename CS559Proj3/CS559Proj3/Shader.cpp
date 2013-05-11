@@ -329,7 +329,7 @@ bool Shader::init(SHADER_TYPE t)
 	this->vertex_s_id = glCreateShader(GL_VERTEX_SHADER);
 	if (!vertex_s_id)
 	{
-		fprintf(stderr, "Error: Could not create vertex shader!\n");
+		fprintf(stderr, "Error: Could not create vertex shader %s!\n", vertex_shader_file);
 		exit(1);
 	}
 
@@ -342,12 +342,13 @@ bool Shader::init(SHADER_TYPE t)
 		//BUG: This does not print to console properly.
 		fprintf(stderr, "GLSL compilation failed: vertex shader %s\n", vertex_shader_file);
 		fprintf(stderr, "%s", this->GetShaderLog(this->vertex_s_id).str());
+		return false;
 	}
 
 	this->frag_s_id = glCreateShader(GL_FRAGMENT_SHADER);
 	if (!frag_s_id)
 	{
-		fprintf(stderr, "Error: Could not create fragment shader!\n");
+		fprintf(stderr, "Error: Could not create fragment shader %s!\n", fragment_shader_file);
 		exit(1);
 	}
 
@@ -360,6 +361,7 @@ bool Shader::init(SHADER_TYPE t)
 		//BUG: This does not print to console properly.
 		fprintf(stderr, "GLSL compilation failed: fragment shader %s\n", fragment_shader_file);
 		fprintf(stderr, "%s", this->GetShaderLog(this->frag_s_id).str());
+		return false;
 	}
 
 	this->program_id = glCreateProgram();
@@ -458,23 +460,6 @@ bool Shader::load(char * file, GLuint handle)
 	if (GLReturnedError("LoadShader - on exit")) return false;
 	return true;
 }
-
-/*
-//You know, this is implemented here, but it would be _really_ useful elsewhere as well.
-//Keep an eye on that for later debugging.
-bool Shader::GLReturnedError(char * s)
-{
-	GLenum GLerr;
-	bool hitErr = false;
-
-	while ((GLerr = glGetError()) && GLerr != GL_NO_ERROR)
-	{
-		fprintf(stderr, "%s %s\n", s, gluErrorString(GLerr));
-		hitErr = true;
-	}
-
-	return hitErr;
-}*/
 
 /*
 	This function is adapted from OpenGL 4.0 Shading Language Cookbook by David Wolff.

@@ -30,12 +30,8 @@ void Stadium::TakeDown(void)
 void Stadium::init(void)
 {
 	if (GLReturnedError("Stadium init - on entry")) return;
-
-	//Shader s;
-	//s.init(TEX);
-	//wall_one.init(0.1f, WALL_HEIGHT, 2 * WALL_LENGTH);
-
-	ShaderWithShadows * s = new ShaderWithShadows();
+	
+	ShaderWithShadows * s = new ShaderWithShadows(); //Always use default for walls
 	s->init(TEX_W_SHADOWS);
 	wall_one.init(1.0f, WALL_HEIGHT, 2 * WALL_LENGTH);
 
@@ -62,7 +58,7 @@ void Stadium::init(void)
 	floor_s->init(NOISE_NORMAL);
 	floor.setShader(floor_s); //TODO: Floor needs a special shader
 
-	screen_one.init(glm::vec3(WALL_LENGTH + 1.1, 0.0f, 1.0f), false);
+	screen_one.init(glm::vec3(WALL_LENGTH + 1.1f, 0.0f, 1.0f), false);
 	screen_two.init(glm::vec3(WALL_LENGTH + 1.1f, 0.0f, 1.0f), false);
 	if (GLReturnedError("Stadium init - on exit")) return;
 }

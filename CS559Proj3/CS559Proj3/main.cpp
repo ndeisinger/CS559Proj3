@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <string>
+#include <iostream>
 #include <math.h>
 
 #include "physicsInclude.h"
@@ -71,9 +72,9 @@ glm::mat4 bp_matrix; //Bias times light's projection matrix
 
 GLubyte * noise3DTexPtr; //Memory where we write our noise texture
 const int NOISE_RES = 128; //Resolution for our noise texture
-GLuint noise_tex_handle; 
+GLuint noise_tex_handle; //Texture handle for noise
 
-Axes common_axes;
+Axes common_axes; //For drawing local axes
 const int NUM_SHADERS = 3;
 Shader * global_shaders[NUM_SHADERS]; //TEX_W_SHADOWS, GOOCH, FIRE_NOISE
 int global_shader_id = 0;
@@ -112,7 +113,6 @@ bool makeNoiseTexture(void)
 	{
 		perlinNoise.SetFrequency(frequency);
 		ptr = noise3DTexPtr;
-		//ni[0] = ni[1] = ni[2] = 0; 
 
 		inci = 1.0 / (NOISE_RES / frequency);
 		for (i = 0; i < NOISE_RES; i++)
@@ -230,10 +230,6 @@ void PassiveMotionFunc(int x, int y)
 		float speed_ratio = (((float)window.height/2) - y)/((float)window.height/2);
 		game_player->setSpeed(degToRad(90.0f) * ang_ratio, 60.0f * speed_ratio);
 		printf("ang_ratio: %f, speed_ratio: %f\n", ang_ratio, speed_ratio);
-
-		//Why is this here?
-		//DrawObject::draw_axes = !DrawObject::draw_axes;
-
 	}
 }
 
@@ -254,23 +250,6 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, draw_width, draw_height);
 
-	//Draw crosshair in middle of screen in locked position
-	glLineWidth(1.0);
-	glBegin(GL_LINES);
-	//For boring crosshair
-	//glVertex2f(-0.03f, 0);
-	//glVertex2f( 0.03f, 0);
-	//glVertex2f(0,-0.03f*window.aspect);
-	//glVertex2f(0, 0.03f*window.aspect);
-	//For Tilted one
-	glVertex2f(-0.02f,-0.02f*window.aspect);
-	glVertex2f( 0.02f, 0.02f*window.aspect);
-	glVertex2f(-0.02f, 0.02f*window.aspect);
-	glVertex2f( 0.02f,-0.02f*window.aspect);
-	//glVertex2f(0,-0.03f*window.aspect);
-	//glVertex2f(0, 0.03f*window.aspect);
-
-	glEnd();
 	glDepthFunc(GL_LESS);
 
 	if (msaa_on)
@@ -280,14 +259,6 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	else
 	{
 		glDisable(GL_MULTISAMPLE_ARB);
-	}
-	if (wireframe) 
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
-	else
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 	if (render_target == RENDER_SFBO) {
 		glCullFace(GL_FRONT);
@@ -304,10 +275,17 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glCullFace(GL_FRONT);
 		draw_world.draw(false);
 		glLineWidth(1.0);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glDepthFunc(GL_LESS);
 		glCullFace(GL_BACK);
 		render_target = old_target;
+	}
+	if (wireframe) 
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 	draw_world.draw(do_physics);
 	if (render_target == RENDER_SFBO) {
@@ -317,11 +295,24 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	}
 	if (render_target == RENDER_FULL)
 	{
-		/*
-		glRasterPos2i(0, 0);
-		glPushMatrix();
-		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char *) stringbuf);
-		glPopMatrix();*/
+		
+		//Draw crosshair in middle of screen in locked position
+		glLineWidth(1.0);
+		glBegin(GL_LINES);
+		//For boring crosshair
+		glVertex2f(-0.03f, 0);
+		glVertex2f( 0.03f, 0);
+		glVertex2f(0,-0.03f*window.aspect);
+		glVertex2f(0, 0.03f*window.aspect);
+		//For Tilted one
+		glVertex2f(-0.02f,-0.02f*window.aspect);
+		glVertex2f( 0.02f, 0.02f*window.aspect);
+		glVertex2f(-0.02f, 0.02f*window.aspect);
+		glVertex2f( 0.02f,-0.02f*window.aspect);
+		//glVertex2f(0,-0.03f*window.aspect);
+		//glVertex2f(0, 0.03f*window.aspect);
+
+		glEnd();
 	}
 	glFlush();
 }
@@ -371,11 +362,18 @@ void ExitFunc(void)
 
 	glDeleteTextures(NUM_TEXTS, tex);
 	glDeleteTextures(1, &noise_tex_handle);
-	free(noise3DTexPtr);	
+	if (noise3DTexPtr) 
+	{
+		free(noise3DTexPtr);	
+	}
+
+	glutExit();
 	
-	printf("Time elapsed: %f\n", elapsed_time);
+	printf("Time elapsed: %f\n", elapsed_time/10000);
 	if (WON_GAME) { printf("Congrats! You won!\n"); }
-	else { printf("Sorry, you lose...\n"); }
+	else { printf("Sorry, you lose.\n"); }
+	
+	system ("PAUSE");
 	exit(0);
 }
 
@@ -412,7 +410,7 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	{
 		wireframe = !wireframe;
 	}
-	if (c == 'q')
+	if (c == 'x')
 	{
 		ExitFunc();
 	}
@@ -499,7 +497,7 @@ int main (int argc, char * argv[])
 	window.width = 800;
 	window.height = 600;
 	window.aspect = (float) 800/ (float)600;
-	window.handle = glutCreateWindow("A Treatise on why These Projects Need to be Started Sooner, or: Stools 102");
+	window.handle = glutCreateWindow("Moshball");
 
 	//glutSetCursor(GLUT_CURSOR_NONE);//Mute the cursor so the texture works.
 
