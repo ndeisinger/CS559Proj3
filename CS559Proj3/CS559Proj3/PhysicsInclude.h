@@ -25,7 +25,4 @@ typedef struct _sphere_data
 
 	bool active;
 	bool isPlayer;
-
-	bool alreadyActive;
-	float time_activated;
 } sphere_data;
