@@ -46,8 +46,18 @@ void Player::update(void)
 	float x_force;
 	float z_force;
 	
-	if(speed > 0){currDirection = true;}
-	else{currDirection = false;}
+	//if(speed > 0){currDirection = true;}
+	//else{currDirection = false;}
+
+
+		//compensate for if its zero; crash
+	//if(rotate_force.y > 0){
+	//	rotate_force.y += .00001f;
+	//}
+	//else{
+	//	rotate_force.y -= .00001f;
+	//}
+	//
 	
 	if (speed > 0 && lastDirection == true){
 		this->lastDirection = true;
@@ -73,13 +83,7 @@ void Player::update(void)
 		z_force = (this->speed - 0.0001f) * -rotate_force.y;
 	}
 
-	//compensate for if its zero; crash
-	if(rotate_force.y > 0){
-		rotate_force.y += .00001f;
-	}
-	else{
-		rotate_force.y -= .00001f;
-	}
+
 
 	body->SetLinearVelocity(b2Vec2(x_force, z_force));
 	

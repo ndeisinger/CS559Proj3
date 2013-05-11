@@ -102,7 +102,7 @@ void getDevILErr()
 //This method adapted from "OpenGL Shading Language, Third Edition" by Randi J. Rost and Bill Licea-Kane.
 bool makeNoiseTexture(void)
 {
-
+	//count_down_timer_seconds = 30 +numballs*2
 #ifdef _DEBUG
 	return true;
 #endif
