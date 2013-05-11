@@ -241,16 +241,30 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 	if (render_target == RENDER_FULL)
 	{
 		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
 		glLoadMatrixf(glm::value_ptr(proj));
-		glViewport(0, 0, window.width, window.height);
+		//glLoadIdentity();
 		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(glm::value_ptr(mv));
-		glTranslated(this->position.x - this->getRadius(), this->position.y + 20, this->position.z);
-		//glScaled(0.1, 0.1, 10);
-		glPushMatrix();
-		freetype::print(draw_font, 50, 50, "Hello world!\n");
-		glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "wat");
+		glLoadIdentity();
+
+		glm::mat4 m = glm::translate(mv, glm::vec3(this->position.x, this->position.y + 50, this->position.z));
+		
+		float scale = sqrt(float(m[0].x * m[0].x + m[1].y * m[1].y + m[2].z * m[2].z));
+
+		m[0].x = scale;
+		m[1].y = scale;
+		m[2].z = scale;
+
+		m[0].y = 0;
+		m[0].z = 0;
+		m[1].x = 0;
+		m[1].z = 0;
+		m[2].y = 0;
+		m[2].z = 0;
+
+		//m = glm::scale(m, vec3(0.05f, 0.05f, 0.05f)); //Scale text
+		glLoadMatrixf(glm::value_ptr(m));
+		freetype::print(draw_font, window.width, window.height, "Hello world!\n");
+		//glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "wat");
 		glPopMatrix();
 	}
 

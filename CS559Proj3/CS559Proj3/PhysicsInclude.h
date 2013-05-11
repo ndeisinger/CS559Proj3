@@ -5,6 +5,7 @@
 extern float max_time;
 extern int num_spheres;
 extern float elapsed_time;
+extern b2Vec2 player_pos;
 static float prev_time = 0.0f;
 static bool is_paused = false;
 
