@@ -45,19 +45,44 @@ void Player::update(void)
 	glm::vec2 rotate_force = glm::rotate(travel_force, ang_force);
 	float x_force;
 	float z_force;
-	if (speed > 0)
-	{
-		x_force = (this->speed + 0.0001f) * rotate_force.x;
-		z_force = (this->speed + 0.0001f) * rotate_force.y;
-	}
-	else
-	{
-		//TODO: When speed is negative we wind up flipping direction constantly
-		x_force = (this->speed + 0.0001f) * rotate_force.x;
-		z_force = (this->speed + 0.0001f) * rotate_force.y;
-	}
 	
+	if(speed > 0){currDirection = true;}
+	else{currDirection = false;}
+	
+	if (speed > 0 && lastDirection == true){
+		this->lastDirection = true;
+		x_force = (this->speed + 0.0001f) * rotate_force.x;
+		z_force = (this->speed + 0.0001f) * rotate_force.y;
+	}
+	else if (speed > 0 && lastDirection == false){
+		this->lastDirection = true;
+		//TODO: When speed is negative we wind up flipping direction constantly
+		x_force = (this->speed + 0.0001f) * -rotate_force.x;
+		z_force = (this->speed + 0.0001f) * -rotate_force.y;
+	}
+	else if (speed <= 0 && lastDirection == true){
+		this->lastDirection = false;
+		//TODO: When speed is negative we wind up flipping direction constantly
+		x_force = (this->speed - 0.0001f) * rotate_force.x;
+		z_force = (this->speed - 0.0001f) * rotate_force.y;
+	}
+		else if (speed <= 0 && lastDirection == false){
+		this->lastDirection = false;
+		//TODO: When speed is negative we wind up flipping direction constantly
+		x_force = (this->speed - 0.0001f) * -rotate_force.x;
+		z_force = (this->speed - 0.0001f) * -rotate_force.y;
+	}
+
+	//compensate for if its zero; crash
+	if(rotate_force.y > 0){
+		rotate_force.y += .00001f;
+	}
+	else{
+		rotate_force.y -= .00001f;
+	}
+
 	body->SetLinearVelocity(b2Vec2(x_force, z_force));
+	
 	travel_force = glm::normalize(boxToGlm(body->GetLinearVelocity()));
 	//printf("Angle: %f, x: %f, z: %f, radius: %f, rot_angle: %f, travel_angle: %f,\nx_force: %f, z_force: %f\n", rot_angle, x, z, sphere.getRadius(), rot_angle, x_force, z_force);
 	if (this->speed > 0)

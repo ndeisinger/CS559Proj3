@@ -100,6 +100,7 @@ void getDevILErr()
 //This method adapted from "OpenGL Shading Language, Third Edition" by Randi J. Rost and Bill Licea-Kane.
 bool makeNoiseTexture(void)
 {
+	return true;
 	int f, i, j, k, inc; //Loop variables
 	int startFrequency = 4; //Initial frequency
 	int numOctaves = 4; //Number of octaves we will generate/sum
@@ -243,9 +244,9 @@ void PassiveMotionFunc(int x, int y)
 
 void RenderScene(bool do_physics, int draw_width, int draw_height)
 {
-	char stringbuf[80];
-	sprintf_s(stringbuf, "Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
-	printf("Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
+	//char stringbuf[80];
+	//sprintf_s(stringbuf, "Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
+	//printf("Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
 	if (num_spheres == 0) { WON_GAME = true; }
 	
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
