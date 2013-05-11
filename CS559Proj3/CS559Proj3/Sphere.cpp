@@ -289,7 +289,7 @@ void Sphere::updatePos(void)
 	this->position = glm::vec3(pos.x, 0.0, pos.y);
 
 	float cirRad = this->getRadius();
-	cube.setPos(glm::vec3(pos.x - cirRad, cirRad + 10, pos.y - cirRad));//take out that +10
+	//cube.setPos(glm::vec3(pos.x - cirRad, cirRad + 10, pos.y - cirRad));//take out that +10
 
 	if (data.time_left < 0 && !data.isPlayer)
 	{
@@ -306,23 +306,12 @@ void Sphere::updatePos(void)
 		//num nonactive spheres
 		//30secs + balls*2
 		
-		//elapsed_time;
-
-		if(!data.alreadyActive){
-			data.time_activated = elapsed_time;
-			data.alreadyActive = true;
-		}
-		else{
-		
-			if((elapsed_time - data.time_activated) == max_time){
-				data.active = false;
-			}
-
-		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this
+		//elapsed_t
+		data.time_left -= (elapsed_time/1000 - prev_time/1000);
+		prev_time = elapsed_time;
 		this->texture = CONCRETE;
 		this->goochWarm = glm::vec3(0.9f, 0.5f, 0.2f);
 		this->goochCool = glm::vec3(0.1f, 0.4f, 0.3f);
-		}
 	}
 
 	//printf("x: %f, y: %f, q: %f\n", circleBody->GetPosition().x, circleBody->GetPosition().y, circleBody->GetAngle());
