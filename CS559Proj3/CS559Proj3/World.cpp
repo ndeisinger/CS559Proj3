@@ -7,6 +7,7 @@
 
 World::World(void)
 {
+	is_init = false;
 	return;
 }
 
@@ -23,6 +24,7 @@ void World::switchFloorShader(bool set)
 
 void World::TakeDown(void)
 {
+	if (!is_init) return;
 	for (sphereIt = spheres.begin(); sphereIt < spheres.end(); sphereIt++)
 	{
 		(*sphereIt)->TakeDown();
@@ -179,6 +181,7 @@ bool World::init(int sphere_count)
 	//We used to init common shader here - that's now done in main
 
 	if (GLReturnedError("World init - on exit")) return false;
+	is_init = true;
 	return true;
 }
 

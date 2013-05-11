@@ -11,7 +11,10 @@ void Stadium::TakeDown(void)
 	//Need to specifically take care of the walls' shader because it's shared
 	Shader * wall_shader = wall_one.getShader();
 	wall_shader->TakeDown();
-	free(wall_shader);
+	if (wall_shader != NULL)
+	{
+		free(wall_shader);
+	}
 	wall_one.setShader(NULL);
 	wall_two.setShader(NULL);
 	wall_three.setShader(NULL);

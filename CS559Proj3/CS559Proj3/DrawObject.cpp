@@ -33,6 +33,7 @@ void DrawObject::setPos(glm::vec3 pos)
 
 void DrawObject::TakeDown(void)
 {
+	if (!is_init) return;
 	if (GLReturnedError("DrawObject TakeDown - on entry\n")) return;
 	if (shader != NULL)
 	{
@@ -82,6 +83,7 @@ bool DrawObject::initialize(void)
 	this->goochCool = glm::vec3(0, 0.6, 0.6);
 
 	if (GLReturnedError("DrawObject initialize - on exit\n")) return false;
+	is_init = true;
 	return true;
 }
 

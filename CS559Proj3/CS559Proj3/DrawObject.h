@@ -39,6 +39,8 @@ public:
 	static DrawObject * a;
 	static bool axes_init;
 	static bool draw_shadows;
+
+	bool is_init;
 protected:
 
 	//bool GLReturnedError(char * s);

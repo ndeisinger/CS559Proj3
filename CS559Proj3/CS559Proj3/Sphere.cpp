@@ -268,9 +268,9 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 
 		char printstring[20];
 
-		sprintf(printstring, "%.2f", this->data.time_left);
+		sprintf_s(printstring, "%.2f", this->data.time_left);
 		
-		freetype::print(draw_font, window.width, window.height, "Hello world!\n");
+//		freetype::print(draw_font, window.width, window.height, "Hello world!\n");
 		//For some reason, we couldn't get the freetype version we were using
 		//to print at this level of execution.
 		glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) printstring);
@@ -315,7 +315,7 @@ void Sphere::updatePos(void)
 		else{
 		
 			if((elapsed_time - data.time_activated) == max_time){
-				!data.active;
+				data.active = false;
 			}
 
 		data.time_left -= 0.2f; //TODO: Link actual time elapsed with this

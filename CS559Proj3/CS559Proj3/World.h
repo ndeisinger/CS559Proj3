@@ -58,6 +58,8 @@ private:
 	
 	Shader dummy_gooch_shader; //Used for Gooch outlines
 
+	bool is_init;
+
 	//BOX2D INFO
 	b2World * world; //Our world; have as pointer because there's no default constructor
 

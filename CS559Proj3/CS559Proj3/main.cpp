@@ -110,7 +110,10 @@ void ExitFunc(void)
 	fbo.TakeDown();
 
 	s_fbo.TakeDown();
-	common_shader->TakeDown();
+	if (common_shader != NULL)
+	{
+		common_shader->TakeDown();
+	}
 
 	glDeleteTextures(NUM_TEXTS, tex);
 	glDeleteTextures(1, &noise_tex_handle);
@@ -219,8 +222,7 @@ void initTextures()
 		int err = fopen_s(&File, texts[i], "rb");
 		if (err)
 		{
-			fprintf(stderr, "Error: Could not open texture %s", texts[i]);
-			Lump = (ILubyte*)malloc(Size);
+			fprintf(stderr, "Error: Could not open texture %s\n", texts[i]);
 			fatal_error = true;
 			ExitFunc();
 		}
@@ -315,7 +317,7 @@ void showInfo()
         glPushMatrix();
 
 		char infoString[50];
-		sprintf(infoString, "Time elapsed: %.3fs,\nspheres remaining: %i", elapsed_time/1000, num_spheres);
+		sprintf_s(infoString, "Time elapsed: %.3fs,\nspheres remaining: %i", elapsed_time/1000, num_spheres);
         glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) infoString);
 
 		freetype::print(draw_font, 50, 50, "nope");
@@ -595,7 +597,7 @@ int main (int argc, char * argv[])
 	glPushMatrix();
 	const unsigned char load_msg[] = "Loading...";
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, load_msg);
-	freetype::print(info_font, window.width - 50, window.height - 50, "HELP");
+//	freetype::print(info_font, window.width - 50, window.height - 50, "freeType test");
 	
 	glPopMatrix();
 	glFlush();
