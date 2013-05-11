@@ -50,7 +50,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\libnoise-1.0.0\include;$(ProjectDir)\DevIL-1.7.8\include;$(ProjectDir)\Box2D_v2.2.1;$(ProjectDir)\freeglut\include;$(ProjectDir)\glm-0.9.3.4\;$(ProjectDir)\glew-1.9.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\FreeType-2.1.4\include;$(ProjectDir)\libnoise-1.0.0\include;$(ProjectDir)\DevIL-1.7.8\include;$(ProjectDir)\Box2D_v2.2.1;$(ProjectDir)\freeglut\include;$(ProjectDir)\glm-0.9.3.4\;$(ProjectDir)\glew-1.9.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <TreatWarningAsError>false</TreatWarningAsError>
@@ -59,8 +59,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib;libnoise.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\libnoise-1.0.0\lib\Debug;$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib;libnoise.lib;libfreetype.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libnoise-1.0.0\lib\Debug;$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Debug;$(ProjectDir)\FreeType-2.1.4\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,7 +72,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\libnoise-1.0.0\include;$(ProjectDir)\DevIL-1.7.8\include;$(ProjectDir)\Box2D_v2.2.1;$(ProjectDir)\freeglut\include;$(ProjectDir)\glm-0.9.3.4\;$(ProjectDir)\glew-1.9.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\FreeType-2.1.4\include;$(ProjectDir)\libnoise-1.0.0\include;$(ProjectDir)\DevIL-1.7.8\include;$(ProjectDir)\Box2D_v2.2.1;$(ProjectDir)\freeglut\include;$(ProjectDir)\glm-0.9.3.4\;$(ProjectDir)\glew-1.9.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
@@ -80,8 +80,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib;libnoise.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\libnoise-1.0.0\lib\Release;$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;glew32.lib;freeglut.lib;libnoise.lib;libfreetype.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libnoise-1.0.0\lib\Release;$(ProjectDir)\DevIL-1.7.8\lib\;$(ProjectDir)\freeglut\lib;$(ProjectDir)\glew-1.9.0\lib;$(ProjectDir)\Box2D_v2.2.1\lib\Release;$(ProjectDir)\FreeType-2.1.4\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -93,6 +93,7 @@
     <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="FireShader.cpp" />
     <ClCompile Include="FrameBufferObject.cpp" />
+    <ClCompile Include="FreeType.cpp" />
     <ClCompile Include="glutInclude.cpp" />
     <ClCompile Include="GoochShader.cpp" />
     <ClCompile Include="Jumbotron.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="DrawObject.h" />
     <ClInclude Include="FireShader.h" />
     <ClInclude Include="FrameBufferObject.h" />
+    <ClInclude Include="FreeType.h" />
     <ClInclude Include="glutInclude.h" />
     <ClInclude Include="GoochShader.h" />
     <ClInclude Include="Jumbotron.h" />

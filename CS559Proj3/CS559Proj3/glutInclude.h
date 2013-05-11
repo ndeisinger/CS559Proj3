@@ -13,6 +13,7 @@
 #include <IL\ilut_config.h>
 #include <noise\noise.h>
 #include <math.h>
+#include "FreeType.h"
 
 class Window
 {
@@ -37,7 +38,6 @@ public:
 };
 
 
-//#pragma comment(lib, "glew32.lib") //wat
 enum RENDER_TARGET {RENDER_FULL, RENDER_FBO, RENDER_SFBO, RENDER_GOOCH};
 enum RENDER_SHADER {TEX_SHADER, GOOCH_SHADER, FIRE_SHADER};
 
@@ -46,9 +46,11 @@ enum RENDER_SHADER {TEX_SHADER, GOOCH_SHADER, FIRE_SHADER};
 static bool GLEW_IS_INIT = false;
 static bool WON_GAME = false;
 extern bool useShadows;
-extern RENDER_TARGET render_target;
-extern RENDER_SHADER render_shader;
+extern RENDER_TARGET render_target; //Where are we rendering?
+extern RENDER_SHADER render_shader; //What shader we're using
 extern Window window;
+extern bool fatal_error; 
+extern freetype::font_data draw_font;
 
 //For dynamic shadows
 extern glm::mat4 light_matrix; //Light's POV, used in dynamic shadows
@@ -60,6 +62,8 @@ inline float degToRad(float degree) { return (degree/180) * PI_F; }
 inline double radToDeg(double rad) { return (rad * 180) / PI_D; }
 inline float radToDeg(float rad) { return (rad * 180) / PI_F; }
 
+//This bias matrix is used in the calculation of shadow maps to limit
+//our clipping coordinates from [-1, 1] to [0, 1].
 static const glm::mat4 bias_matrix = glm::mat4(0.5f, 0.0f, 0.0f, 0.0f,
 											   0.0f, 0.5f, 0.0f, 0.0f,
 											   0.0f, 0.0f, 0.5f, 0.0f,

@@ -74,10 +74,16 @@ GLubyte * noise3DTexPtr; //Memory where we write our noise texture
 const int NOISE_RES = 128; //Resolution for our noise texture
 GLuint noise_tex_handle; //Texture handle for noise
 
+freetype::font_data draw_font;
+freetype::font_data info_font;
+
 Axes common_axes; //For drawing local axes
-const int NUM_SHADERS = 3;
-Shader * global_shaders[NUM_SHADERS]; //TEX_W_SHADOWS, GOOCH, FIRE_NOISE
+const int NUM_SHADERS = 4;
+Shader * global_shaders[NUM_SHADERS]; //TEX_W_SHADOWS, GOOCH, FIRE_NOISE, NOISE_NORMAL
 int global_shader_id = 0;
+Window window;
+
+bool fatal_error = false;
 
 Cursor cursor;
 
@@ -218,6 +224,8 @@ void initShaders()
 	global_shaders[1]->init(GOOCH);
 	global_shaders[2] = new FireShader();
 	global_shaders[2]->init(FIRE_NOISE);
+	global_shaders[3] = new FireShader();
+	global_shaders[3]->init(NOISE_NORMAL);
 }
 
 
@@ -314,6 +322,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 
 		glEnd();
 	}
+	freetype::print(info_font, window.width - 200, window.height - 60, "Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
 	glFlush();
 }
 
@@ -334,6 +343,7 @@ void DisplayFunc()
 	fbo.unbind();
 	render_target = RENDER_FULL;
 	RenderScene(true, window.width, window.height);
+
 }
 
 void timerFunc(int value)
@@ -501,13 +511,18 @@ int main (int argc, char * argv[])
 
 	//glutSetCursor(GLUT_CURSOR_NONE);//Mute the cursor so the texture works.
 
+	draw_font.init("Test.TTF", 40);
+	//info_font.init("cour.ttf", 20);
+
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, window.width, window.height);
 	glRasterPos2i(0, 0);
 	glPushMatrix();
 	const unsigned char load_msg[] = "Loading...";
+	freetype::print(draw_font, 50, 50, "Wat");
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, load_msg);
+	
 	glPopMatrix();
 	glFlush();
 

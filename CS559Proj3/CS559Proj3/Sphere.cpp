@@ -247,8 +247,9 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf(glm::value_ptr(mv));
 		glTranslated(this->position.x - this->getRadius(), this->position.y + 20, this->position.z);
-		glScaled(0.1, 0.1, 10);
+		//glScaled(0.1, 0.1, 10);
 		glPushMatrix();
+		freetype::print(draw_font, 50, 50, "Hello world!\n");
 		glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "wat");
 		glPopMatrix();
 	}

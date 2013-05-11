@@ -5,6 +5,7 @@ layout (location = 2) in vec3 vertex_normal;
 layout (location = 3) in vec2 vertex_tex_coord;
 
 out vec3 vert_position;
+out vec3 model_normal;
 out vec2 texCoord;
 
 uniform mat4 mvp_matrix;
@@ -22,6 +23,7 @@ void main()
 	{
 		texCoord = vertex_tex_coord;
 	}
+	model_normal = vertex_normal;
 	vert_position = vec3(mv_matrix * vec4(vertex_position, 1.0));
 	gl_Position = mvp_matrix * vec4(vertex_position, 1.0);
 }

@@ -6,6 +6,7 @@ layout (location = 0) out vec4 fragColor;
 
 in vec3 vert_position;
 in vec2 texCoord;
+in vec3 model_normal;
 
 //Information on the light
 uniform	vec4 position;
@@ -43,9 +44,10 @@ vec3 phong (vec3 normal, vec3 diff_color)
 // We opt for a set material, because we're only texturing the ground.
 void main()
 {
-	vec4 noiseNorm = texture(noiseTex, vec3(texCoord, atan(time/15000.0)));
+	vec4 noiseNorm = texture(noiseTex, vec3(texCoord, time));
 	//noiseNorm = noiseNorm.a * vec4(0.0, 1.0, 0.0, 1.0); //Use low-frequency octave
-	noiseNorm = vec4(noiseNorm.x, sin(time/150), noiseNorm.z, 1.0);
+	//noiseNorm = vec4(noiseNorm.x, sin(time/150), noiseNorm.z, 1.0);
+	noiseNorm = vec4(model_normal, 1.0) * noiseNorm;
 	vec4 texColor = texture(Tex1, texCoord);
 	
 	vec3 color = phong(noiseNorm.rgb, texColor.rgb);
