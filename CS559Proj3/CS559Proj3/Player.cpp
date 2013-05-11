@@ -99,7 +99,7 @@ void Player::update(void)
 		z = center.z + (sphere.getRadius() * -travel_force.y);
 		playCam.modelview = glm::lookAt(glm::vec3(x, 0.0, z), glm::vec3(x + (sphere.getRadius() * -travel_force.x), 0.0, z + (sphere.getRadius() * -travel_force.y)), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
-	player_pos = b2Vec2(x, z);
+	//player_pos = b2Vec2(x, z);
 	playCam.proj = glm::perspective(playCam.fov, window.aspect, 1.0f, 20000.0f);
 
 	//body->SetAngularVelocity(ang_force);

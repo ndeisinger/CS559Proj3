@@ -25,5 +25,7 @@ private:
 	Sphere sphere; //The sphere the player's bouncing around on; we don't draw this in first-person.
 	float ang_force;
 	float speed;
+	bool lastDirection;
+	bool currDirection;
 };
 
