@@ -246,7 +246,7 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		glm::mat4 m = glm::translate(mv, glm::vec3(this->position.x, this->position.y + 50, this->position.z));
+		glm::mat4 m = glm::translate(mv, glm::vec3(this->position.x, this->position.y + 20, this->position.z));
 		
 		float scale = sqrt(float(m[0].x * m[0].x + m[1].y * m[1].y + m[2].z * m[2].z));
 
@@ -261,10 +261,15 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 		m[2].y = 0;
 		m[2].z = 0;
 
-		//m = glm::scale(m, vec3(0.05f, 0.05f, 0.05f)); //Scale text
+		m = glm::scale(m, vec3(0.05f, 0.05f, 0.05f)); //Scale text
 		glLoadMatrixf(glm::value_ptr(m));
-		freetype::print(draw_font, window.width, window.height, "Hello world!\n");
-		//glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "wat");
+
+		char printstring[20];
+
+		sprintf(printstring, "%.2f", this->data.time_left);
+		
+		//freetype::print(draw_font, window.width, window.height, "Hello world!\n");
+		glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) printstring);
 		glPopMatrix();
 	}
 

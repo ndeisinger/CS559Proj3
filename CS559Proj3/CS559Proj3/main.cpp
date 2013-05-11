@@ -263,8 +263,9 @@ void showInfo()
         glTranslated(10, 15 * 2, -5.5);
         glScaled(0.1, 0.1, 1.0);
         glPushMatrix();
-		freetype::print(draw_font, 50, 50, "nope");
-        //glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "Hello world");
+		char infoString[50];
+		sprintf(infoString, "Time elapsed: %.4fs,\nspheres remaining: %i", elapsed_time/1000, num_spheres);
+        glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) infoString);
         glPopMatrix();
         glTranslated(0, -150, 0);
 }
@@ -348,8 +349,8 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		//glVertex2f(0,-0.03f*window.aspect);
 		//glVertex2f(0, 0.03f*window.aspect);
 		glEnd();
-	}
 		showInfo();
+	}
 	glFlush();
 }
 
