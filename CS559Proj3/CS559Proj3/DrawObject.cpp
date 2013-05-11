@@ -110,8 +110,6 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	if (physicsBody != NULL)
 	{
 		trans_mv = glm::rotate(trans_mv, radToDeg(physicsBody->GetAngle()), glm::vec3(0.0f, 1.0f, 0.0f));
-		trans_mv = glm::rotate(trans_mv, float(physicsBody->GetLinearVelocity().x), glm::vec3(0.0f, 0.0f, 1.0f));
-		//TODO: This only rotates Gooch, which is... problematic.
 	}
 	mat4 mvp = proj * trans_mv;
 	mat3 nm = inverse(transpose(mat3(trans_mv))); 
@@ -154,7 +152,6 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		{
 			bool shadRend = (render_target == RENDER_SFBO); //Decide if we're on first pass or not
 			curr_shader->subSetup(NULL, (void *) &shadRend, NULL, NULL);
-			printf(""); //Just so we can break here
 		}
 	}
 	else if (curr_shader->type == GOOCH)

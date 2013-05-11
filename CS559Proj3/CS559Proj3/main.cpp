@@ -99,6 +99,45 @@ void getDevILErr()
 	} 
 }
 
+void ExitFunc(void)
+{
+	glutLeaveMainLoop();
+	if (fatal_error)
+	{
+		fprintf(stderr, "A fatal error occured.  Exiting...\n");
+	}
+	draw_world.TakeDown();
+	fbo.TakeDown();
+
+	s_fbo.TakeDown();
+	common_shader->TakeDown();
+
+	glDeleteTextures(NUM_TEXTS, tex);
+	glDeleteTextures(1, &noise_tex_handle);
+	if (noise3DTexPtr) 
+	{
+		free(noise3DTexPtr);	
+	}
+
+	glutExit();
+	
+	if(!fatal_error)
+	{
+		printf("Time elapsed: %f\n", elapsed_time/10000);
+		if (WON_GAME) { printf("Congrats! You won!\n"); }
+		else { printf("Sorry, you lose.\n"); }
+	}
+	
+	system ("PAUSE");
+	try
+	{
+	exit(0);
+	}catch (std::exception &e) {
+		printf(e.what());
+	}
+}
+
+
 //This method adapted from "OpenGL Shading Language, Third Edition" by Randi J. Rost and Bill Licea-Kane.
 bool makeNoiseTexture(void)
 {
@@ -119,7 +158,8 @@ bool makeNoiseTexture(void)
 	if (!(noise3DTexPtr = (GLubyte *) malloc(NOISE_RES * NOISE_RES * NOISE_RES * 4)))
 	{
 		fprintf(stderr, "Could not allocate memory for noise!\n");
-		return false;
+		fatal_error = true;
+		ExitFunc();
 	}
 
 	for (f = 0, inc = 0; f < numOctaves; f++, inc++)
@@ -180,7 +220,8 @@ void initTextures()
 		if (err)
 		{
 			fprintf(stderr, "Error: Could not open texture %s", texts[i]);
-			exit(-1);
+			fatal_error = true;
+			ExitFunc();
 		}
 		fseek(File, 0, SEEK_END);
 		Size = ftell(File);
@@ -264,7 +305,7 @@ void showInfo()
         glScaled(0.1, 0.1, 1.0);
         glPushMatrix();
 		char infoString[50];
-		sprintf(infoString, "Time elapsed: %.4fs,\nspheres remaining: %i", elapsed_time/1000, num_spheres);
+		sprintf(infoString, "Time elapsed: %.3fs,\nspheres remaining: %i", elapsed_time/1000, num_spheres);
         glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) infoString);
         glPopMatrix();
         glTranslated(0, -150, 0);
@@ -334,6 +375,11 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	{
 		glDisable(GL_CULL_FACE);
 		//Draw crosshair in middle of screen in locked position
+		glMatrixMode(GL_PROJECTION);
+		glLoadMatrixf(glm::value_ptr(draw_world.getCurrentCam()->proj));
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		glLoadIdentity();
 		glLineWidth(1.0);
 		glBegin(GL_LINES);
 		//For boring crosshair
@@ -349,6 +395,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		//glVertex2f(0,-0.03f*window.aspect);
 		//glVertex2f(0, 0.03f*window.aspect);
 		glEnd();
+		glPopMatrix();
 		showInfo();
 	}
 	glFlush();
@@ -356,6 +403,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 
 void DisplayFunc()
 {
+	if (fatal_error) ExitFunc();
 	if (is_paused) return;
 	if (useShadows && (render_shader == TEX_SHADER))
 	{
@@ -385,37 +433,6 @@ void timerFunc(int value)
 			elapsed_time += window.interval;
 			glutPostRedisplay();
 		}
-	}
-}
-
-void ExitFunc(void)
-{
-	glutLeaveMainLoop();
-	draw_world.TakeDown();
-	fbo.TakeDown();
-
-	s_fbo.TakeDown();
-	common_shader->TakeDown();
-
-	glDeleteTextures(NUM_TEXTS, tex);
-	glDeleteTextures(1, &noise_tex_handle);
-	if (noise3DTexPtr) 
-	{
-		free(noise3DTexPtr);	
-	}
-
-	glutExit();
-	
-	printf("Time elapsed: %f\n", elapsed_time/10000);
-	if (WON_GAME) { printf("Congrats! You won!\n"); }
-	else { printf("Sorry, you lose.\n"); }
-	
-	system ("PAUSE");
-	try
-	{
-	exit(0);
-	}catch (std::exception &e) {
-		printf(e.what());
 	}
 }
 

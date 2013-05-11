@@ -330,7 +330,8 @@ bool Shader::init(SHADER_TYPE t)
 	if (!vertex_s_id)
 	{
 		fprintf(stderr, "Error: Could not create vertex shader %s!\n", vertex_shader_file);
-		exit(1);
+		fatal_error = true;
+		return false;
 	}
 
 	load(vertex_shader_file, this->vertex_s_id);
@@ -342,6 +343,7 @@ bool Shader::init(SHADER_TYPE t)
 		//BUG: This does not print to console properly.
 		fprintf(stderr, "GLSL compilation failed: vertex shader %s\n", vertex_shader_file);
 		fprintf(stderr, "%s", this->GetShaderLog(this->vertex_s_id).str());
+		fatal_error = true;
 		return false;
 	}
 
@@ -349,7 +351,8 @@ bool Shader::init(SHADER_TYPE t)
 	if (!frag_s_id)
 	{
 		fprintf(stderr, "Error: Could not create fragment shader %s!\n", fragment_shader_file);
-		exit(1);
+		fatal_error = true;
+		return false;
 	}
 
 	load(fragment_shader_file, this->frag_s_id);
@@ -361,6 +364,7 @@ bool Shader::init(SHADER_TYPE t)
 		//BUG: This does not print to console properly.
 		fprintf(stderr, "GLSL compilation failed: fragment shader %s\n", fragment_shader_file);
 		fprintf(stderr, "%s", this->GetShaderLog(this->frag_s_id).str());
+		fatal_error = true;
 		return false;
 	}
 
@@ -368,7 +372,7 @@ bool Shader::init(SHADER_TYPE t)
 	if (!this->program_id)
 	{
 		fprintf(stderr, "Could not create shader program!\n");
-		init(NONE);
+		fatal_error = true;
 		return false;
 	}
 
@@ -383,6 +387,8 @@ bool Shader::init(SHADER_TYPE t)
 	catch(int e)
 	{
 		fprintf(stderr, "Exception on link: %i", e);
+		fatal_error = true;
+		return false;
 	}
 
 	glGetProgramiv(this->program_id, GL_LINK_STATUS, &gl_check);
@@ -390,7 +396,7 @@ bool Shader::init(SHADER_TYPE t)
 	{
 		fprintf(stderr, "GLSL compilation failed: could not link program\n", fragment_shader_file);
 		fprintf(stderr, "%s", this->GetProgramLog(this->program_id).str());
-		init(NONE);
+		fatal_error = true;
 		return false;
 	}
 

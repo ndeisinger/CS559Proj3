@@ -246,7 +246,9 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		glm::mat4 m = glm::translate(mv, glm::vec3(this->position.x, this->position.y + 20, this->position.z));
+		glm::mat4 m = glm::translate(mv, glm::vec3(this->position.x, this->position.y + 20.0f, this->position.z));
+
+		//Remove rotation from the lookat matrix so the text always faces us
 		
 		float scale = sqrt(float(m[0].x * m[0].x + m[1].y * m[1].y + m[2].z * m[2].z));
 
@@ -268,7 +270,9 @@ bool Sphere::draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size,
 
 		sprintf(printstring, "%.2f", this->data.time_left);
 		
-		//freetype::print(draw_font, window.width, window.height, "Hello world!\n");
+		freetype::print(draw_font, window.width, window.height, "Hello world!\n");
+		//For some reason, we couldn't get the freetype version we were using
+		//to print at this level of execution.
 		glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) printstring);
 		glPopMatrix();
 	}
@@ -336,37 +340,3 @@ void Sphere::initPhysics(b2World * world)
 void Sphere::preSolve(b2Contact* contact, const b2Manifold* oldManifold)
 {
 }
-
-//void Sphere::Draw(const mat4 & projection, mat4 modelview, const ivec2 & size)
-//{
-//	if (this->GLReturnedError("Sphere::Draw - on entry"))
-//		return;
-//	glEnable(GL_CULL_FACE); 
-////	glDisable(GL_CULL_FACE);
-//	glEnable(GL_DEPTH_TEST);
-//
-//	mat4 mvp = projection * modelview;
-//	mat3 nm = inverse(transpose(mat3(modelview)));
-//
-//	shader.Use();
-//	shader.CommonSetup(0.0f, value_ptr(size), value_ptr(projection), value_ptr(modelview), value_ptr(mvp), value_ptr(nm), value_ptr(worldModelView));
-//	glBindVertexArray(this->vertex_array_handle);
-//	glDrawElements(GL_TRIANGLES , this->vertex_indices.size(), GL_UNSIGNED_INT , &this->vertex_indices[0]);
-//	glBindVertexArray(0);
-//	glUseProgram(0);
-//
-//	if (this->draw_normals)
-//	{
-//		this->solid_color.Use();
-//		this->solid_color.CommonSetup(0.0f, value_ptr(size), value_ptr(projection), value_ptr(modelview), value_ptr(mvp), value_ptr(nm), value_ptr(worldModelView));
-//		glBindVertexArray(this->normal_array_handle);
-//		glDrawElements(GL_LINES , this->norm_indices.size(), GL_UNSIGNED_INT , &this->norm_indices[0]);
-//		glBindVertexArray(0);
-//		glUseProgram(0);
-//	}
-//	
-//	glDisable(GL_CULL_FACE);
-//
-//	if (this->GLReturnedError("Sphere::Draw - on exit"))
-//		return;
-//}

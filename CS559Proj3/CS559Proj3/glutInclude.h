@@ -83,6 +83,7 @@ static bool GLReturnedError(char * s)
 	{
 		fprintf(stderr, "%s %s\n", s, gluErrorString(GLerr));
 		hitErr = true;
+		fatal_error = true;
 	}
 
 	return hitErr;
