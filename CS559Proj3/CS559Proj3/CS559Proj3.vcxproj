@@ -126,6 +126,7 @@
     <None Include="shaders\gooch_shader.frag" />
     <None Include="shaders\gooch_shader.vert" />
     <None Include="shaders\noise_normal.frag" />
+    <None Include="shaders\noise_normal.vert" />
     <None Include="shaders\norm_shader.frag" />
     <None Include="shaders\norm_shader.vert" />
     <None Include="shaders\no_shader.frag" />

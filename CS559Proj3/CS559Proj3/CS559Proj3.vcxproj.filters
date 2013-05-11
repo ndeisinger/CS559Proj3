@@ -162,6 +162,9 @@
     <None Include="shaders\fire_shader.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
+    <None Include="shaders\noise_normal.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawObject.h">

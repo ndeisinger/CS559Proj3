@@ -12,6 +12,8 @@ uniform mat4 mvp_matrix;
 uniform mat4 mv_matrix;
 uniform mat3 n_matrix;
 uniform bool tile_textures;
+uniform sampler3D noiseTex;
+uniform float time;
 
 void main()
 {
@@ -25,5 +27,6 @@ void main()
 	}
 	normal = normalize(n_matrix * vertex_normal);
 	vert_position = vec3(mv_matrix * vec4(vertex_position, 1.0));
-	gl_Position = mvp_matrix * vec4(vertex_position, 1.0);
+	vec3 shake_position = vertex_position + ((texture(noiseTex, vec3(vertex_position.xy, time/15000)) * 0.5).xyz); //Slightly modify vertex location based on time/noise
+	gl_Position = mvp_matrix * vec4(shake_position, 1.0);
 }
