@@ -77,6 +77,8 @@ GLuint noise_tex_handle; //Texture handle for noise
 freetype::font_data draw_font;
 freetype::font_data info_font;
 
+b2Vec2 player_pos;
+
 Axes common_axes; //For drawing local axes
 const int NUM_SHADERS = 4;
 Shader * global_shaders[NUM_SHADERS]; //TEX_W_SHADOWS, GOOCH, FIRE_NOISE, NOISE_NORMAL
@@ -100,7 +102,11 @@ void getDevILErr()
 //This method adapted from "OpenGL Shading Language, Third Edition" by Randi J. Rost and Bill Licea-Kane.
 bool makeNoiseTexture(void)
 {
+
+#ifdef _DEBUG
 	return true;
+#endif
+
 	int f, i, j, k, inc; //Loop variables
 	int startFrequency = 4; //Initial frequency
 	int numOctaves = 4; //Number of octaves we will generate/sum
@@ -242,6 +248,27 @@ void PassiveMotionFunc(int x, int y)
 	}
 }
 
+void showInfo()
+{
+	    glDisable(GL_LIGHTING);
+        glDisable(GL_TEXTURE_2D);
+        glDisable(GL_DEPTH_TEST);
+        glColor3f(1.0f, 1.0f, 1.0f);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, window.width, 0, window.height, 1, 10);
+        glViewport(0, 0, window.width, window.height);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glTranslated(10, 15 * 2, -5.5);
+        glScaled(0.1, 0.1, 1.0);
+        glPushMatrix();
+		freetype::print(draw_font, 50, 50, "nope");
+        //glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "Hello world");
+        glPopMatrix();
+        glTranslated(0, -150, 0);
+}
+
 void RenderScene(bool do_physics, int draw_width, int draw_height)
 {
 	//char stringbuf[80];
@@ -304,7 +331,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	}
 	if (render_target == RENDER_FULL)
 	{
-		
+		glDisable(GL_CULL_FACE);
 		//Draw crosshair in middle of screen in locked position
 		glLineWidth(1.0);
 		glBegin(GL_LINES);
@@ -320,10 +347,9 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glVertex2f( 0.02f,-0.02f*window.aspect);
 		//glVertex2f(0,-0.03f*window.aspect);
 		//glVertex2f(0, 0.03f*window.aspect);
-
 		glEnd();
 	}
-	freetype::print(info_font, window.width - 200, window.height - 60, "Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
+		showInfo();
 	glFlush();
 }
 
@@ -344,7 +370,6 @@ void DisplayFunc()
 	fbo.unbind();
 	render_target = RENDER_FULL;
 	RenderScene(true, window.width, window.height);
-
 }
 
 void timerFunc(int value)
@@ -385,7 +410,12 @@ void ExitFunc(void)
 	else { printf("Sorry, you lose.\n"); }
 	
 	system ("PAUSE");
+	try
+	{
 	exit(0);
+	}catch (std::exception &e) {
+		printf(e.what());
+	}
 }
 
 void KeyboardFunc(unsigned char c, int x, int y)
@@ -513,16 +543,15 @@ int main (int argc, char * argv[])
 	//glutSetCursor(GLUT_CURSOR_NONE);//Mute the cursor so the texture works.
 
 	draw_font.init("Test.TTF", 40);
-	//info_font.init("cour.ttf", 20);
-
+	info_font.init("COURIER.TTF", 20);
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, window.width, window.height);
 	glRasterPos2i(0, 0);
 	glPushMatrix();
 	const unsigned char load_msg[] = "Loading...";
-	freetype::print(draw_font, 50, 50, "Wat");
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, load_msg);
+	freetype::print(info_font, window.width - 50, window.height - 50, "HELP");
 	
 	glPopMatrix();
 	glFlush();

@@ -84,19 +84,22 @@ void Player::update(void)
 	body->SetLinearVelocity(b2Vec2(x_force, z_force));
 	
 	travel_force = glm::normalize(boxToGlm(body->GetLinearVelocity()));
+	float x;
+	float z;
 	//printf("Angle: %f, x: %f, z: %f, radius: %f, rot_angle: %f, travel_angle: %f,\nx_force: %f, z_force: %f\n", rot_angle, x, z, sphere.getRadius(), rot_angle, x_force, z_force);
 	if (this->speed > 0)
 	{
-		float x = center.x + (sphere.getRadius() * travel_force.x);
-		float z = center.z + (sphere.getRadius() * travel_force.y);
+		x = center.x + (sphere.getRadius() * travel_force.x);
+		z = center.z + (sphere.getRadius() * travel_force.y);
 		playCam.modelview = glm::lookAt(glm::vec3(x, 0.0, z), glm::vec3(x + (sphere.getRadius() * travel_force.x), 0.0, z + (sphere.getRadius() * travel_force.y)), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 	else
 	{
-		float x = center.x + (sphere.getRadius() * -travel_force.x);
-		float z = center.z + (sphere.getRadius() * -travel_force.y);
+		x = center.x + (sphere.getRadius() * -travel_force.x);
+		z = center.z + (sphere.getRadius() * -travel_force.y);
 		playCam.modelview = glm::lookAt(glm::vec3(x, 0.0, z), glm::vec3(x + (sphere.getRadius() * -travel_force.x), 0.0, z + (sphere.getRadius() * -travel_force.y)), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
+	player_pos = b2Vec2(x, z);
 	playCam.proj = glm::perspective(playCam.fov, window.aspect, 1.0f, 20000.0f);
 
 	//body->SetAngularVelocity(ang_force);

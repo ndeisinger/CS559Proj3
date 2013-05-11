@@ -3,6 +3,7 @@
 #include "glutInclude.h"
 #include "PhysicsInclude.h"
 #include "Cube.h"
+#include <math.h>
 typedef DrawObject super;
 
 class Sphere :

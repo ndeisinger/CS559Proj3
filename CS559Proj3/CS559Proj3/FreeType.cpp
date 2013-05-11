@@ -129,6 +129,7 @@ void make_dlist ( FT_Face face, char ch, GLuint list_base, GLuint * tex_base ) {
 
 	//Finnish the display list
 	glEndList();
+	FT_Done_Glyph(glyph);
 }
 
 
