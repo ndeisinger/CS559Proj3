@@ -1,6 +1,4 @@
-//A subclass for a special kind of shader.
-//The intention here is that we not provide any extra public functions;
-//Instead, use the sub{X} functions to provide special functionality.
+//A subclass of Shader designed for use with Gooch shading
 
 #pragma once
 #include "shader.h"
@@ -15,6 +13,8 @@ public:
 	void subTakeDown(void);
 protected:
 	void GoochShader::subInval(void);
+
+	//Handles for Gooch uniforms
 	GLuint warm_color_handle;
 	GLuint cool_color_handle;
 	GLuint diffuse_warm_handle;

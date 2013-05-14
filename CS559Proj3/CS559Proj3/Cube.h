@@ -1,6 +1,9 @@
 #pragma once
 #include "DrawObject.h"
 #include "Box2D\Box2D.h"
+
+//A basic cube
+
 typedef DrawObject super;
 class Cube :
 	public DrawObject

@@ -1,6 +1,7 @@
 #pragma once
 #include "shader.h"
-//typedef Shader super;
+//The name "FireShader" is a slight misnomer, as this class is also used in our other noise-related shader,
+//which uses noise to adjust normals, rather than create a 'fire' effect.
 class FireShader :
 	public Shader
 {

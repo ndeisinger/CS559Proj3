@@ -2,6 +2,8 @@
 #include "DrawObject.h"
 #include "glutInclude.h"
 
+//The Skybox class is actually a bit of a misnomer;
+//it's a skydome based off our sphere class.
 
 typedef DrawObject super;
 
@@ -21,11 +23,11 @@ public:
 private:
 	
 	float own_radius; //Allow this to be variable in case we want to adjust spheres
-	glm::vec4 colors[2];
-	bool solidColor;
+	glm::vec4 colors[2]; //Unused carryover from Sphere class
+	bool solidColor; //Unused carryover from Sphere class
 	void BuildNormalVisualizationGeometry();
 
-	bool custom_colors; //Are we using unusal colors?
+	bool custom_colors; //Unused carryover from Sphere class
 
 };
 

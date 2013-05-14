@@ -2,6 +2,7 @@
 #include "Box2D\Box2D.h"
 #include "glm\glm.hpp"
 
+//Various globals used for game state
 extern float max_time;
 extern int num_spheres;
 extern float elapsed_time;

@@ -15,12 +15,12 @@ public:
 	bool draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m);
 	bool initialize(float radius, int slices, int stacks);
 	void initPhysics(b2World * world); //Set up our Box2D object
-	void updatePos();
+	void updatePos(); //Match phsyical/graphical representaions, update countdown
 	void preSolve(b2Contact* contact, const b2Manifold* oldManifold);
 
-	bool createBoxes(float w, float h, float d);
+	bool createBoxes(float w, float h, float d); //OBSOLETE: was used in testing
 
-	Cube cube;
+	Cube cube; //OBSOLETE: was used in testing
 
 	//getters/setters
 	inline b2Body * getBody() { return circleBody; }
@@ -31,7 +31,7 @@ public:
 
 private:
 	
-	float prev_time;
+	float prev_time; //Internal value used in countdown calculations
 	float own_radius; //Allow this to be variable in case we want to adjust spheres
 	glm::vec4 colors[2];
 	bool solidColor;

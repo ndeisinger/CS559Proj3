@@ -1,6 +1,8 @@
 #pragma once
 #include "shader.h"
-//typedef Shader super;
+
+//A standard Phong/texture shader that also uses dynamic shadows.
+
 class ShaderWithShadows :
 	public Shader
 {

@@ -182,7 +182,7 @@ bool makeNoiseTexture(void)
 				inck = 1.0 / (NOISE_RES / frequency);
 				for (k = 0; k < NOISE_RES; k++)
 				{
-					*(ptr + inc) = (GLubyte) (perlinNoise.GetValue(inci * i, incj * j, inck * k) * NOISE_RES * amp);
+					*(ptr + inc) = (GLubyte) (perlinNoise.GetValue(inci * i, incj * j, inck * k) * NOISE_RES * amp); //Sample our noise
 					ptr += 4;
 				}
 			}
@@ -216,9 +216,8 @@ void initTextures()
 		ilBindImage(tex[i]);
 	
 		//Below code is also taken from the DevIL documentation.
-		//I'd love to know why I had to jump through these hoops,
-		//But in any event the normal load function was failing.
-		//My guess? Wrong DLL (non-Unicode v. unicode).
+		//We read the file into memory, then use DevIL to bind it
+		//as a texture.
 		ILubyte *Lump;
 		ILuint Size;
 		FILE *File;
@@ -312,6 +311,7 @@ void PassiveMotionFunc(int x, int y)
 
 void showInfo()
 {
+	//Print out game info
 	    glDisable(GL_LIGHTING);
         glDisable(GL_TEXTURE_2D);
         glDisable(GL_DEPTH_TEST);
@@ -332,7 +332,6 @@ void showInfo()
 
 
         glPopMatrix();
-        glTranslated(0, -150, 0);
 }
 
 void RenderScene(bool do_physics, int draw_width, int draw_height)
@@ -345,7 +344,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	printf("elapsed_time: %f\n",elapsed_time);
 #endif
 
-	//printf("In drawFunc\n");
+	//Set up basic flags
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_POLYGON_OFFSET_FILL);
@@ -358,6 +357,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 
 	if (msaa_on)
 	{
+		//Use GL's legacy MSAA; unfortunately not supported on Cyclops machines
 		glEnable(GL_MULTISAMPLE_ARB);
 	}
 	else
@@ -365,14 +365,15 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glDisable(GL_MULTISAMPLE_ARB);
 	}
 	if (render_target == RENDER_SFBO) {
-		//Cull front faces and get shadow depths
+		//Cull front faces and enable polygon offset to avoid shadow artifacting
 		glCullFace(GL_FRONT);
 		glPolygonMode(GL_BACK, GL_FILL);
 		glPolygonOffset(1.5f, 1.0f);
 	}
 	if (render_shader == GOOCH_SHADER)
 	{
-		//Render thick wireframe on back faces
+		//Part of gooch shading; we first render a thick black wireframe on the back faces only
+		//in order to cheaply get a 'border' effect.
 		RENDER_TARGET old_target = render_target;
 		render_target = RENDER_GOOCH;
 		glLineWidth(5.0);
@@ -395,12 +396,14 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	}
 	//Do our main render
 	draw_world.draw(do_physics);
+
 	if (render_target == RENDER_SFBO) {
 		//Reset values
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glPolygonOffset(1.0f, 1.0f);
 	}
+
 	if (render_target == RENDER_FULL)
 	{
 		//Draw crosshair
@@ -440,6 +443,7 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 
 void DisplayFunc()
 {
+	//Do our necessary rendering
 	if (fatal_error) ExitFunc();
 	if (is_paused) return;
 	if (useShadows && (render_shader == TEX_SHADER))
@@ -529,6 +533,7 @@ void KeyboardFunc(unsigned char c, int x, int y)
 
 void ReshapeFunc(int w, int h)
 {
+	//Reshape our window
 	if (w > 0 && h > 0 && window.handle != -1)
 	{
 		window.width = w;
@@ -567,6 +572,7 @@ int main (int argc, char * argv[])
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
 	
+	//Set up command line args
 	int rand_seed;
 
 	if (argc <= 1)
@@ -602,9 +608,7 @@ int main (int argc, char * argv[])
 	window.height = 600;
 	window.aspect = (float) 800/ (float)600;
 	window.handle = glutCreateWindow("Moshball");
-
-	//glutSetCursor(GLUT_CURSOR_NONE);//Mute the cursor so the texture works.
-
+	
 	//Attempt to use FreeType
 	draw_font.init("Test.TTF", 40);
 	info_font.init("COURIER.TTF", 20);
@@ -613,7 +617,7 @@ int main (int argc, char * argv[])
 	glViewport(0, 0, window.width, window.height);
 	glRasterPos2i(0, 0);
 	glPushMatrix();
-	const unsigned char load_msg[] = "Loading...";
+	const unsigned char load_msg[] = "Loading..."; //Create load screen
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, load_msg);
 //	freetype::print(info_font, window.width - 50, window.height - 50, "freeType test");
 	
@@ -630,6 +634,7 @@ int main (int argc, char * argv[])
 
 	GLEW_IS_INIT = true;
 	
+	//Init DevIL
 	ilInit();
 	iluInit();
 	ilutRenderer(ILUT_OPENGL);
@@ -637,7 +642,8 @@ int main (int argc, char * argv[])
 	initTextures();
 	initShaders();
 	common_shader = global_shaders[0];
-
+	
+	//Init game world
 	draw_world.init(num_spheres);
 	game_player = draw_world.getPlayer();
 	DrawObject::axes_init = common_axes.init();

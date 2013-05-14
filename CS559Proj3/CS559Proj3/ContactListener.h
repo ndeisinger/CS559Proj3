@@ -1,5 +1,8 @@
 #pragma once
 #include "PhysicsInclude.h"
+
+//A Box2D component that lets us define what occurs on contact between two objects in the world.
+
 class ContactListener : public b2ContactListener
 {
 public:

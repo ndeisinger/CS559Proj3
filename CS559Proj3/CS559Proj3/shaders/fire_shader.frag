@@ -14,7 +14,7 @@ uniform bool isActive;
 // We opt for a set material, because we're only texturing the ground.
 void main()
 {
-	vec4 texColor = texture(noiseTex, vec3(texCoord, time/15000.0));
+	vec4 texColor = texture(noiseTex, vec3(texCoord, time/15000.0)); //Get sample from noise texture
 
 	float intensity;
 	intensity += abs(texColor[0] - 0.25);

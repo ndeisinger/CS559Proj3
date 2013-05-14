@@ -13,7 +13,7 @@
 #include <IL\ilut_config.h>
 #include <noise\noise.h>
 #include <math.h>
-#include "FreeType.h"
+#include "FreeType.h" //Ultimately unused
 
 class Window
 {
@@ -34,12 +34,11 @@ public:
 	GLfloat aspect;
 	int handle;
 	int interval;
-	//vector<string> textbuf;
 };
 
 
 enum RENDER_TARGET {RENDER_FULL, RENDER_FBO, RENDER_SFBO, RENDER_GOOCH}; //What rendering pass are we doing?
-enum RENDER_SHADER {TEX_SHADER, GOOCH_SHADER, FIRE_SHADER}; //What shader are we using?
+enum RENDER_SHADER {TEX_SHADER, GOOCH_SHADER, FIRE_SHADER}; //What primary kind of shader are we using?
 
 #define PI_D 3.14159265
 #define PI_F 3.14159265f

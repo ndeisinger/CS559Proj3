@@ -8,7 +8,7 @@
 
 using namespace std;
 
-extern Shader * common_shader;
+extern Shader * common_shader; //Single shader used for spheres
 class DrawObject
 {
 public:
@@ -18,9 +18,9 @@ public:
 	void TakeDown(void);
 
 	bool bindArray(GLuint * arr_handle, GLuint * coor_handle, GLsizeiptr size, const GLvoid * data);
-	void UseTexture(); //Deprecated?
-	void recolor(glm::vec3 color);
-	void switchShader(SHADER_TYPE t);
+	void UseTexture();
+	void recolor(glm::vec3 color); //OBSOLETE
+	void switchShader(SHADER_TYPE t); //Switches the primary shader
 	inline void setShader(Shader * newShader) { shader = newShader; customShader = true; }
 	inline void setTexture(TEXTURE_TYPE type) { texture = type;}
 	inline void toggleTiling(bool doTile) { tile_texture = doTile; }
@@ -30,31 +30,30 @@ public:
 	inline glm::vec3 getPos() { return position; };
 	inline Shader * getShader(void) { return this->shader;}
 	
-	static Shader norm_shader; // All objects will use the same norm shader.  Hopefully this doesn't catastrophically break anything.  If it does we can bump it down to the protected/non-static.
-							   // Nope, all good.  But this begs the question: could we make the actual shader static as well?
-							   // Would obviously limit us to one shader for all objects... but that's what we do now anyways.  
+	static Shader norm_shader; // All objects will use the same norm shader.  
 	static bool draw_norms;    // If we're showing normals, may as well show them all, since we can't much switch between objects.
-	static Shader second_shader;
-	static bool draw_axes;
-	static DrawObject * a;
-	static bool axes_init;
-	static bool draw_shadows;
+	static Shader second_shader; // Unused; would have been an additional shader available for individual objects
+	static bool draw_axes; // Are we drawing local axes?
+	static DrawObject * a; // Shared Axes object 
+	static bool axes_init; // Mark if our shared Axes object has been initialized
+	static bool draw_shadows; // Mark if we're using dynamic shadows
 
-	bool is_init;
+	bool is_init; // Mark if this object is successfully initialized
 protected:
 
 	//bool GLReturnedError(char * s);
-	bool initNorms();
-	void drawNorms();
-	bool norms_init;
-	glm::vec3 color; //color of the object
-	bool useTex;
-	bool customShader;
+	bool initNorms(); // Sets up vertex array of normals
+	void drawNorms(); // Draws normals
+	bool norms_init; // Indicates normals have been 
+	glm::vec3 color; // OBSOLETE: Color of the object
+	bool useTex; // Indicates we're using a texture
+	bool customShader; // Indicates we're using a custom shader for this object
 	int draw_type; //eg. GL_TRIANGLES, GL_LINES
 	bool s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2 & size, const float & time, lightInfo * & l, materialInfo * & m); //Does the actual heavy lifting for draw
 
 	glm::vec3 position; //Overall position in the world
 
+	//Handles for our vertex arrays and texture
 	GLuint vertex_arr_handle;
 	GLuint vertex_coor_handle;
 	GLuint normal_arr_handle;
@@ -64,20 +63,20 @@ protected:
 	GLuint tex_handle;
 
 	vector<GLuint> vertex_indices;
-	vector<VertexAttPCN> atts_pcn;
-	vector<VertexAttPCNT> atts_pcnt;
-	vector<VertexAttP> norm_vertices;
+	vector<VertexAttPCN> atts_pcn; // Stores Position/Color/Normal
+	vector<VertexAttPCNT> atts_pcnt; // Stores Position/Color/Normal/Texture coords
+	vector<VertexAttP> norm_vertices; // Stores vertices for drawing normals
 	vector<GLuint> norm_indices;
 
-	Shader * shader;
-	TEXTURE_TYPE texture;
-	bool tile_texture;
+	Shader * shader; // Custom shader for this object
+	TEXTURE_TYPE texture; // Marks which texture we're using
+	bool tile_texture; // Toggles tiling of texture
 
-	glm::vec3 goochCool;
+	glm::vec3 goochCool; //Used in gooch shading
 	glm::vec3 goochWarm; //Used in gooch shading
 
 	b2Body * physicsBody; //This will be left unused if there are no associated phsyics
 
-	inline glm::vec4 MakeColor(int r, int g, int b, float gain = 1.0f) {	return glm::vec4(float(r) * gain / 255.0f, float(g) * gain / 255.0f, float(b) * gain / 255.0f, 1.0f); }
+	inline glm::vec4 MakeColor(int r, int g, int b, float gain = 1.0f) {	return glm::vec4(float(r) * gain / 255.0f, float(g) * gain / 255.0f, float(b) * gain / 255.0f, 1.0f); } //OBSOLETE
 };
 

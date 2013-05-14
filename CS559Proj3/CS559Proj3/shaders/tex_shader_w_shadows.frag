@@ -45,12 +45,12 @@ vec3 phong_ds()
 
 void shade()
 {
-	//Do the actual shading calculation
+	//Apply ambient component regardless
 	vec4 texColor = texture(Tex1, texCoord);
 	vec3 amb_comp = amb * kA;
-	float sum = 0;
 
 	//In order to smooth our shadows, use the average of 4 nearby points
+	float sum = 0;
 	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(1, 1));
 	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(1, -1));
 	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(-1, 1));
@@ -58,19 +58,15 @@ void shade()
 	float shadow = sum * 0.25;
 	if (shadow > 0.01)
 	{
-		//Not in shadow
+		//Not in shadow, do diffuse/specular calculations
 		vec3 ds_result = phong_ds();
 		fragColor = texColor *  vec4((amb_comp + (shadow * ds_result)), 1.0);
 	}
 	else
 	{
+		//In shadow, only use ambient
 		fragColor = texColor *  vec4(amb_comp, 1.0);
 	}
-}
-
-void recordDepth()
-{
-	//Do no lighting calcs - just getting the depths
 }
 
 void main()
@@ -78,7 +74,7 @@ void main()
 
 	if (shadow_pass) 
 	{
-		//Nothing to do here
+		//Record depth but do no calculations
 	}
 	else if (draw_shadows)
 	{

@@ -7,34 +7,36 @@
 
 #define BAD_GL_VALUE GLuint(-1)
 
-//Class for our various shaders.
-enum SHADER_TYPE {NONE, FLAT, GOURAUD, PHONG, DEBUG_POS, GOOCH, MAX, \
-	NORM, DEBUG_NORM, TEX, TEX_W_SHADOWS, TEX_NO_LIGHTING, FIRE_NOISE, NOISE_NORMAL}; //max val used to help us cycle
+//Class for a basic shader that supports Phong and texturing.
+
+//This enum is used to define what kind of shader we're using.
+//In this implementation, only NONE, NORM, TEX_W_SHADOWS, TEX_NO_LIGHTING, GOOCH, FIRE_NOISE, and NOISE_NORMAL are used
+enum SHADER_TYPE {NONE, FLAT, GOURAUD, PHONG, DEBUG_POS, GOOCH, MAX,\
+	NORM, DEBUG_NORM, TEX, TEX_W_SHADOWS, TEX_NO_LIGHTING, FIRE_NOISE, NOISE_NORMAL}; 
 class Shader
 {
 public:
 	Shader(void);
 	~Shader(void);
-	//bool init(char * vertex_shader_file, char * fragment_shader_file);
 	bool init(SHADER_TYPE t);
 	virtual void subInit(void); //To be overridden
-	void setup(const float time, const GLint * size, const GLfloat * proj, const GLfloat * mv, const GLfloat * mvp, const GLfloat * norm);
+	void setup(const float time, const GLint * size, const GLfloat * proj, const GLfloat * mv, const GLfloat * mvp, const GLfloat * norm); //Sets up basics
 	virtual void subSetup(void * arg1, void * arg2, void * arg3, void * arg4) { return; } //To be overridden
 	void use(void);
-	void lightSetup(lightInfo & l);
-	void materialSetup(materialInfo & m);
-	void texSetup(TEXTURE_TYPE type, bool doTiles);
+	void lightSetup(lightInfo & l); //Sets up light location
+	void materialSetup(materialInfo & m); //Sets up material properties
+	void texSetup(TEXTURE_TYPE type, bool doTiles); //Sets up texture
 	void TakeDown(void); 
 	virtual void subTakeDown(void); //To be overridden
-	void reload(SHADER_TYPE t);
+	void reload(SHADER_TYPE t); //Switches shader types; unused
 
 	std::stringstream GetShaderLog(GLuint shader_id);
 	std::stringstream Shader::GetProgramLog(GLuint program_id);
 
 	SHADER_TYPE type;
 
-	static GLint light_index;
-	static GLuint light_handle;
+	static GLint light_index; //OBSOLETE: was used with binding uniform block to pass down a LightInfo struct
+	static GLuint light_handle; //OBSOLETE: was used with binding uniform block to pass down a LightInfo struct
 
 protected:
 	void inval(void);
