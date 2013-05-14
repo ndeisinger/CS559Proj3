@@ -21,11 +21,11 @@ public:
 	void update(void);
 	bool draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m);
 private:
-	Camera playCam;
-	Sphere sphere; //The sphere the player's bouncing around on; we don't draw this in first-person.
-	float ang_force;
-	float speed;
-	bool lastDirection;
+	Camera playCam; //Camera from the player's POV
+	Sphere sphere; //The sphere the player's bouncing around on
+	float ang_force; //Used in turning
+	float speed; //Used in moving
+	bool lastDirection; //Used in ensuring we can move backwards properly
 	bool currDirection;
 };
 

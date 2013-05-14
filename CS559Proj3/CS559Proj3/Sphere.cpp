@@ -19,6 +19,7 @@ Sphere::Sphere()
 	this->colors[1] = lighter_color;
 	color = vec3(colors[0]);
 	solidColor = false;
+	this->prev_time = 0.0f;
 }
 
 Sphere::~Sphere()
@@ -289,7 +290,6 @@ void Sphere::updatePos(void)
 	this->position = glm::vec3(pos.x, 0.0, pos.y);
 
 	float cirRad = this->getRadius();
-	//cube.setPos(glm::vec3(pos.x - cirRad, cirRad + 10, pos.y - cirRad));//take out that +10
 
 	if (data.time_left < 0 && !data.isPlayer)
 	{
@@ -307,7 +307,11 @@ void Sphere::updatePos(void)
 		//30secs + balls*2
 		
 		//elapsed_t
-		data.time_left -= (elapsed_time/1000 - prev_time/1000);
+		if ((prev_time < 0.01) && (prev_time > -0.01))
+		{
+			prev_time = elapsed_time;
+		}
+		data.time_left -= (elapsed_time/100 - prev_time/100)/10;
 		prev_time = elapsed_time;
 		this->texture = CONCRETE;
 		this->goochWarm = glm::vec3(0.9f, 0.5f, 0.2f);

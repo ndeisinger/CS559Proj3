@@ -128,12 +128,15 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 	curr_shader->setup(time, value_ptr(size), value_ptr(proj), value_ptr(trans_mv), value_ptr(mvp), value_ptr(nm));
 	if (l != NULL)
 	{
-		curr_shader->lightSetup(*l); //TODO: Is this safe? X
+		curr_shader->lightSetup(*l);
 	}
 	if (m != NULL)
 	{
 		curr_shader->materialSetup(*m);
 	}
+
+	//Below, we do special setup for our special shaders
+
 	if (curr_shader->type == TEX_W_SHADOWS)
 	{
 		if ((render_shader == TEX_SHADER) && useShadows)
@@ -205,28 +208,9 @@ bool DrawObject::s_draw(const glm::mat4 & proj, glm::mat4 & mv, const glm::ivec2
 		if(DrawObject::axes_init == false) return false;
 		DrawObject::a->s_draw(proj, trans_mv, size, time, l, m); //TODO: Will this work? X: Yup.
 	}
-
-
-
-
-
-
+	
 	return true;
 }
-/*
-bool DrawObject::GLReturnedError(char * s)
-{
-	GLenum GLerr;
-	bool hitErr = false;
-
-	while ((GLerr = glGetError()) && GLerr != GL_NO_ERROR)
-	{
-		fprintf(stderr, "%s %s\n", s, gluErrorString(GLerr));
-		hitErr = true;
-	}
-
-	return hitErr;
-}*/
 
 //ASSUMPTION: This is only called after init has been called.
 bool DrawObject::initNorms()
@@ -273,6 +257,8 @@ struct recolor_help
 	}
 } r;
 
+//Below is obsolete
+/*
 void DrawObject::recolor(glm::vec3 color)
 {
 	this->color = color;
@@ -281,4 +267,4 @@ void DrawObject::recolor(glm::vec3 color)
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttPCN), (GLvoid *) (0 + sizeof(glm::vec3) * 1));
 	glEnableVertexAttribArray(1);
 	GLReturnedError("Recolor - on exit\n");
-}
+}*/

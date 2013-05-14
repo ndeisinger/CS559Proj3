@@ -96,7 +96,7 @@ void Cube::initPhysics(float size, glm::vec2 center, float angle, b2World * worl
 	boxDef.type = b2_staticBody;
 	boxDef.position.Set(center.x, center.y);
 	boxBody = world->CreateBody(&boxDef);
-	boxShape.SetAsBox(size, 1.0f, b2Vec2(center.x, center.y), angle); //TODO: Adjust angle
+	boxShape.SetAsBox(size, 1.0f, b2Vec2(center.x, center.y), angle); 
 	boxBody->CreateFixture(&boxShape, 0.0f);
 	
 }

@@ -3,16 +3,16 @@
 #include <glm/glm.hpp>
 
 typedef struct _lightInfo {
-	glm::vec4 position; //come to think of it, should this be vec3?
+	glm::vec4 position; 
 	glm::vec3 color; //This is currently unused
-	glm::vec3 amb;
-	glm::vec3 diff;
-	glm::vec3 spec;
+	glm::vec3 amb; //Ambient component
+	glm::vec3 diff; //Diffuse component
+	glm::vec3 spec; //Specular component
 } lightInfo;
 
 typedef struct _materialInfo {
-	glm::vec3 kA;
-	glm::vec3 kD;
-	glm::vec3 kS;
-	float shininess;
+	glm::vec3 kA; //Ambient reflectivity
+	glm::vec3 kD; //Diffuse reflectivity
+	glm::vec3 kS; //Specular reflectivity
+	float shininess; //Specular highlight exponent
 } materialInfo;

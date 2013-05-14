@@ -1,4 +1,4 @@
-//Because I really don't feel like putting all of these in every file.
+//This is essentially our 'globals' file.
 
 #pragma once
 #include <vector>
@@ -38,8 +38,8 @@ public:
 };
 
 
-enum RENDER_TARGET {RENDER_FULL, RENDER_FBO, RENDER_SFBO, RENDER_GOOCH};
-enum RENDER_SHADER {TEX_SHADER, GOOCH_SHADER, FIRE_SHADER};
+enum RENDER_TARGET {RENDER_FULL, RENDER_FBO, RENDER_SFBO, RENDER_GOOCH}; //What rendering pass are we doing?
+enum RENDER_SHADER {TEX_SHADER, GOOCH_SHADER, FIRE_SHADER}; //What shader are we using?
 
 #define PI_D 3.14159265
 #define PI_F 3.14159265f
@@ -56,6 +56,7 @@ extern freetype::font_data draw_font;
 extern glm::mat4 light_matrix; //Light's POV, used in dynamic shadows
 extern glm::mat4 bp_matrix; //Bias times light's projection matrix
 
+//Some angle conversion functions
 inline double degToRad(double degree) { return (degree/180) * PI_D; }
 inline float degToRad(float degree) { return (degree/180) * PI_F; }
 
@@ -71,7 +72,6 @@ static const glm::mat4 bias_matrix = glm::mat4(0.5f, 0.0f, 0.0f, 0.0f,
 
 
 //The following two functions are taken from Perry Kivolowitz's code.
-
 
 static bool GLReturnedError(char * s) 
 {

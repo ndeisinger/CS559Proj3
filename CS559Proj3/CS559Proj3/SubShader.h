@@ -11,10 +11,10 @@ class SubShader :
 public:
 	SubShader(void);
 	~SubShader(void);
-	void subSetup(void * arg1, void * arg2, void * arg3, void * arg4);
-	void subInit(void); //To be overridden
-	void subTakeDown(void);
+	void subSetup(void * arg1, void * arg2, void * arg3, void * arg4); //Allow us to pass in four parameters for special setup
+	void subInit(void); //Do any needed special initialization
+	void subTakeDown(void); //Do any needed special take down
 protected:
-	void SubShader::subInval(void);
+	void subInval(void); //Do any needed special invalidation
 };
 

@@ -33,5 +33,9 @@ void main()
 	reflectVec = normalize(reflect(-lightVec, normal));
 	viewVec = normalize(-vert_position);
 	NdotL = dot(lightVec, normal) * 0.5 + 0.5; //Normalize to [0, 1]
+
+	//The above lines are calculating the vector between the vertex position and the light source,
+	//so that we can apply warmer colors to the 'hot spot' and cooler colors elsewhere
+
 	gl_Position = mvp_matrix * vec4(vertex_position, 1.0);
 }

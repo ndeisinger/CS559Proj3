@@ -74,18 +74,18 @@ GLubyte * noise3DTexPtr; //Memory where we write our noise texture
 const int NOISE_RES = 128; //Resolution for our noise texture
 GLuint noise_tex_handle; //Texture handle for noise
 
-freetype::font_data draw_font;
-freetype::font_data info_font;
+freetype::font_data draw_font; //Would have been used to draw numbers above spheres
+freetype::font_data info_font; //Would have been used to draw game info
 
-b2Vec2 player_pos;
+b2Vec2 player_pos; //Location of player in world; ultimately unused
 
 Axes common_axes; //For drawing local axes
-const int NUM_SHADERS = 4;
+const int NUM_SHADERS = 4; //Total number of shaders
 Shader * global_shaders[NUM_SHADERS]; //TEX_W_SHADOWS, GOOCH, FIRE_NOISE, NOISE_NORMAL
-int global_shader_id = 0;
-Window window;
+int global_shader_id = 0; //Lets us cycle through shaders
+Window window; //Our window, shockingly.
 
-bool fatal_error = false;
+bool fatal_error = false; //Used to note we had a fatal error
 
 Cursor cursor;
 
@@ -99,6 +99,7 @@ void getDevILErr()
 	} 
 }
 
+//Cleanly exit the program
 void ExitFunc(void)
 {
 	glutLeaveMainLoop();
@@ -132,6 +133,8 @@ void ExitFunc(void)
 	}
 	
 	system ("PAUSE");
+
+	//Look for any lingering exceptions
 	try
 	{
 	exit(0);
@@ -203,6 +206,7 @@ bool makeNoiseTexture(void)
 
 void initTextures()
 {
+	//Initialize external textures
 	GLuint tid[NUM_TEXTS];
 	int i = 0;
 	for (i = 0; i < NUM_TEXTS; i++)
@@ -251,16 +255,20 @@ void initTextures()
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	}
+	//Initialize FBO
 	glActiveTexture(GL_TEXTURE0 + int(FRAME_BUF));
 	fbo.initialize(glm::ivec2(512, 512), 1, true);
+	//Initialize FBO for dynamic shadows
 	glActiveTexture(GL_TEXTURE0 + int(SHADOW_BUF));
 	s_fbo.initialize();
+	//Initialize noise texture
 	glActiveTexture(GL_TEXTURE0 + int(NOISE));
 	makeNoiseTexture();
 }
 
 void cycleShaders()
 {
+	//Cycle through our shaders
 	global_shader_id++;
 	global_shader_id %= NUM_SHADERS;
 	common_shader = global_shaders[global_shader_id];
@@ -277,6 +285,7 @@ void cycleShaders()
 
 void initShaders()
 {
+	//Init main shaders
 	global_shaders[0] = new ShaderWithShadows();
 	global_shaders[0]->init(TEX_W_SHADOWS);
 	global_shaders[1] = new GoochShader();
@@ -290,6 +299,7 @@ void initShaders()
 
 void PassiveMotionFunc(int x, int y)
 {
+	//Adjust our angle/speed
 	if (is_paused) return;
 	else
 	{
@@ -320,8 +330,6 @@ void showInfo()
 		sprintf_s(infoString, "Time elapsed: %.3fs,\nspheres remaining: %i", elapsed_time/1000, num_spheres);
         glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) infoString);
 
-		freetype::print(draw_font, 50, 50, "nope");
-        //glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) "Hello world");
 
         glPopMatrix();
         glTranslated(0, -150, 0);
@@ -329,21 +337,20 @@ void showInfo()
 
 void RenderScene(bool do_physics, int draw_width, int draw_height)
 {
-	//char stringbuf[80];
-	//sprintf_s(stringbuf, "Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
-	//printf("Time elapsed: %f,\n targets left: %i\n", elapsed_time, num_spheres);
 	if (num_spheres == 0) { WON_GAME = true; }
 	
 	float current_time = float(glutGet(GLUT_ELAPSED_TIME));
+#ifdef _DEBUG
 	printf("current_time: %f\n",current_time);
 	printf("elapsed_time: %f\n",elapsed_time);
+#endif
 
 	//printf("In drawFunc\n");
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_POLYGON_OFFSET_FILL);
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
-	//glCullFace(GL_BACK);
+	glCullFace(GL_BACK);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, draw_width, draw_height);
 
@@ -358,12 +365,14 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		glDisable(GL_MULTISAMPLE_ARB);
 	}
 	if (render_target == RENDER_SFBO) {
+		//Cull front faces and get shadow depths
 		glCullFace(GL_FRONT);
 		glPolygonMode(GL_BACK, GL_FILL);
-		glPolygonOffset(5.0f, 1.0f);
+		glPolygonOffset(1.5f, 1.0f);
 	}
 	if (render_shader == GOOCH_SHADER)
 	{
+		//Render thick wireframe on back faces
 		RENDER_TARGET old_target = render_target;
 		render_target = RENDER_GOOCH;
 		glLineWidth(5.0);
@@ -384,8 +393,10 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+	//Do our main render
 	draw_world.draw(do_physics);
 	if (render_target == RENDER_SFBO) {
+		//Reset values
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glPolygonOffset(1.0f, 1.0f);
@@ -404,7 +415,6 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
         glViewport(0, 0, window.width, window.height);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-
 		glLineWidth(1.0);
 		glBegin(GL_LINES);
 		//For boring crosshair
@@ -425,7 +435,6 @@ void RenderScene(bool do_physics, int draw_width, int draw_height)
 		showInfo();
 
 	}
-		showInfo();
 	glFlush();
 }
 
@@ -456,8 +465,9 @@ void timerFunc(int value)
 		glutTimerFunc(window.interval, timerFunc, value);
 		if (!is_paused)
 		{
-			animFrame++;
-			if (animFrame > 200) animFrame = 0;
+			//Leftover code for animation that's unused
+			//animFrame++;
+			//if (animFrame > 200) animFrame = 0;
 			elapsed_time += window.interval;
 			glutPostRedisplay();
 		}
@@ -468,10 +478,12 @@ void KeyboardFunc(unsigned char c, int x, int y)
 {
 	if (c == 'a')
 	{
+		//Draw local axes
 		DrawObject::draw_axes = !DrawObject::draw_axes;
 	}
 	if (c == 'c')
 	{
+		//Toggle birds-eye
 		draw_world.switchCam();
 	}
 	if (c == 'p')
@@ -495,18 +507,22 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	}
 	if (c == 'w')
 	{
+		//Toggle wireframe
 		wireframe = !wireframe;
 	}
 	if (c == 'x')
 	{
+		//End game
 		ExitFunc();
 	}
 	if (c == 'm')
 	{
+		//Toggles GLUT's MSAA - which unfortunately isn't supported on Cyclops machines
 		msaa_on = !msaa_on;
 	}
 	if (c == 'n')
 	{
+		//Draw normals
 		DrawObject::draw_norms = !DrawObject::draw_norms;
 	}
 }
@@ -529,6 +545,7 @@ void SpecialFunc(int key, int x, int y)
 #ifdef _DEBUG
 		printf("Adjusting skybox!\n");
 #endif
+		//Switch skybox
 		draw_world.switchSkydome();
 		break;
 	case GLUT_KEY_F3:
@@ -588,6 +605,7 @@ int main (int argc, char * argv[])
 
 	//glutSetCursor(GLUT_CURSOR_NONE);//Mute the cursor so the texture works.
 
+	//Attempt to use FreeType
 	draw_font.init("Test.TTF", 40);
 	info_font.init("COURIER.TTF", 20);
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);

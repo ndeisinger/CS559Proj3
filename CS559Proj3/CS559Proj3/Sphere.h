@@ -31,6 +31,7 @@ public:
 
 private:
 	
+	float prev_time;
 	float own_radius; //Allow this to be variable in case we want to adjust spheres
 	glm::vec4 colors[2];
 	bool solidColor;

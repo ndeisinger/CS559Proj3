@@ -15,6 +15,8 @@ uniform mat3 n_matrix;
 uniform mat4 shadow_matrix;
 uniform bool tile_textures;
 
+//The "shadow matrix" we pass in converts our vertex position to world coordinates from the light's point of view.
+
 void main()
 {
 	if(tile_textures)

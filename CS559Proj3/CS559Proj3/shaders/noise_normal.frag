@@ -40,7 +40,10 @@ vec3 phong (vec3 normal, vec3 diff_color)
 	return ((diff_color * amb_comp + diff_comp) + spec_comp);
 }
 
-// We opt for a set material, because we're only texturing the ground.
+// This shader is essentially just playing around with noise.
+// We access our noise texture at a point decided by the texture coordinate and 
+// an arctan function on time, then combine that with another function on time to
+// adjust the normal further.
 void main()
 {
 	vec4 noiseNorm = texture(noiseTex, vec3(texCoord, atan(time/15000.0)));
@@ -51,6 +54,4 @@ void main()
 
 	fragColor = vec4(color, 1.0);
 
-	//fragColor = mix(interComp, compThree, 0.5);
-	//fragColor = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(texColor_a.r, texColor_b.g, texColor_c.b, 1.0), 0.5);
 }

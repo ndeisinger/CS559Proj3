@@ -22,7 +22,7 @@ uniform	float shininess;
 
 uniform sampler2D Tex1;
 
-// We opt for a set material, because we're only texturing the ground.
+// Performs standard Phong shading on a textured surface.
 void main()
 {
 	vec3 n = normalize(normal); 

@@ -1,12 +1,11 @@
 //The base area for our game.
 //COMPRISED OF:
-//A floor (for now a cube, later we will make it special)
+//A floor
 //Four walls
 //Two pillars with screens
 
 //The position of the stadium is fixed at 0,0.
 //We translate our cubes, then scale them appopriately.
-//The danger here is ensuring hitboxes are translated and scaled properly as well.
 #include "glutInclude.h"
 #include "Cube.h"
 #include <vector>
@@ -29,12 +28,12 @@ protected:
 	Cube wall_one;
 	Cube wall_two;
 	Cube wall_three;
-	Cube wall_four; //NOTE: We must be able to simulate bumping against these.
+	Cube wall_four; //NOTE: These actually don't have Box2D equivalents; we define a single 'boundary'
 	Cube floor;
 	Jumbotron screen_one;
 	Jumbotron screen_two;
 	Jumbotron screen_three;
 	Jumbotron screen_four;
-	b2Body* ground;
+	b2Body* ground; //Used to define boundary of stadium
 };
 

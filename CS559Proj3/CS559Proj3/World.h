@@ -21,8 +21,7 @@ public:
 	World(void);
 	~World(void);
 	bool init(int spheres); //Should we specify stacks/slices?
-	//void draw(glm::mat4 mv, glm::mat4 perspective); //Actually, this should be void - we handle mv/persp inside
-	void draw(bool do_physics);
+	void draw(bool do_physics); //Draw our world and possibly simulate physics
 	void switchCam(void); //Switch from overhead view to first-person view
 	inline Camera * getCurrentCam(void) { return this->currCam; }
 	inline Player * getPlayer(void) { return &this->player; }
@@ -41,8 +40,8 @@ private:
 	Player player; // Our player object
 	Camera birdsEye; // Camera situated above the world
 	
-	Cursor cursor;
-	Cube cube;
+	Cursor cursor; //Our cursor
+	Cube cube; //Used in Box2D debugging
 	
 	Stadium stadium; // Our playing field
 	glm::mat4 baseMv; // Base modelview for our world
@@ -58,7 +57,7 @@ private:
 	
 	Shader dummy_gooch_shader; //Used for Gooch outlines
 
-	bool is_init;
+	bool is_init; //Helps us in takedown
 
 	//BOX2D INFO
 	b2World * world; //Our world; have as pointer because there's no default constructor

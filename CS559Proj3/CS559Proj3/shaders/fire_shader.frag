@@ -1,6 +1,5 @@
 #version 400
 #extension GL_ARB_separate_shader_objects : enable
-//Used for the skybox.
 
 layout (location = 0) out vec4 fragColor;
 

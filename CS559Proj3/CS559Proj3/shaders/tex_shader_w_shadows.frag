@@ -23,9 +23,10 @@ uniform	float shininess;
 
 uniform sampler2D Tex1;
 uniform sampler2DShadow shadow_map;
-uniform bool shadow_pass;
-uniform bool draw_shadows;
+uniform bool shadow_pass; //Indicates if we're on the depth-gathering pass
+uniform bool draw_shadows; //Lets us toggle shadows
 
+//We only use this when calculating something not in shadow
 vec3 phong_ds()
 {
 	vec3 n = normalize(normal); 
@@ -48,6 +49,7 @@ void shade()
 	vec4 texColor = texture(Tex1, texCoord);
 	vec3 amb_comp = amb * kA;
 	float sum = 0;
+
 	//In order to smooth our shadows, use the average of 4 nearby points
 	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(1, 1));
 	sum += textureProjOffset(shadow_map, shadowCoord, ivec2(1, -1));
@@ -62,7 +64,6 @@ void shade()
 	}
 	else
 	{
-		//fragColor = vec4(0.0, 0.0, 0.0, 1.0);
 		fragColor = texColor *  vec4(amb_comp, 1.0);
 	}
 }

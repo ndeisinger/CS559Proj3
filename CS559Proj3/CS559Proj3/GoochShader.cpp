@@ -44,5 +44,4 @@ void GoochShader::subInit(void)
 	this->diffuse_warm_handle = glGetUniformLocation(this->program_id, "diffuseWarm");
 	this->diffuse_cool_handle = glGetUniformLocation(this->program_id, "diffuseCool");
 	this->position_handle = glGetUniformLocation(this->program_id, "light_position"); //Different name in gooch
-	//Do any special initialization code here
 }

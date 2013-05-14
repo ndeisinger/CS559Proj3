@@ -14,6 +14,7 @@ ContactListener::~ContactListener(void)
 
 void ContactListener::BeginContact(b2Contact* contact)
 {
+	//Update sphere if it's hitting another
 	b2Fixture * fixtureA = contact->GetFixtureA();
 	b2Fixture * fixtureB = contact->GetFixtureB();
 	sphere_data * dataA = (sphere_data * )fixtureA->GetUserData();
@@ -34,7 +35,9 @@ void ContactListener::BeginContact(b2Contact* contact)
 		dataB->active = true;
 		dataA->time_left = max_time;
 		dataB->time_left = max_time;
+#ifdef _DEBUG
 		printf("Collided!\n");
+#endif
 	}
 }
 

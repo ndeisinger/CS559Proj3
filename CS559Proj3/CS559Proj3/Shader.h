@@ -16,7 +16,6 @@ public:
 	Shader(void);
 	~Shader(void);
 	//bool init(char * vertex_shader_file, char * fragment_shader_file);
-	//TODO: Reboot function X
 	bool init(SHADER_TYPE t);
 	virtual void subInit(void); //To be overridden
 	void setup(const float time, const GLint * size, const GLfloat * proj, const GLfloat * mv, const GLfloat * mvp, const GLfloat * norm);
@@ -25,11 +24,13 @@ public:
 	void lightSetup(lightInfo & l);
 	void materialSetup(materialInfo & m);
 	void texSetup(TEXTURE_TYPE type, bool doTiles);
-	void TakeDown(void); //TODO: Different protection? X Nah, we want to be able to call it from main.
-	virtual void subTakeDown(void); //
+	void TakeDown(void); 
+	virtual void subTakeDown(void); //To be overridden
 	void reload(SHADER_TYPE t);
+
 	std::stringstream GetShaderLog(GLuint shader_id);
 	std::stringstream Shader::GetProgramLog(GLuint program_id);
+
 	SHADER_TYPE type;
 
 	static GLint light_index;
@@ -38,9 +39,8 @@ public:
 protected:
 	void inval(void);
 	virtual void subInval(void);
-	//bool GLReturnedError(char * s);
 	bool load(char * file, GLuint handle);
-	static int bind_point; // Binding locations for our uniform buffers.
+	static int bind_point; // [OBSOLETE] Binding locations for our uniform buffers.
 
 	GLint time_handle;
 	GLint size_handle; 
@@ -72,8 +72,8 @@ protected:
 	GLint ks_handle; // Material specular component
 	GLint shininess_handle; // Material specular exponent
 
-	GLubyte * lightBuffer; // Space for lighting info.
-	GLubyte * matBuffer; // Space for material info.
+	GLubyte * lightBuffer; // [OBSOLOETE] space for lighting info.
+	GLubyte * matBuffer; // [OBSOLETE] space for material info.
 
 };
 

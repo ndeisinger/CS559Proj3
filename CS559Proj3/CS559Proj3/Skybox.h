@@ -14,8 +14,6 @@ public:
 	bool draw(const glm::mat4 & proj, glm::mat4 mv, const glm::ivec2 & size, const float time, lightInfo * & l, materialInfo * & m);
 	bool initialize(float radius, int slices, int stacks);
 
-	//void makeSkydome(void);
-
 	inline float getRadius() { return own_radius; }
 	inline void setColor(glm::vec4 new_colors[2]) { colors[0] = new_colors[0]; colors[1] = new_colors[1]; custom_colors = true; }
 
